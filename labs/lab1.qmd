@@ -1,0 +1,299 @@
+---
+title: "Get started with ![](../img/Rlogo.png){width=60px}"
+subtitle: <span style="color:#2C3E50">11.118/11.218 Applied Data Science for Cities</span>
+date: "Last Updated `r Sys.Date()`"
+format: html
+editor: visual
+---
+
+This exercise provides some more structured exploration and practice with **Quarto Document**. We will mix Markdown sections with code chunks, and experiment with working with a tabular dataset.
+
+```{r include=FALSE}
+library(tidyverse)
+```
+
+# Work with Quarto Documents
+
+## Set up a New Project
+
+We have talked about files paths in class, and the importance of setting a directory to work out of. Most of the time we can use `setwd()`, this works fine until when you want to move your working folder to another computer or share your work. If you write out a path in the code, it might not work on another computer if that directory does not exist.
+
+In our labs, we are going to use **R Projects** to organize our works and make sure we don't lose files. R projects organize all files related to a project in one place and setting up relative file paths. Let's start by setting up a project for our exercise.
+
+Launch RStudio, then click **File - New Project...** A dialog box will open up. Select **New Directory**, then **New Project.** Here, you can create a new folder to save everything related to this project. For example, I navigated to my D:/Fall25 folder and created a new folder there called Lab 1:
+
+![](images/%7BBAA5429E-E435-482A-8108-0926D6A7C723%7D.png){width="446"}
+
+Click the button "Create Project". R will take a second to refresh. Then you will see in your **Files** tab that you have been directed to your current working directory: D:/Fall25/Lab 1. You will also see a **.Rproj** file in that folder.
+
+![](../img/lab1_files_tab.PNG){width="450"}
+
+The .Rproj file serves as a reference point that R uses to locate all files associated with the project. If you save all files related to Lab 1 in this folder, all relative paths remain intact and consistently applied.
+
+*Note: In future sessions, I may provide you with a project folder containing data. As long as you launch RStudio by double-clicking the **.Rproj** file, you will be taken directly to the project's home directory.*
+
+## Practice formatting text with Quarto
+
+Now go to **File - New File - Quarto Document** to create a new Quarto document. The prompt shown below will appear. Type in a document title (e.g. Lab 1) and your name. Keep the radio button for HTML selected.
+
+![](../img/lab1_quarto.PNG){width="450"}
+
+You will then see a template file. At the very top you will see the [YAML](https://en.wikipedia.org/wiki/YAML) (or "Yet Another Markdown Language") header which begins and ends with three dashes `---`. The YAML header determines how your document will be rendered to your desired output format. Now it specifies the title, author, output format and text editor.
+
+To get an idea of how everything works, let's click the **"Render"** button on top of your toolbar.
+
+When prompted, give this file a name, it will be saved in the folder where your ".Rproj" file is, as a .qmd file.
+
+You will now see a formatted document in a web browser. Switch between your code and the document back and forth to see where each part of the code is placed in the rendered HTML file.
+
+Now we can add a new line to the YAML header:
+
+> date: \<insert the date that the file is created\>.
+
+Render it again and see where the difference is.
+
+There can be other options specified in the YAML, particularly if you are rendering to a format other than HTML (such as pdf, or Word, see [all formats](https://quarto.org/docs/output-formats/all-formats.html)).
+
+On the very left of this toolbar, click the **"Source"** button to switch Markdown editing mode. These sections of text typically explain or provide context for the code and graphics, and they are formatted using [Markdown syntax](https://quarto.org/docs/authoring/markdown-basics.html). For example:
+
+-   #: a header element.
+-   \*\*: bold text.
+-   \*: italic text.
+-   \` : code blocks.
+
+Overall, the **Visual** interface looks pretty much like a Word document. There is a toolbar that allows you to make bold or italic text, create a bullet list, insert a link or an image, insert a code block, etc.
+
+Now let's delete everything below the YAML header in the template file, so that we will start creating our own formatted report.
+
+### Exercise
+
+In 2014, the City of Cambridge passed a local ordinance on building energy use disclosure. Spend a few moments reviewing [this website](https://www.cambridgema.gov/CDD/zoninganddevelopment/sustainabledevelopment/buildingenergydisclosureordinance) to become familiar with the ordinance (in general). Then, add 2-3 sentences below your YAML section that explain the following:
+
+-   What does the Building Energy Use Disclosure Ordinance require?
+-   What kind of data have been compiled and where to find them?
+
+You may edit your text either in the **"Source"** or **"Visual"** panel, or toggle between them to get familiar with both. Make sure to make gratuitous use of bold, italics, bullet points, etc. in your text.
+
+When you finish, save your file and click Render again. You can immediately see your nicely formatted document in a web browser.
+
+# Insert a video
+
+You've probably noticed there is a YouTube video on the Cambridge webpage, which is a recording of their Cambridge Building Emissions Public Forum on September 15, 2022. Let's assume that the video hosted on that webpage might be useful for others who view our rendered document. We can insert the video in Quarto and it will render in the output when we knit the document.
+
+All you need to do is embed the video in your document. Right-click on the video, select "Copy embed code." Then, paste that embed code into your Markdown section **in the** **"Source" panel.**
+
+![](../img/lab1_youtube.PNG)
+
+What we have above is HTML code. A quick explanation without going into lots of detail:
+
+-   The `<iframe>` tag is what inserts the video (or another document) in line with the Markdown text.
+-   The `src` attribute provides the URL for the video
+-   The remaining attributes outline the specifics of how the video will appear.
+
+For our purposes, the most important of these attributes is **data-external="1"**. This attribute is typically **NOT SPECIFIED** in the embed code you find on the web by default and **YOU WILL NEED TO ADD IT** in order for video content to render in your output. This attribute is currently required for Quarto to properly render video content.
+
+### Exercise
+
+Embed this video in your document after the introductory sentences you have written. Render your document again and inspect your work.
+
+# Download and read data
+
+As you know, Quarto Document integrates both texts and code chunks. Recall that code chunks are where the R code lives in a document. These are easy to spot as shaded blocks leading by `{r}`. (In the Source panel, they always have three backticks followed by `{r}`).
+
+```{verbatim}
+{r}
+1 + 1
+```
+
+In accordance with the ordinance, the City maintains BEUDO data for individual properties from 2015-2023. You can view this data on the [Cambridge Open Data Portal](https://data.cambridgema.gov/Energy-and-the-Environment/Cambridge-Building-Energy-and-Water-Use-Data-Discl/72g6-j7aq/). Take a few moments to explore the dataset by scrolling down the page and viewing the "What's in the Dataset" sections in particular.
+
+Now **download this dataset in CSV format.** You can create a new "data" folder in your project folder and save the table there. The file name is pretty long, to avoid typos we can **rename it to "energy.csv"**.
+
+Check if you have installed the `tidyverse` package: Click the **Packages** tab in your lower-right panel in RStudio. Type "tidyverse" in the search box. If it's NOT shown in the list, go to your **Console** panel and run `install.packages("tidyverse")`
+
+Insert a code chunk in your Quarto document by going to **Code - Insert Chunk**. I usually use the shortcut key RStudio provides (Alt+Ctrl/Cmd+I). Type a few things in the chunk and make it look like the following:
+
+```{verbatim}
+{r}
+#| label: "loadtidyverse"
+#| message: FALSE
+#| warning: FALSE
+library(tidyverse)
+```
+
+All lines led by the symbol `#|` are [chuck options](https://quarto.org/docs/computations/execution-options.html). The `label` option is not required, but can be helpful when you want to quickly locate your steps. The other chunk options (described [in detail here](https://quarto.org/docs/computations/execution-options.html)) suppress all `warnings` and `messages` that might otherwise appear in the rendered HTML output. In the future if you see a lot of background information displayed after a code chunk, you can use these two options to hide it.
+
+Run this code chunk to load `tidyverse` package. You can either click the green triangle on the top-right of this chunk, or use Ctrl/Cmd+Enter.
+
+***Note:** Why I said running `install.packages("tidyverse")` in the **console** but `library(tidyverse)` in the **code chunk**? You only need to "install" a package once, so there is no need to keep it in the script and run it every time you render the document. However, you must "library" (aka: activate) the package each time to use its functions.*
+
+### Exercise
+
+Take a moment to study [the `read_csv()` function](https://r4ds.had.co.nz/data-import.html). As its name suggests, it will read our .csv file into R. Note that `read_csv` is located within the `readr` package, which is part of the `tidyverse` suite of R packages.
+
+1.  **Insert a new code chunk, write a line of code that imports your .csv file and assigns it to an object called `energy`.**
+
+    Run your code chunk. You will be able to see the "energy" variable in your Environment tab.
+
+2.  **Use the functions `colnames()` and `glimpse()` to get some essential information about this dataset.**
+
+    `colnames()` display the names of all columns. `glimpse()` provides a quick review of the data frame, including the data type of each column (e.g., integer, numeric, factor, character).
+
+```{r include=FALSE}
+energy <- read_csv("../data/energy.csv")
+```
+
+# Key `dplyr` functions
+
+`dplyr` is another package within `tidyverse`, specializing in data manipulation and transformation. It provides a set of functions that work with data frames in a clean and consistent way. Explore more of `dplyr` functionality described [here](https://dplyr.tidyverse.org/). We are going to walk through some "verbs" of `dplyr`.
+
+## `Select`: selects a subset of **columns.**
+
+In the `energy` dataset, we probably don't need all of the 67 columns. So we can make it a smaller dataset by specifying a few columns to keep.
+
+`dataset |> select(Column1, Column2)`
+
+**Insert a new code chunk in your document like this one below.** We will only keep 9 columns for the following analysis. Let’s start by typing the code ourselves to see what shows up along the way. You can type the pipe `|>` operator in using Shift+Ctrl/Cmd+M.
+
+```{verbatim}
+energy |>
+  select(
+    `Data Year`,
+    `BEUDO Category`,
+    Owner,
+    `Year Built`,
+    `Primary Property Type - Self Selected`,
+    `Total GHG Emissions (Metric Tons CO2e)`,
+    `Total GHG Emissions Intensity (kgCO2e/ft2)`,
+    Longitude,
+    Latitude
+  ) 
+```
+
+Some of the column names are surrounded by backticks (\`), that's because they include special characters or spaces (such as spaces and () ). The use of backticks is a means of preserving these unique naming attributes. If you just keep typing the column names, dplyr will populate the correct names for you.
+
+But usually we want to make the columns names clean and easy to read. We can `rename` the columns using snake-case naming conventions while we are making selections.
+
+```{r}
+energy <- energy |>
+  select(
+    data_year = `Data Year`,
+    BEUDO_category = `BEUDO Category`,
+    owner = Owner,
+    year_built = `Year Built`,
+    property_type = `Primary Property Type - Self Selected`,
+    ghg_emission = `Total GHG Emissions (Metric Tons CO2e)`,
+    ghg_intensity = `Total GHG Emissions Intensity (kgCO2e/ft2)`,
+    longitude = Longitude,
+    latitude = Latitude
+  ) 
+```
+
+Click the `energy` variable in your Environment panel to browse this smaller dataset.
+
+## `filter`: Select a subset of **rows**
+
+Now let's create a new dataset that only contains energy use records from MIT buildings.
+
+`dataset |> filter(<condition>)`
+
+Take a look at how we achieve this using the following code:
+
+```{verbatim}
+{r}
+energy |> 
+  filter(owner == "MASSACHUSETTS INSTITUTE OF TECHNOLOGY")
+```
+
+Viewing the result, you'll notice that some entries are missing records for total GHG emissions, which appear as NA under the "ghg_emission" and "ghg_intensity" column. If we want to simplify the dataset by keeping only the rows with valid GHG emission records, we can apply that as a `filter` condition too.
+
+Proceed to **insert a new code chunk in your document like the one below.** Now we are filtering MIT buildings that have emission data, and we are assigning the result to a new variable "mit_energy".
+
+```{r}
+mit_energy <- energy |> 
+  filter(owner == "MASSACHUSETTS INSTITUTE OF TECHNOLOGY") |> 
+  filter(!is.na(ghg_emission))
+```
+
+`is.na()` is a function commonly used to check whether each value in a column is missing (NA). The `!` is a logical negation operator, so `!is.na()` checks for values that are not missing. It returns TRUE for non-missing values and FALSE for missing values.
+
+## `Summarise`: Create a summary of your data
+
+Go ahead and run the following code and observe the result:
+
+```{r}
+mit_energy |> 
+  summarise(avg_emission = mean(ghg_emission))
+```
+
+It calculates the average of the column "ghg_emission" of the entire dataset, and names the result "avg_emission". The result says, of all MIT buildings, through all years, the average annual GHG emission is \~1510 MTCO2e.
+
+`summarise` calculates summary statistics, like a total, mean, or count, across all values in the dataset. However, when used with `group_by()`, it calculates each group separately, collapsing each group into its own summary row.
+
+For instance, below we calculate the average GHG emissions by `data_year`, which is the year when the energy record was taken.
+
+```{r}
+mit_energy |> 
+  group_by(year = data_year) |> 
+  summarise(avg_emission = mean(ghg_emission))
+```
+
+This says, in 2015, the average annual GHG emission was \~1625 MTCO2e., and in 2016, it was \~1480 MTCO2e., so on and so forth.
+
+# Exercise
+
+**Insert a few new code chunks below this one to document your code and show your results.** 
+
+1.  From the `mit_energy` dataset, create a subset of all **non-residential** buildings, which were built **before the year 2000**. (**Hint:** which function would you use?). How many such buildings are there?
+
+2.  From the `mit_energy` dataset, compare the GHG emissions by property type (**Hint:** which column has that information?), and generate a table that shows the following results:
+
+    ![](../img/lab1_table.PNG){width="200"}
+
+**You can create this table mostly by modifying the sample code,** however, there are a few small things you can experiment on:
+
+-   The calculated average numbers in this table are rounded to 2 decimals, how to achieve that?
+-   The table is arranged in descending order based on the "avg_emission" column, how to do that? ([Hint](https://dplyr.tidyverse.org/reference/arrange.html))
+
+We are already asking questions and finding insights from the dataset! If the results in this table look interesting/surprising/expected to you, write a few sentences describing what you see from the analysis.
+
+3.  Lastly, and for fun, we will insert a map to complete your working document! The dataset we have includes "longitude" and "latitude" columns, which I love, because it indicates that location information is readily available and can be visualized.
+
+    Copy and paste the following code to your document, and you should be able to run it and see a map. (If your R says it can't find `mapview`, run the line `install.packages("mapview")`)
+
+```{r label=mapview, message=FALSE, warning=FALSE}
+#install.packages("mapview")
+library(mapview)
+mapview(
+  mit_energy |> na.omit(),
+  xcol = "longitude", ycol = "latitude",
+  crs = 4326,
+  grid = FALSE
+)
+```
+
+<b></b>
+
+Now **Save**, **Render** your document again. You have now created a pretty, multi-media document using R!
+
+```         
+------
+```
+
+In this lab we have introduced how to create and develop a Quarto Document. We have also introduced some commonly-used `dplyr` functions including `select`, `filter`, `group_by` and `summarise`. This is the beginning of our data wrangling and leads to the work next week.
+
+# Lab Report
+
+Please assemble your Quarto document to include your work and responses for each of the four Exercises included in this lab.
+
+To finish it up, add one more line to your YAML header: `embed-resources: true`
+
+![](/img/lab3-html.PNG)
+
+This ensures all your pictures, media, and maps will be correctly displayed.
+
+Once you are ready, render the Quarto document again. You will find an ".html" file in your project folder. This is your lab report this week.
+
+Please submit **the** **Rendered HTML file** to Canvas **by the end of day, Tuesday, Sep 16.**
+
+### 

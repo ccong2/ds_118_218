@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-08-08">
+
+<title>Applied Data Science for Cities - Multivariate Regression and Model Selection with </title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Applied Data Science for Cities</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lectures/index.html"> 
+<span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../labs/index.html"> 
+<span class="menu-text">Labs</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resource.html"> 
+<span class="menu-text">Resource</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#data-processing" id="toc-data-processing" class="nav-link" data-scroll-target="#data-processing">Data Processing</a>
+  <ul class="collapse">
+  <li><a href="#get-to-know-the-variables" id="toc-get-to-know-the-variables" class="nav-link" data-scroll-target="#get-to-know-the-variables">Get to know the variables</a></li>
+  <li><a href="#eda-and-data-processing" id="toc-eda-and-data-processing" class="nav-link" data-scroll-target="#eda-and-data-processing"><strong>EDA and data processing</strong></a>
+  <ul class="collapse">
+  <li><a href="#categorical-variables" id="toc-categorical-variables" class="nav-link" data-scroll-target="#categorical-variables">Categorical variables</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#build-a-basic-linear-model" id="toc-build-a-basic-linear-model" class="nav-link" data-scroll-target="#build-a-basic-linear-model"><strong>Build a basic linear model</strong></a>
+  <ul class="collapse">
+  <li><a href="#model-interpretation" id="toc-model-interpretation" class="nav-link" data-scroll-target="#model-interpretation">Model Interpretation</a></li>
+  </ul></li>
+  <li><a href="#moving-to-machine-learning" id="toc-moving-to-machine-learning" class="nav-link" data-scroll-target="#moving-to-machine-learning"><strong>Moving to Machine Learning</strong></a>
+  <ul class="collapse">
+  <li><a href="#machine-learning-workflow" id="toc-machine-learning-workflow" class="nav-link" data-scroll-target="#machine-learning-workflow"><strong>Machine Learning Workflow</strong></a></li>
+  <li><a href="#regularization-controlling-model-complexity" id="toc-regularization-controlling-model-complexity" class="nav-link" data-scroll-target="#regularization-controlling-model-complexity"><strong>Regularization: Controlling Model Complexity</strong></a></li>
+  <li><a href="#non-linear-model" id="toc-non-linear-model" class="nav-link" data-scroll-target="#non-linear-model">Non-linear model</a></li>
+  </ul></li>
+  <li><a href="#model-summary" id="toc-model-summary" class="nav-link" data-scroll-target="#model-summary">Model Summary</a></li>
+  <li><a href="#lab-report" id="toc-lab-report" class="nav-link" data-scroll-target="#lab-report">Lab Report</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Multivariate Regression and Model Selection with <img src="../img/Rlogo.png" class="img-fluid" width="60"></h1>
+<p class="subtitle lead"><span style="color:#2C3E50">11.118/11.218 Applied Data Science for Cities</span></p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 8, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This week begins our journey into machine learning. Ken Steif’s <a href="https://urbanspatial.github.io/PublicPolicyAnalytics/intro-to-geospatial-machine-learning-part-1.html">book chapter</a> walks through an example using Boston housing data, showing how to build, apply, and evaluate a predictive model for home prices. We will build our study on this example, and continue to explore more models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-processing" class="level1">
+<h1>Data Processing</h1>
+<section id="get-to-know-the-variables" class="level2">
+<h2 class="anchored" data-anchor-id="get-to-know-the-variables">Get to know the variables</h2>
+<p>We’ll be working with the CSV dataset containing sale prices and housing characteristics for homes sold in Boston between August 2015 and August 2016. The data used in this tutorial is a subset of a larger dataset assembled from <a href="https://data.boston.gov/dataset/property-assessment">here</a>. You can explore the full <a href="https://data.boston.gov/dataset/property-assessment/resource/dbdc1bd8-60af-4913-a788-5f91cb68541b">data dictionary here</a>.</p>
+<p>Read in the dataset using <code>read_csv()</code> and take an initial look using functions like <code>glimpse()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>boston <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../data/boston_house_price_collapse.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#head(boston)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A few notes:</p>
+<ul>
+<li>The <code>SalePrice</code> variable is the target we want to predict.</li>
+<li>Other columns describe building characteristics — such as square footage, number of floors, and number of bedrooms.</li>
+<li>Some variables are numeric (<code>dbl</code>), while others are categorical (<code>chr</code> or <code>fct</code>).</li>
+</ul>
+<p><strong>Question:</strong> Based on your first observation, which variables do you think might be strong predictors of house price? Which ones seem less useful?</p>
+</section>
+<section id="eda-and-data-processing" class="level2">
+<h2 class="anchored" data-anchor-id="eda-and-data-processing"><strong>EDA and data processing</strong></h2>
+<p>Before feeding any data into a model, we need to understand and clean it. Every dataset is different, but there are some key steps you should always consider:</p>
+<ol type="1">
+<li><p>Understand data structure: <code>str()</code>, <code>glimpse()</code> are useful to get to know the details of variables we are dealing with. Numeric and categorical variables require different treatment in a model later on so this is something to keep in mind. We will also see in our case, <code>parcel_no</code> is just an identifier and is not useful for predicting price.</p></li>
+<li><p>Handle missing values. <code>is.na()</code>, <code>sum(is.na(...))</code>, <code>colSums(is.na(...))</code> can help identify which variables have missing values and how many. But how will deal with them (drop, fill, or flag) will depend on variable contexts and further inspection.</p></li>
+<li><p>Look at distributions. This is an important step before fitting a regression model because it helps guide feature selection and transformation. We will take a closer look at how these relationships show up in different types of variables:</p>
+<h3 id="continuous-variables" class="anchored">Continuous variables</h3></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>boston <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SalePrice, PricePerSq, LivingArea, GROSS_AREA, NUM_FLOORS, R_BDRMS) <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pairs</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab8_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The <code>pairs()</code> function creates a pairwise scatter plot matrix, which lets you visually examine the relationships between multiple variables at once. In the graph, we usually look for the following:</p>
+<ol type="1">
+<li><p><strong>Top row</strong> (<code>SalePrice</code> as Y-axis):These show how each predictor relates to the outcome. If you see an upward trend (a roughly linear increase with <code>SalePrice</code>), that predictor is likely to be a strong predictor of price.</p></li>
+<li><p><strong>Relationships between predictors:</strong> Look for predictors that are highly correlated with each other (a sign of multicollinearity). For instance, <code>LivingArea</code> and <code>GrossArea</code> may appear nearly linear in their scatterplot. If you calculate the Pearson correlation, it’s about 0.94. This means they contain overlapping information.</p>
+<ul>
+<li>Depending on the modeling method (e.g., linear regression vs.&nbsp;tree-based methods), multicollinearity may or may not be a serious concern, but it’s always worth noting.</li>
+</ul></li>
+<li><p><strong>Pattens, outliers and clusters.</strong> These visual cues in pairwise plots help you decide whether a linear model is appropriate, and whether certain data points might influence your results. For example:</p>
+<ul>
+<li><p>The variable <code>PricePerSq</code> may look odd with a bunch of y values at x=0. <code>PricePerSq</code> here is a derived variable, calculated as <code>SalePrice / LivingArea</code>. Since it’s directly related to the outcome, it should not be used as a predictor of <code>SalePrice</code> .</p></li>
+<li><p>You’ll also notice clear outliers especially for luxury homes that have extremely large sale prices. This should match what you would see in the histogram of <code>SalePrice</code>. Most homes are priced under $1 million, but a small number of high-end homes stretch the distribution far to the right.</p></li>
+</ul></li>
+</ol>
+<section id="categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="categorical-variables">Categorical variables</h3>
+<p>You can also try making scatterplots with categorical variables (e.g., by including them in a <code>pairs()</code> plot). But the results often look strange or uninformative, because points just line up vertically at two or three x-values. A better approach is to compare the average outcome across the categories. For example, you can group the data by a variable like <code>Style</code> and compute the mean <code>Saleprice</code> for each category:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>boston <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SalePrice, Style, OWN_OCC, R_BLDG_STY, R_ROOF_TYP) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(SalePrice <span class="sc">&lt;=</span> <span class="dv">1000000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>SalePrice, <span class="at">names_to =</span> <span class="st">"Variable"</span>, <span class="at">values_to =</span> <span class="st">"Value"</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Variable, Value) <span class="sc">|&gt;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_price =</span> <span class="fu">mean</span>(SalePrice, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> Value, <span class="at">y =</span> mean_price),<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Variable, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Mean Sale Price"</span>, <span class="at">x =</span> <span class="st">"Category"</span>, <span class="at">title =</span> <span class="st">"Mean SalePrice by Categorical Variables"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab8_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>When examining categorical variables, we’re not looking for a linear trend, because the categories don’t have a natural order or numeric spacing. Instead, we focus on two main things:</p>
+<ol type="1">
+<li><p><strong>Rare or problematic categories</strong>. Just like with missing values in numeric variables, rare categories can cause problems in modeling. For example, if we look at the <code>Style</code> variable, we might see a category labeled “Unknown” and it only appears twice in the dataset. Such categories don’t offer enough data to reliably estimate their effect, may introduce noise, and might need to be removed or combined.</p></li>
+<li><p><strong>Differences between groups</strong>. We want to know if the categories differ meaningfully in the outcome variable. If all the categories have similar average sale prices, it means the variable doesn’t explain much of the variation in price and is likely a weak predictor. In our case, <code>OWN_OCC</code> seems to have little impact on sale price.</p></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="build-a-basic-linear-model" class="level1">
+<h1><strong>Build a basic linear model</strong></h1>
+<p>We have found a few flags. Let’s first remove a few variables that look redundant or irrelevant, and try a simple linear model to see how things look.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>modeldata <span class="ot">&lt;-</span> boston <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Parcel_No, PricePerSq, LU, R_BLDG_STY,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                                  Latitude, Longitude))  </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> modeldata, SalePrice <span class="sc">~</span> .)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = SalePrice ~ ., data = modeldata)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1581568  -166556     1954   151317  6587294 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)         403514.45  195844.15   2.060 0.039539 *  
+LivingArea             561.47      46.15  12.167  &lt; 2e-16 ***
+StyleColonial      -194193.34   50285.64  -3.862 0.000117 ***
+StyleConventional  -118739.98   57914.28  -2.050 0.040517 *  
+StyleDecker         -68635.51   81578.33  -0.841 0.400293    
+StyleOther           10631.17   54324.84   0.196 0.844875    
+StyleRow_End        150699.85   76959.61   1.958 0.050401 .  
+StyleRow_Middle     354156.20   78259.10   4.525 6.52e-06 ***
+StyleSemi_Det       -79913.07   73357.63  -1.089 0.276174    
+StyleTwo_Fam_Stack   18779.30   63061.78   0.298 0.765904    
+StyleUnknown       -510897.38  283123.23  -1.805 0.071359 .  
+StyleVictorian     -403453.48  114498.84  -3.524 0.000439 ***
+GROSS_AREA            -185.93      28.24  -6.583 6.41e-11 ***
+NUM_FLOORS          183096.26   38356.10   4.774 1.99e-06 ***
+R_BDRMS             -33113.21   11177.31  -2.963 0.003101 ** 
+R_FULL_BTH          203714.47   21610.53   9.427  &lt; 2e-16 ***
+R_HALF_BTH           82726.93   21699.68   3.812 0.000143 ***
+R_KITCH            -264426.16   32033.43  -8.255 3.37e-16 ***
+R_FPLACE            176888.99   16043.91  11.025  &lt; 2e-16 ***
+OWN_OCCY             19675.45   23567.76   0.835 0.403941    
+R_ROOF_TYPG         170755.27   42921.53   3.978 7.28e-05 ***
+R_ROOF_TYPH         157977.62   50487.71   3.129 0.001789 ** 
+R_ROOF_TYPL         164093.91   75333.10   2.178 0.029548 *  
+R_ROOF_TYPM         334724.05   54660.45   6.124 1.17e-09 ***
+R_ROOF_TYPS         315239.92  203916.34   1.546 0.122339    
+R_ROOF_TYPU         321580.85  187673.74   1.714 0.086831 .  
+R_TOTAL_RM          -19855.50    8206.89  -2.419 0.015669 *  
+YR_BUILT              -298.72      98.63  -3.029 0.002500 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 396300 on 1457 degrees of freedom
+Multiple R-squared:  0.5784,    Adjusted R-squared:  0.5705 
+F-statistic: 74.02 on 27 and 1457 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<section id="model-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="model-interpretation">Model Interpretation</h2>
+<ol type="1">
+<li><strong>Coefficients:</strong> Effect Size</li>
+</ol>
+<p>The <code>Estimate</code> tell us how each predictor is associated with <code>SalePrice</code>, assuming all other variables are held constant. The sign of the values (+ or -) tell you the direction of the relationship. The <code>Standard Error</code> is about how certain we are about the estimate, smaller values mean more confidence.</p>
+<ul>
+<li>Then we might see a few issues: <code>GROSS_AREA</code> is negatively associated with housing price, so is <code>R_BDRM</code>, which doesn’t make intuitive sense. This relates back to the multicollinearity issue we’ve spotted. When this happens, the model struggles to disentangle their individual effects.</li>
+</ul>
+<p>For continuous variables, the values of <code>Estimate</code> represent how much <code>SalePrice</code> changes for a 1-unit increase in the predictors. If <code>LivingArea</code> has a coefficient estimate of 500, it means for each additional square foot, price increases by $500, assuming everything else stays the same.</p>
+<p>For categorical variables, one category is used as the reference group, and the others are compared against it. For example, <code>Style</code> includes 11 types of housing style, R will pick one (like “Cape”) as the base. if the coefficient for <code>"Colonial"</code> is -190,000, it means homes with the <code>"Colonial"</code> style are predicted to cost <strong>$190,000 less</strong> than <code>"Cape"</code> style homes, on average.</p>
+<ol start="2" type="1">
+<li><strong>Coefficients:</strong> Significance</li>
+</ol>
+<p>The <code>t-statistics</code> and its mirror image, the <code>p-value</code>, measures the extent to which a coefficient is “statistically significant”, in other words, whether the relationship we see between that predictor and the outcome is likely real, or could have happened just by random chance.</p>
+<p>The higher that t-statistics (and the lower the p-value), the more significant the predictor. Since parsimony is a valuable model feature, it is useful to have a tool like this to guide choice of variables to include as predictors.</p>
+<ol start="3" type="1">
+<li><strong>Model performance</strong></li>
+</ol>
+<p>Model performance means how well our regression model fits the data and how useful it is for making predictions. We have several key metrics to evaluate this:</p>
+<p>The <strong>coefficient of determination (R²)</strong> tells us the proportion of variance in the outcome that is explained by the predictors, ranging from 0 (no explanatory power) to 1 (perfect fit).</p>
+<p>The <strong>residual standard error (RSE)</strong> measures the average size of the prediction errors of the outcome. Lower values indicate a better fit.</p>
+<p>The <strong>model p-value</strong>, derived from an F-test, tells us whether the model as a whole is statistically significant, i.e.&nbsp;whether it does better than a model with no predictors.</p>
+<p>With that, we can see our linear model explains 57% of the variation in sale prices, which is a decent but not great fit. On average, data points are $396,300 away from the values on the regression line.</p>
+</section>
+</section>
+<section id="moving-to-machine-learning" class="level1">
+<h1><strong>Moving to Machine Learning</strong></h1>
+<p>Traditionally, the primary use of regression was to <strong>understand and explain</strong> the relationship between variables. The main focus was on the estimated parameters, which tell us how each predictor is associated with the outcome.</p>
+<p>With the advent of big data, regression is increasingly used not just to explain, but to <strong>predict</strong> - building models that can forecast outcomes for new data. Alongside regression, many machine learning methods are now also used to improve predictive accuracy.</p>
+<ul>
+<li><p><strong>Traditional statistical methods</strong> might ask:<br>
+<em>“How does LivingArea affect SalePrice? Is the effect statistically significant?”</em></p></li>
+<li><p><strong>Machine learning</strong> asks:<br>
+<em>“Can we accurately predict SalePrice given LivingArea and 10 other features?”</em></p></li>
+</ul>
+<p>The three model performance metrics we looked at earlier (R-square, RSE, p-value) show how well our model <strong>fits</strong> the existing data. They’re based on residuals, which measure how far the regression line is from the actual data points. However, these metrics don’t tell us how well the model will <strong>predict</strong> on new, unseen data.</p>
+<p>To evaluate the model’s predictive power, we need to:</p>
+<ol type="1">
+<li><p><strong>Apply the model to a new dataset.</strong> In machine learning, we usually split the data into a <strong>training set</strong> and <strong>a test set</strong> for this purpose. We train the model on one portion of the data, and test it on the rest to see how well it generalizes.</p></li>
+<li><p><strong>Compare the predicted values with the actual values in the test set.</strong> The primary metric we use is <strong>RMSE</strong> (Root Mean Squared Error). RMSE measures the average difference between the predicted values and the actual values. This The lower the RMSE, the better the model’s predictive accuracy.</p></li>
+</ol>
+<section id="machine-learning-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="machine-learning-workflow"><strong>Machine Learning Workflow</strong></h2>
+<p>I will go through a full modeling workflow using the <code>caret</code> package. <code>caret</code> lets you build many models (<code>lm</code>, <code>glmnet</code>, <code>rf</code>, <code>svm</code>, <code>xgbTree</code>, etc.) using a consistent syntax.</p>
+<p><strong>Step 1:</strong> Preprocessing</p>
+<ul>
+<li>Remove irrelevant columns, such as IDs.</li>
+<li>Drop or combine categories with very few cases.</li>
+<li>Handle outliers, especially for skewed variables like SalePrice.
+<ul>
+<li>Option 1: Drop extremely high values (e.g., over $5M).</li>
+<li>Option 2: Log-transform SalePrice, but that changes interpretation. For simplicity, we’ll just drop a few extreme outliers here.</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>modeldata <span class="ot">&lt;-</span> boston <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Parcel_No, PricePerSq, LU, R_BLDG_STY,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                                  Latitude, Longitude))  <span class="sc">|&gt;</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Style <span class="sc">!=</span> <span class="st">"Unknown"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(SalePrice <span class="sc">&lt;</span> <span class="dv">5000000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Step 2:</strong> Split data into training and testing sets</p>
+<p>This involves first applying <code>createDataPartition</code> to generate row indices for the training set, then using those row indices to isolate the two subsets.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set a fix "random seed" to make the split reproducible</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)  </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate row indices for the training set</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> modeldata<span class="sc">$</span>SalePrice, <span class="co"># stratify based on the SalePrice variable</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fl">0.7</span>,                 <span class="co"># we want 70% of the data in the training set.</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">list =</span> <span class="cn">FALSE</span>             <span class="co"># makes sure the output is a vector, not a list, so it's easier to use for indexing.</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Isolate the two subsets</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> modeldata[ train_index,]</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> modeldata[<span class="sc">-</span>train_index,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Step 3:</strong> Build the model</p>
+<p>In the following code, you can swap out the model by simply changing the argument for <code>method=</code> , such as linear regression (<code>"lm"</code>), random forest (<code>"rf"</code>), elastic net (<code>"glmnet"</code>), XGBoost (<code>"xgbTree"</code>), etc.</p>
+<p>Another important point in this model is that we’ve set up cross-validation using <code>trainControl()</code>. Cross-validation means we’re splitting the <code>train_data</code> into smaller parts <strong>during training</strong> to better evaluate model performance. Specifically, with 5-fold cross-validation (<code>number = 5</code>):</p>
+<ul>
+<li>Each time, one part of the data is set aside as a <strong>validation set</strong>, and the model is trained on the remaining parts.</li>
+<li>Then, the model is tested on that validation set.</li>
+<li>This process is repeated 5 times so that every fold (or subset) gets a turn as the validation set.</li>
+</ul>
+<p>Why do we do this? Because it helps us avoid results that are just due to random chance from a single split. Finally, the validation results from all 5 folds are averaged, which gives us a more stable and reliable estimate of model performance before we even touch the test set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lm_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  SalePrice <span class="sc">~</span> .,                </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"lm"</span>,          <span class="co"># this is where you change model type</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Step 4:</strong> Evaluate Model Accuracy Using RMSE</p>
+<p>Now we evaluate how well our model performs on unseen data, that’s what the test set is for.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use predict() to generate predicted sale prices for the test set.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_model, <span class="at">newdata =</span> test_data) </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># compare those predictions to the actual sale prices using RMSE</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>lm_result <span class="ot">&lt;-</span> <span class="fu">RMSE</span>(pred, test_data<span class="sc">$</span>SalePrice)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>lm_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 269617</code></pre>
+</div>
+</div>
+<p><code>RMSE</code> is calculated by compare the predicted and actual values in the test data, square it, find the mean, then take the square root, you have do it by hand like the following code</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((test_data<span class="sc">$</span>SalePrice <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 269617</code></pre>
+</div>
+</div>
+</section>
+<section id="regularization-controlling-model-complexity" class="level2">
+<h2 class="anchored" data-anchor-id="regularization-controlling-model-complexity"><strong>Regularization: Controlling Model Complexity</strong></h2>
+<p>It might seem like a good idea to include as many variables as possible in our linear model, but that’s not always the best approach. When we include too many predictors, the model can start to overfit, meaning it fits the training data too closely and ends up capturing random noise rather than meaningful patterns.</p>
+<p>Regularization, in its broad sense, is a way to keep models simpler and more generalizable. For linear models, regularization helps the model to “selectively use” only the most important predictors.</p>
+<p>There are two common types of linear model regularization: <strong>Ridge regression</strong> shrinks the coefficients of less important variables. <strong>Lasso regression</strong> shrinks some coefficients all the way to zero, effectively dropping those variables from the model.</p>
+<p>I’m repeating and putting the four steps together in the following code. The only difference is in the model-building step. Different models require their own set of tuning parameters, which we’ll explore more next week.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>modeldata <span class="ot">&lt;-</span> boston <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Parcel_No, PricePerSq, LU, R_BLDG_STY,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                  Latitude, Longitude))  <span class="sc">|&gt;</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Style <span class="sc">!=</span> <span class="st">"Unknown"</span>)<span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(SalePrice <span class="sc">&lt;</span> <span class="dv">5000000</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)  <span class="co"># for reproducibility</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> modeldata<span class="sc">$</span>SalePrice,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fl">0.7</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">list =</span> <span class="cn">FALSE</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> modeldata[ train_index,]</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> modeldata[<span class="sc">-</span>train_index,]</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>lasso_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  SalePrice <span class="sc">~</span> ., </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>),</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"glmnet"</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneLength =</span> <span class="dv">10</span>,</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lasso_model, <span class="at">newdata =</span> test_data) </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>lasso_result <span class="ot">&lt;-</span> <span class="fu">RMSE</span>(pred, test_data<span class="sc">$</span>SalePrice)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>lasso_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 268423.9</code></pre>
+</div>
+</div>
+</section>
+<section id="non-linear-model" class="level2">
+<h2 class="anchored" data-anchor-id="non-linear-model">Non-linear model</h2>
+<p>So far we have been working with linear models, But sometimes, the data just doesn’t fit a straight line (or a flat plane, if we’re in a space with many variables). Real-world relationships can be nonlinear, irregular, or involve interactions between variables that a linear model can’t easily capture.</p>
+<p>We will introduce Random Forest model next time, but it is one of the machine learning models that do not assume a straight-line relationship between predictors and the outcome (non-linear model), and do not rely on a fixed number of parameters (non-parametric model). The model learns the structure from the data itself.</p>
+<p>Here is how we change the workflow to building a random forest model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>rf_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  SalePrice <span class="sc">~</span> .,        </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"rf"</span>,        </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneLength =</span> <span class="dv">5</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, <span class="at">newdata =</span> test_data) </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>rf_result <span class="ot">&lt;-</span> <span class="fu">RMSE</span>(pred, test_data<span class="sc">$</span>SalePrice)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>rf_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 234362</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="model-summary" class="level1">
+<h1>Model Summary</h1>
+<p>Here’s a summary of our model results using the same dataset and 5-fold cross-validation. We tried a simple linear model, a Lasso model, and a Random Forest model. Their RMSE values differ, with the more flexible, nonlinear Random Forest achieving the lowest RMSE.</p>
+<p>Flexible models can capture complex patterns better, but better performance isn’t guaranteed—it depends on the data’s shape and distribution. In machine learning, we usually test multiple models to find the one with the best prediction accuracy, which is at the core of this field.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model Type</th>
+<th>RMSE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Simple linear regression</td>
+<td>269,617</td>
+</tr>
+<tr class="even">
+<td>Lasso regression</td>
+<td>268,423.9</td>
+</tr>
+<tr class="odd">
+<td>Random Forest</td>
+<td>234,362</td>
+</tr>
+</tbody>
+</table>
+<p>As you’ve likely noticed, when we used different models, details like <code>tuneLength</code>, <code>preprocess</code> changed. The <code>caret</code> package supports over 230 machine learning algorithms. Each model comes with its own set of hyperparameters that need to be tuned. We’ll explore those in more detail next time.</p>
+</section>
+<section id="lab-report" class="level1">
+<h1>Lab Report</h1>
+<p>The Ames Housing dataset was compiled by Dean De Cock for use in data science education. It’s also a popular dataset in the <a href="https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/overview">Kaggle</a> community. You can find a wealth of prediction projects and explore the various approaches people have taken with this dataset.</p>
+<p>Using this data, please fit three different models and run them to calculate their RMSE values. This will require some basic data preprocessing and proper model setup to ensure each model works correctly. Include a summary table that compares the RMSE results from the three models.</p>
+<p>In your report, please present your workflow and reasoning, including how you prepared the data, selected models and variable, and addressed any data issues you might have encountered.</p>
+<p>Please include all your work in a Quarto document and submit your Rendered HTML file to Canvas by the end of day, Tuesday, Sep 23.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Made with R and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

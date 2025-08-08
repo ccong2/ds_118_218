@@ -1,0 +1,10 @@
+---
+title: "Module 4 Predictive Data Science"
+---
+
+Introduces modern machine learning methods. We'll work on the skills to move from describing what has happened to predicting what is likely to happen next.
+
+-   Machine Learning: Concepts & Workflow
+-   ML Models and Hyperparameter Tuning
+-   Classification, Fairness-aware ML
+-   Overview of Neural Networks

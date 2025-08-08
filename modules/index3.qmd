@@ -1,0 +1,8 @@
+---
+title: "Module 3 Communicate Data Science"
+---
+
+Transform static analyses into interactive tools that invite users to explore and discover insights on their own.
+
+-   Interactive Map and Dashboard
+-   Web-app storytelling

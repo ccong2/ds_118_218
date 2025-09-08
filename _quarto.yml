@@ -13,12 +13,8 @@ website:
     left:
       - text: Home
         href: index.qmd
-      - text: Lectures
-        href: lectures/index.qmd
-
       - text: Labs
         href: labs/index.qmd
-
       - text: Resource
         href: resource.qmd
     search: true

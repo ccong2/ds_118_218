@@ -10,26 +10,26 @@ Urban science draws on statistics, visualization, and spatial analysis technique
 <div class="flash-card-grid">
 
   <a class="flash-card" href="modules/index1.qmd">
-    <div class="flash-card-bg">
+    <div class="flash-card-bg card1">
       <div class="overlay-text">Module 1<br>Descriptive Data Science</div>
     </div>
   </a>
 
   <a class="flash-card" href="modules/index2.qmd">
-    <div class="flash-card-bg">
+    <div class="flash-card-bg card2">
       <div class="overlay-text">Module 2<br>Geospatial Data Science</div>
     </div>
   </a>
 
   <a class="flash-card" href="modules/index3.qmd">
-    <div class="flash-card-bg">
-      <div class="overlay-text">Module 3<br>Communicate Data Science</div>
+    <div class="flash-card-bg card3">
+      <div class="overlay-text">Module 3<br>Storytelling Data Science</div>
     </div>
   </a>
 
   <a class="flash-card" href="modules/index4.qmd">
-    <div class="flash-card-bg">
-      <div class="overlay-text">Module 4<br>Predictive Data Science </div>
+    <div class="flash-card-bg card4">
+      <div class="overlay-text">Module 4<br>Predictive Data Science</div>
     </div>
   </a>
 

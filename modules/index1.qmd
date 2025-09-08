@@ -4,7 +4,7 @@ title: "Module 1 Descriptive Data Science"
 
 We’ll explore the foundations of descriptive data science, learning how to summarize, visualize, and interpret datasets to uncover meaningful patterns.
 
--   [Intro to R](https://docs.google.com/presentation/d/1716202uez4ev-3MvzAOkGc4SJzpwHVFC/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
--   dplyr for Data Wrangling
--   ggplot2 for Visualization
--   Enhanced visualization using plotly and gt
+-   [Intro to R](https://docs.google.com/presentation/d/1pJIfWIFwcFcTb6OdBYU1V4mahEq4MYD-/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
+-   [Urban Science History and Data Prep](https://docs.google.com/presentation/d/1w7PK6U2TMpW1jFae7XHMQSiMRqddzQhK/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
+-   Data Manipulation and Visualization I
+-   Data Manipulation and Visualization II

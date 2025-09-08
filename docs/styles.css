@@ -27,7 +27,6 @@ html {
   height: 200px;
   background-size: cover;
   background-position: center;
-  background-image: url('img/rstudio.jpg');
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -58,4 +57,21 @@ html {
   margin: 0 auto;         /* Centers the container horizontally */
   padding: 0 15px;        /* Adds some horizontal padding on small screens */
   box-sizing: border-box; /* Ensure padding doesn't increase width */
+}
+
+/* === Card-specific backgrounds === */
+.flash-card-bg.card1 {
+  background-image: url('img/module1.jpg');
+}
+
+.flash-card-bg.card2 {
+  background-image: url('img/module2.jpg');
+}
+
+.flash-card-bg.card3 {
+  background-image: url('img/module3.jpg');
+}
+
+.flash-card-bg.card4 {
+  background-image: url('img/module4.jpg');
 }

@@ -2,13 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-08-08">
 
-<title>Applied Data Science for Cities - Fairness-Aware Machine Learning with </title>
+<title>lab10 – Applied Data Science for Cities</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -71,10 +36,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-f3c2ea88cadbcfb37ba28ffa2c97cfc1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -119,7 +84,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -127,10 +92,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../lectures/index.html"> 
-<span class="menu-text">Lectures</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../labs/index.html"> 
@@ -142,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -151,402 +112,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#data-and-disputes" id="toc-data-and-disputes" class="nav-link active" data-scroll-target="#data-and-disputes">Data and Disputes</a>
-  <ul class="collapse">
-  <li><a href="#model-accuracy" id="toc-model-accuracy" class="nav-link" data-scroll-target="#model-accuracy"><strong>Model Accuracy</strong></a></li>
-  <li><a href="#confusion-matrix" id="toc-confusion-matrix" class="nav-link" data-scroll-target="#confusion-matrix">Confusion Matrix</a></li>
-  <li><a href="#breaking-down-by-racial-groups" id="toc-breaking-down-by-racial-groups" class="nav-link" data-scroll-target="#breaking-down-by-racial-groups">Breaking down by racial groups</a></li>
-  </ul></li>
-  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a>
-  <ul class="collapse">
-  <li><a href="#variable-selection" id="toc-variable-selection" class="nav-link" data-scroll-target="#variable-selection"><strong>Variable Selection</strong></a></li>
-  <li><a href="#model-building" id="toc-model-building" class="nav-link" data-scroll-target="#model-building"><strong>Model Building</strong></a></li>
-  <li><a href="#our-result" id="toc-our-result" class="nav-link" data-scroll-target="#our-result"><strong>Our Result</strong></a></li>
-  <li><a href="#threshold-tuning" id="toc-threshold-tuning" class="nav-link" data-scroll-target="#threshold-tuning">Threshold Tuning</a></li>
-  </ul></li>
-  <li><a href="#lab-report" id="toc-lab-report" class="nav-link" data-scroll-target="#lab-report">Lab Report</a>
-  <ul class="collapse">
-  <li><a href="#your-task" id="toc-your-task" class="nav-link" data-scroll-target="#your-task"><strong>Your Task</strong></a></li>
-  <li><a href="#what-to-do" id="toc-what-to-do" class="nav-link" data-scroll-target="#what-to-do"><strong>What to Do</strong></a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Fairness-Aware Machine Learning with <img src="../img/Rlogo.png" class="img-fluid" width="60"></h1>
-<p class="subtitle lead"><span style="color:#2C3E50">11.118/11.218 Applied Data Science for Cities</span></p>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
-
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">August 8, 2025</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
 
 
-</header>
 
-
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlr3fairness)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="data-and-disputes" class="level1">
-<h1>Data and Disputes</h1>
-<p>COMPAS (Correctional Offender Management Profiling for Alternative Sanctions) is a popular commercial algorithm used by judges and parole officers for scoring criminal defendant’s likelihood of reoffending (recidivism). It has been shown that the algorithm is biased in favor of white defendants, and against black inmates, based on a two-year follow up study (i.e who actually committed crimes or violent crimes after 2 years) by <a href="https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm">ProPublica</a>. The pattern of mistakes, as measured by precision/sensitivity is notable.</p>
-<p>This dataset is frequently used to study machine learning bias and is not readily available through <a href="https://search.r-project.org/CRAN/refmans/mlr3fairness/html/compas.html"><code>mlr3fairness</code></a> package.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"compas"</span>, <span class="at">package =</span> <span class="st">"mlr3fairness"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The <code>decile_score</code> column represents COMPAS’s predicted risk of recidivism, ranging from 1 to 10. The <code>score_text</code> column maps these scores into categories: scores from 1 to 4 are labeled as Low risk, 5 to 7 as Medium risk, and 8 to 10 as High risk.</p>
-<p>The <code>two_year_recid</code> column indicates whether the defendant was rearrested within two years.</p>
-<p>To simplify our analysis, we’ll create two new columns. The first, <strong>predicted</strong>, will be “Yes” if <code>score_text</code> is High or Medium, and “No” if it is Low. The second, <strong>actual</strong>, will be “Yes” if <code>two_year_recid</code> is 1 and “No” if it is 0.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data preprocess</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>compas <span class="ot">&lt;-</span> compas <span class="sc">|&gt;</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">predicted =</span> <span class="fu">case_when</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      score_text <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"High"</span>, <span class="st">"Medium"</span>) <span class="sc">~</span> <span class="st">"yes"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      score_text <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Low"</span>) <span class="sc">~</span> <span class="st">"no"</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">actual =</span> <span class="fu">factor</span>(two_year_recid, </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), </span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"no"</span>, <span class="st">"yes"</span>))</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="model-accuracy" class="level2">
-<h2 class="anchored" data-anchor-id="model-accuracy"><strong>Model Accuracy</strong></h2>
-<p>How well does COMPAS predict reoffending? One way to measure this is by checking the model’s accuracy. Since this is a classification problem with “Yes” or “No” outcomes, accuracy is defined as the proportion of correct predictions: both when the model predicts reoffending and the person does reoffend, and when it predicts no reoffending and the person does not.</p>
-<p>In other words, accuracy tells us how often the model is correct overall.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>correct_predictions <span class="ot">&lt;-</span> compas <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    (predicted <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span> actual <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">|</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    (predicted <span class="sc">==</span> <span class="st">"no"</span> <span class="sc">&amp;</span> actual <span class="sc">==</span> <span class="st">"no"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>accuracy <span class="ot">&lt;-</span> <span class="fu">nrow</span>(correct_predictions) <span class="sc">/</span> <span class="fu">nrow</span>(compas)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>accuracy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6607259</code></pre>
-</div>
-</div>
-<p>In our case, the accuracy of the COMPAS model is about 0.66, meaning it makes the correct prediction 66% of the time. It’s better than random guessing (50%), although only moderately.</p>
-</section>
-<section id="confusion-matrix" class="level2">
-<h2 class="anchored" data-anchor-id="confusion-matrix">Confusion Matrix</h2>
-<p>Accuracy is not the best metrics for evaluating classification models, as it doesn’t show how it makes mistakes. It treats a <strong>false positive</strong> (predicting someone will reoffend when they won’t) the same as a <strong>false negative</strong> (predicting someone won’t reoffend when they will). In practice, these errors can have very different consequences.</p>
-<p>Confusion matrix breaks down the types of correct and incorrect predictions:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># True Positive: predicted recidivism, actually recidivated</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>TP <span class="ot">&lt;-</span> <span class="fu">sum</span>(compas<span class="sc">$</span>predicted <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span> compas<span class="sc">$</span>actual <span class="sc">==</span> <span class="st">"yes"</span>)  </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># True Negative: predicted no recidivism, didn't recidivate</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>TN <span class="ot">&lt;-</span> <span class="fu">sum</span>(compas<span class="sc">$</span>predicted <span class="sc">==</span> <span class="st">"no"</span> <span class="sc">&amp;</span> compas<span class="sc">$</span>actual <span class="sc">==</span> <span class="st">"no"</span>)  </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># False Positive: predicted recidivism, didn't recidivate</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>FP <span class="ot">&lt;-</span> <span class="fu">sum</span>(compas<span class="sc">$</span>predicted <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span> compas<span class="sc">$</span>actual <span class="sc">==</span> <span class="st">"no"</span>)  </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># False Negative: predicted no recidivism, actually recidivated</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>FN <span class="ot">&lt;-</span> <span class="fu">sum</span>(compas<span class="sc">$</span>predicted <span class="sc">==</span> <span class="st">"no"</span> <span class="sc">&amp;</span> compas<span class="sc">$</span>actual <span class="sc">==</span> <span class="st">"yes"</span>)  </span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a matrix manually</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>conf_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(TN, FN, FP, TP),</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">nrow =</span> <span class="dv">2</span>,</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="at">Prediction =</span> <span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"P"</span>),</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">Reference =</span> <span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"P"</span>)))</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>conf_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>          Reference
-Prediction    N    P
-         N 2345 1018
-         P 1076 1733</code></pre>
-</div>
-</div>
-<p>This matrix reads:</p>
-<pre><code>           Reference (Actual)
-Prediction     0      1
-         -----------------
-      0 |   TN     FN
-      1 |   FP     TP</code></pre>
-<p>Recall that a perfect classifier would only have non-zero values on it’s main diagonal (TN and TP).</p>
-<p>To put this result in our context, among the 3,421 (first column) people who actually did not reoffend, 1,076 were misclassified. That’s about 31.5%, or nearly one-third of non-reoffenders were flagged as high risk. This is called the <strong>False Positive Rate (FPR)</strong>: the proportion of non-reoffenders incorrectly predicted as reoffenders.</p>
-</section>
-<section id="breaking-down-by-racial-groups" class="level2">
-<h2 class="anchored" data-anchor-id="breaking-down-by-racial-groups">Breaking down by racial groups</h2>
-<p>If we take a closer look and break down the confusion matrix by racial groups, we will see that the model’s errors are not evenly distributed.</p>
-<p><a href="https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm">The analysis by Propublica</a> has this quote:</p>
-<blockquote class="blockquote">
-<p>“Black defendants were often predicted to be at a higher risk of recidivism than they actually were. Our analysis found that black defendants who did not recidivate over a two-year period were nearly twice as likely to be misclassified as higher risk compared to their white counterparts”</p>
-</blockquote>
-<p>This means the <strong>FPR</strong>—predicting someone will reoffend when they won’t—is significantly higher for Black defendants compared to white defendants.</p>
-<p>We’ll now reproduce this analysis ourselves.</p>
-<p>To make this easier and reusable, we’ll define a function that generates a confusion matrix for any filtered dataset.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to calculate confusion matrix cells by race</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>confusion_by_race <span class="ot">&lt;-</span> <span class="cf">function</span>(df, race_name) {</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  df_race <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(race <span class="sc">==</span> race_name)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  TP <span class="ot">&lt;-</span> <span class="fu">sum</span>(df_race<span class="sc">$</span>predicted <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span> df_race<span class="sc">$</span>actual <span class="sc">==</span> <span class="st">"yes"</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  TN <span class="ot">&lt;-</span> <span class="fu">sum</span>(df_race<span class="sc">$</span>predicted <span class="sc">==</span> <span class="st">"no"</span> <span class="sc">&amp;</span> df_race<span class="sc">$</span>actual <span class="sc">==</span> <span class="st">"no"</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  FP <span class="ot">&lt;-</span> <span class="fu">sum</span>(df_race<span class="sc">$</span>predicted <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span> df_race<span class="sc">$</span>actual <span class="sc">==</span> <span class="st">"no"</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  FN <span class="ot">&lt;-</span> <span class="fu">sum</span>(df_race<span class="sc">$</span>predicted <span class="sc">==</span> <span class="st">"no"</span> <span class="sc">&amp;</span> df_race<span class="sc">$</span>actual <span class="sc">==</span> <span class="st">"yes"</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="at">TP =</span> TP, <span class="at">TN =</span> TN, <span class="at">FP =</span> FP, <span class="at">FN =</span> FN))</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Then calculate the confusion matrix for Black and White population, separately.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove other objects from the workspace to start fresh</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">setdiff</span>(<span class="fu">ls</span>(), <span class="fu">c</span>(<span class="st">"compas"</span>, <span class="st">"confusion_by_race"</span>)))</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate for Black affenders</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>b_vals <span class="ot">&lt;-</span> <span class="fu">confusion_by_race</span>(compas, <span class="st">"African-American"</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>b_fpr <span class="ot">&lt;-</span> b_vals[<span class="st">"FP"</span>]<span class="sc">/</span>(b_vals[<span class="st">"FP"</span>]<span class="sc">+</span>b_vals[<span class="st">"TN"</span>])</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate for White affenders</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>w_vals <span class="ot">&lt;-</span> <span class="fu">confusion_by_race</span>(compas, <span class="st">"Caucasian"</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>w_fpr <span class="ot">&lt;-</span> w_vals[<span class="st">"FP"</span>]<span class="sc">/</span>(w_vals[<span class="st">"FP"</span>]<span class="sc">+</span> w_vals[<span class="st">"TN"</span>])</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print our conclusions</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">str_glue</span>(</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Black defendants who did not recidivate over a two-year period "</span>,</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"were nearly twice as likely to be misclassified as higher risk "</span>,</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"compared to their white counterparts ({round(b_fpr*100)}% vs. {round(w_fpr*100)}%)."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Black defendants who did not recidivate over a two-year period were nearly twice as likely to be misclassified as higher risk compared to their white counterparts (42% vs. 22%).</code></pre>
-</div>
-</div>
-<p>Propublica has another quote:</p>
-<blockquote class="blockquote">
-<p>“White defendants were often predicted to be less risky than they were. Our analysis found that white defendants who re-offended within the next two years were mistakenly labeled low risk almost twice as often as black re-offenders”</p>
-</blockquote>
-<p>This points to another type of model error: <strong>False Negative Rate (FNR)</strong>. It tells us, among all people who actually reoffended (the actual positives), how many were missed by the model (predicted as low risk).</p>
-<p>Going back to our matrix, <strong>FNR</strong> is saying, out of all the actual reoffenders (second column), how many were incorrectly predicted as “no” (FN)</p>
-<pre><code>           Reference (Actual)
-Prediction     0      1
-         -----------------
-      0 |   TN     FN
-      1 |   FP     TP</code></pre>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate for Black reaffenders</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>b_fnr <span class="ot">&lt;-</span> b_vals[<span class="st">"FN"</span>]<span class="sc">/</span>(b_vals[<span class="st">"FN"</span>]<span class="sc">+</span>b_vals[<span class="st">"TP"</span>]) </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate for White reaffenders</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>w_fnr <span class="ot">&lt;-</span> w_vals[<span class="st">"FN"</span>]<span class="sc">/</span>(w_vals[<span class="st">"FN"</span>]<span class="sc">+</span> w_vals[<span class="st">"TP"</span>])</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str_glue</span>(</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"White defendants who reoffend were given more lenient risk scores. </span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"{round(w_fnr*100)}% of White defendants were wrongly labeled as low risk compared with {round(b_fnr*100)}% for Black defendants."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>White defendants who reoffend were given more lenient risk scores. 
-50% of White defendants were wrongly labeled as low risk compared with 28% for Black defendants.</code></pre>
-</div>
-</div>
-<p>Steif’s book refers to this kind of pattern as <strong>disparate impact</strong>: when a decision-making process seems neutral on the surface but still results in unequal outcomes for certain groups. In this case, the COMPAS model tends to over-predict risk for Black defendants (higher False Positive Rate) and under-predict for White defendants (higher False Negative Rate), leading to unequal treatment, even though race is not explicitly used as a factor.</p>
-<p>Does this mean the COMPAS model simply wasn’t effective? To explore this further, let’s try building our own prediction model using logistic regression and see how well it performs.</p>
-</section>
-</section>
-<section id="logistic-regression" class="level1">
-<h1>Logistic Regression</h1>
-<section id="variable-selection" class="level2">
-<h2 class="anchored" data-anchor-id="variable-selection"><strong>Variable Selection</strong></h2>
-<p>Choosing which variables to include in a regression model is a critical challenge in algorithmic decision-making. Steif’s book highlights an important tension around using features like <code>race</code> or <code>prior_count</code>.</p>
-<p>If we include race in a multiple linear regression (MLR), the results table will show the effect of the <code>race</code> variable, which might read: “Being race X increases predicted recidivism by 0.2”. This kind of output is problematic. It means the model will consistently add 0.2 for defendants of race X. In other words, it encodes bias into the predictions.</p>
-<p>Even if you remove <code>race</code> as a predictor, the model may still “learn” patterns related to race, because things like <code>priors_count</code> are correlated with <code>race</code> due to historical and systemic biases in policing. Similarly, things such as redlining neighborhoods and credit scores, which are closely connected to race or income due to historical segregation and unequal access to resources, can lead algorithms to systematically make worse predictions for people from certain socioeconomic groups.</p>
-<p>What we can do to address this issue is broadly referred to as <strong>Fairness-Aware Modeling</strong>. This includes a range of strategies: understanding the data deeply, being cautious about variables that may act as proxies for protected characteristics, and applying fairness techniques such as adjusting decision thresholds. We’ll try to build and improve a logistic regression model using some of these ideas.</p>
-</section>
-<section id="model-building" class="level2">
-<h2 class="anchored" data-anchor-id="model-building"><strong>Model Building</strong></h2>
-<p>We’ll now repeat the modeling workflow you’ve used in the past two classes. We’ll exclude <code>race</code> from the predictors, but include <code>priors_count</code>, while acknowledging that it may act as a problematic proxy for race.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>modeldata <span class="ot">&lt;-</span> compas </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> modeldata<span class="sc">$</span>two_year_recid,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fl">0.7</span>,</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">list =</span> <span class="cn">FALSE</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> modeldata[train_index, ]</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> modeldata[<span class="sc">-</span>train_index, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In the <code>train()</code> function, we set <code>method = "glm"</code> to specify that we’re using a generalized linear model. <code>family = "binomial"</code> indicates that the outcome variable is binary. The <code>trainControl()</code> function is set up as before to perform five-fold cross-validation.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>logit_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  actual <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> c_charge_degree <span class="sc">+</span> priors_count <span class="sc">+</span> length_of_stay, </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"glm"</span>,        </span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"binomial"</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="our-result" class="level2">
-<h2 class="anchored" data-anchor-id="our-result"><strong>Our Result</strong></h2>
-<p>Now we use the trained model to predict the classes for the test dataset.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pred_class <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit_model, <span class="at">newdata =</span> test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>After generating these predicted classes, we attach them back to the test dataset for the subsequent confusion matrix calculation.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># attach to the test data</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>test_pred_class <span class="ot">&lt;-</span> test_data <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predicted =</span> pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Reuse our previous function <code>confusion_by_race</code> to calculate FPR by race:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>b_vals <span class="ot">&lt;-</span> <span class="fu">confusion_by_race</span>(test_pred_class, <span class="st">"African-American"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>b_fpr <span class="ot">&lt;-</span> b_vals[<span class="st">"FP"</span>]<span class="sc">/</span>(b_vals[<span class="st">"FP"</span>]<span class="sc">+</span>b_vals[<span class="st">"TN"</span>])</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>w_vals <span class="ot">&lt;-</span> <span class="fu">confusion_by_race</span>(test_pred_class, <span class="st">"Caucasian"</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>w_fpr <span class="ot">&lt;-</span> w_vals[<span class="st">"FP"</span>]<span class="sc">/</span>(w_vals[<span class="st">"FP"</span>]<span class="sc">+</span> w_vals[<span class="st">"TN"</span>])</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str_glue</span>(</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Black defendants who did not recidivate but misclassified as higher risk: {round(b_fpr*100)}%. </span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"White defendants who did not recidivate but misclassified as higher risk: {round(w_fpr*100)}%)."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Black defendants who did not recidivate but misclassified as higher risk: 34%. 
-White defendants who did not recidivate but misclassified as higher risk: 16%).</code></pre>
-</div>
-</div>
-<p>Although our model has lower errors rate than COMPAS, it produces very similar results and shows the same kind of disparities that are roughly twice as large.</p>
-</section>
-<section id="threshold-tuning" class="level2">
-<h2 class="anchored" data-anchor-id="threshold-tuning">Threshold Tuning</h2>
-<p>We can’t undo the historical patterns that shaped the data, and we often can’t completely avoid using variables that carry implicit bias, especially they carry predictive power. So what can we do?</p>
-<p>In logistic regression, the model doesn’t directly predict a “yes” or “no” outcome. It predicts a probability between 0 and 1 that an observation belongs to the positive class. A final classification decision still needs to be made. By default, the threshold is set at 0.5, meaning if the predicted probability is greater than 0.5, the case is classified as “yes” (positive), otherwise “no” (negative).</p>
-<p>By setting <code>type = "prob"</code> in the following code, we get <strong>predicted probabilities</strong> instead of class labels. This lets us adjust the decision threshold. For example, classifying a case as “yes” only if the probability is above 0.7, rather than the default 0.5. Changing the threshold affects how predictions fall into true or false positives and negatives, which in turn impacts error rates and fairness.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the probability result</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>pred_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit_model, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"prob"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now let’s set different classification thresholds for different groups!</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Attach pred_probs back to test data</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>test_pred_prob <span class="ot">&lt;-</span> test_data <span class="sc">%&gt;%</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_prob =</span> pred_probs<span class="sc">$</span>yes)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define threshold we want to use</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>thresholds <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">African_American =</span> <span class="fl">0.7</span>,</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Caucasian =</span> <span class="fl">0.6</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new "predicted" column based on group-specific thresholds.</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co"># For African-American and Caucasian individuals, apply separate thresholds.</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># For all others, use the default threshold of 0.5.</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>test_pred_prob <span class="ot">&lt;-</span> test_pred_prob <span class="sc">%&gt;%</span></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predicted =</span> <span class="fu">case_when</span>(</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    race <span class="sc">==</span> <span class="st">"African-American"</span> <span class="sc">&amp;</span> pred_prob <span class="sc">&gt;</span> thresholds<span class="sc">$</span>African_American <span class="sc">~</span> <span class="st">"yes"</span>,</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    race <span class="sc">==</span> <span class="st">"African-American"</span> <span class="sc">&amp;</span> pred_prob <span class="sc">&lt;=</span> thresholds<span class="sc">$</span>African_American <span class="sc">~</span> <span class="st">"no"</span>,</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    race <span class="sc">==</span> <span class="st">"Caucasian"</span> <span class="sc">&amp;</span> pred_prob <span class="sc">&gt;</span> thresholds<span class="sc">$</span>Caucasian <span class="sc">~</span> <span class="st">"yes"</span>,</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    race <span class="sc">==</span> <span class="st">"Caucasian"</span> <span class="sc">&amp;</span> pred_prob <span class="sc">&lt;=</span> thresholds<span class="sc">$</span>Caucasian <span class="sc">~</span> <span class="st">"no"</span>,</span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    pred_prob <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">~</span> <span class="st">"yes"</span>,</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"no"</span></span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="co"># three metrics, FNR, FPR and Accuracy for both race</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now that we’ve applied group-specific thresholds, we calculate and compare performance metrics: <strong>False Positive Rate (FPR)</strong>, <strong>False Negative Rate (FNR)</strong>, and <strong>Accuracy</strong>, for African-American and Caucasian defendants.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>b_vals <span class="ot">&lt;-</span> <span class="fu">confusion_by_race</span>(test_pred_prob, <span class="st">"African-American"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>b_fpr <span class="ot">&lt;-</span> b_vals[<span class="st">"FP"</span>] <span class="sc">/</span> (b_vals[<span class="st">"FP"</span>] <span class="sc">+</span> b_vals[<span class="st">"TN"</span>])</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>b_fnr <span class="ot">&lt;-</span> b_vals[<span class="st">"FN"</span>] <span class="sc">/</span> (b_vals[<span class="st">"FN"</span>] <span class="sc">+</span> b_vals[<span class="st">"TP"</span>])</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>b_acc <span class="ot">&lt;-</span> (b_vals[<span class="st">"TP"</span>] <span class="sc">+</span> b_vals[<span class="st">"TN"</span>]) <span class="sc">/</span> <span class="fu">sum</span>(b_vals)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>w_vals <span class="ot">&lt;-</span> <span class="fu">confusion_by_race</span>(test_pred_prob, <span class="st">"Caucasian"</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>w_fpr <span class="ot">&lt;-</span> w_vals[<span class="st">"FP"</span>] <span class="sc">/</span> (w_vals[<span class="st">"FP"</span>] <span class="sc">+</span> w_vals[<span class="st">"TN"</span>])</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>w_fnr <span class="ot">&lt;-</span> w_vals[<span class="st">"FN"</span>] <span class="sc">/</span> (w_vals[<span class="st">"FN"</span>] <span class="sc">+</span> w_vals[<span class="st">"TP"</span>])</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>w_acc <span class="ot">&lt;-</span> (w_vals[<span class="st">"TP"</span>] <span class="sc">+</span> w_vals[<span class="st">"TN"</span>]) <span class="sc">/</span> <span class="fu">sum</span>(w_vals)</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="fu">str_glue</span>(</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Black Defendants:</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"  FPR: {round(b_fpr * 100, 1)}%</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"  FNR: {round(b_fnr * 100, 1)}%</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"  Accuracy: {round(b_acc * 100, 1)}%</span><span class="sc">\n</span><span class="st">"</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Black Defendants:
-FPR: 9.8%
-FNR: 72.5%
-Accuracy: 56.8%</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_glue</span>(</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"White Defendants:</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"  FPR: {round(w_fpr * 100, 1)}%</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"  FNR: {round(w_fnr * 100, 1)}%</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"  Accuracy: {round(w_acc * 100, 1)}%</span><span class="sc">\n</span><span class="st">"</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>White Defendants:
-FPR: 5%
-FNR: 80.2%
-Accuracy: 65.6%</code></pre>
-</div>
-</div>
-<p>Steif’s book introduced a few guildlines for an “equity threshold”,</p>
-<ul>
-<li>Minimize differences in False Positive Rates (FPR) and False Negative Rates (FNR) between racial groups, while keeping both rates relatively low.</li>
-<li>Minimize differences in Accuracy rates between racial groups, while keeping the overall Accuracy high.</li>
-</ul>
-<p>How would you interpret our new results? Would you consider this a better and more equitable model, or not? As discussed in the book, expect trade-offs: no single threshold will perfectly balance accuracy and fairness across all groups, which reflects real-world complexity in social data.</p>
-</section>
-</section>
-<section id="lab-report" class="level1">
-<h1>Lab Report</h1>
-<p>Building on what we’ve learned so far, you will continue exploring how adjusting decision thresholds can help build fairness-aware machine learning models.</p>
-<p>Previously, we tested one possible pair of thresholds (0.7 for Black defendants and 0.6 for White defendants) to see how it affected fairness metrics. But that was just one possibility. <strong>Are there other threshold pairs that might lead to better fairness or overall performance? How would you find them?</strong></p>
-<p>One powerful approach is to use sensitivity analysis: systematically testing a range of threshold values (e.g., from 0.1 to 1.0) for both groups and observing how model behavior changes.</p>
-<section id="your-task" class="level3">
-<h3 class="anchored" data-anchor-id="your-task"><strong>Your Task</strong></h3>
-<p>Craft a <strong>strategy</strong> to explore and compare different threshold combinations. Think like a data scientist advising a team of stakeholders: you’ll need to experiment, visualize, interpret, and explain.</p>
-</section>
-<section id="what-to-do" class="level3">
-<h3 class="anchored" data-anchor-id="what-to-do"><strong>What to Do</strong></h3>
-<ol type="1">
-<li><strong>Design your approach.</strong><br>
-Decide how you want to vary the thresholds (e.g., in 0.1 increments from 0.1 to 1.0) and how many combinations to test.</li>
-<li><strong>Run your analysis.</strong><br>
-For each pair, calculate FPR, FNR, and Accuracy for both racial groups. You can write a loop to do this efficiently.</li>
-<li><strong>Communicate your findings.</strong><br>
-Use both <strong>tables</strong> and <strong>visualizations</strong> to show how the metrics change. Good options include:
-<ul>
-<li><p>A results <strong>table</strong> showing values across threshold pairs</p></li>
-<li><p><strong>Line plots</strong> or <strong>heatmaps</strong> to reveal patterns and trade-offs visually</p></li>
-</ul></li>
-<li><strong>Reflect and explain.</strong><br>
-Choose a recommended threshold pair based on your analysis. Please include a 300-500 word write-up to explain what you recommend and why, any trade-offs involved and how you’d explain it to a general audience.</li>
-</ol>
-<p>There’s no perfect answer. This is about exploring, reasoning, and practicing fairness-aware modeling in action.</p>
-<p>Please include all your work in a Quarto document and submit your Rendered HTML file to Canvas by the end of day, Tuesday, Sep 23.</p>
-
-
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -584,18 +160,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -627,7 +192,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -635,7 +220,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -732,7 +317,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

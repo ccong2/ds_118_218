@@ -163,9 +163,7 @@ energy |>
     `Year Built`,
     `Primary Property Type - Self Selected`,
     `Total GHG Emissions (Metric Tons CO2e)`,
-    `Total GHG Emissions Intensity (kgCO2e/ft2)`,
-    Longitude,
-    Latitude
+    `Total GHG Emissions Intensity (kgCO2e/ft2)`
   ) 
 ```
 
@@ -182,13 +180,11 @@ energy <- energy |>
     year_built = `Year Built`,
     property_type = `Primary Property Type - Self Selected`,
     ghg_emission = `Total GHG Emissions (Metric Tons CO2e)`,
-    ghg_intensity = `Total GHG Emissions Intensity (kgCO2e/ft2)`,
-    longitude = Longitude,
-    latitude = Latitude
+    ghg_intensity = `Total GHG Emissions Intensity (kgCO2e/ft2)`
   ) 
 ```
 
-Click the `energy` variable in your Environment panel now to browse this smaller dataset that only include 9 variables, with clean column names.
+Click the `energy` variable in your Environment panel now to browse this smaller dataset that only include 7 variables, with clean column names.
 
 *Note: `<-` and `|>` look quite similar but it's important to distinguish them. `|>` works data through functions but doesn't store the result unless assigned. `<-` assigns (stores) the result to a variable.*
 
@@ -257,26 +253,6 @@ This says, in 2015, the average annual GHG emission was \~1625 MTCO2e., and in 2
 -   The table is arranged in descending order based on the "avg_emission" column, how to do that? ([Hint](https://dplyr.tidyverse.org/reference/arrange.html))
 
 We are already asking questions and finding insights from the dataset! If the results in this table look interesting/surprising/expected to you, write a few sentences describing what you see from the analysis.
-
-```         
-------
-```
-
-Lastly, and just for fun, copy and paste the following code to your document. No need to understand any of the details right now. If your R says it can’t find `mapview`, run the line `install.packages("mapview")`.
-
-```{r}
-#install.packages("mapview")
-library(mapview)
-mapview(
-  mit_energy |> na.omit(),
-  xcol = "longitude", ycol = "latitude",
-  crs = 4326,
-  grid = FALSE
-)
-```
-
-<b></b>
-The dataset we have includes “longitude” and “latitude” columns, which I love, because it indicates that location information is readily available and can be visualized.
 
 <b></b>
 

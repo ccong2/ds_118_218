@@ -163,13 +163,15 @@ energy |>
     `Year Built`,
     `Primary Property Type - Self Selected`,
     `Total GHG Emissions (Metric Tons CO2e)`,
-    `Total GHG Emissions Intensity (kgCO2e/ft2)`
+    `Total GHG Emissions Intensity (kgCO2e/ft2)`,
+    Latitude,
+    Longitude
   ) 
 ```
 
 Some of the column names are surrounded by backticks (\`), that's because they include special characters or spaces (such as spaces and () ). The use of backticks is to preserve these unique names. If you just keep typing the column names, dplyr will populate the correct names for you.
 
-But we want to make the columns names clean and easy to read. That's why we usually `rename` the columns using snake-case naming conventions while we are making selections.
+However, it would be helpful to make the columns names clean and easy to read. What we usually do is to `rename` the columns using snake-case naming conventions while we are making selections.
 
 ```{r}
 energy <- energy |>
@@ -180,11 +182,13 @@ energy <- energy |>
     year_built = `Year Built`,
     property_type = `Primary Property Type - Self Selected`,
     ghg_emission = `Total GHG Emissions (Metric Tons CO2e)`,
-    ghg_intensity = `Total GHG Emissions Intensity (kgCO2e/ft2)`
+    ghg_intensity = `Total GHG Emissions Intensity (kgCO2e/ft2)`,
+    latitude = Latitude,
+    longitude = Longitude
   ) 
 ```
 
-Click the `energy` variable in your Environment panel now to browse this smaller dataset that only include 7 variables, with clean column names.
+Click the `energy` variable in your Environment panel now to browse this smaller dataset that only include 9 variables, with clean column names.
 
 *Note: `<-` and `|>` look quite similar but it's important to distinguish them. `|>` works data through functions but doesn't store the result unless assigned. `<-` assigns (stores) the result to a variable.*
 
@@ -254,9 +258,26 @@ This says, in 2015, the average annual GHG emission was \~1625 MTCO2e., and in 2
 
 We are already asking questions and finding insights from the dataset! If the results in this table look interesting/surprising/expected to you, write a few sentences describing what you see from the analysis.
 
-<b></b>
+<br><br>
 
-Now **Save**, **Render** your document again. You have now created a nice report using Quarto!
+Lastly, and just for fun, copy and paste the following code to your document. (If your R says it can’t find `mapview`, run the line `install.packages("mapview")`)
+
+```{r}
+#install.packages("mapview")
+library(mapview)
+mapview(
+  mit_energy |> na.omit(),
+  xcol = "longitude", ycol = "latitude",
+  crs = 4326,
+  grid = FALSE
+)
+```
+
+<br><br>
+
+The dataset we have includes “Longitude” and “Latitude” columns, which I love, because it indicates that location information is readily available and can be visualized in a map!
+
+Now **Save**, **Render** your document again. You have now created a nice, multi-media report using Quarto!
 
 ```         
 ------
@@ -266,12 +287,14 @@ In this lab we have introduced how to create and develop a Quarto Document. We h
 
 # Lab Report
 
-Please assemble your Quarto document to include your work and responses for each of the four Exercises included in this lab.
+Your Quarto document should contain your work for each of the four exercises.
 
 To finish it up, add one more line to your YAML header: `embed-resources: true`
 
-![](/img/lab3-html.PNG)
+![](/img/lab3-html.PNG){width="533"}
 
 This ensures all your pictures, media, and maps will be correctly displayed.
 
-Once you are ready, render the Quarto document again. You will find **an ".html" file in your project folder**. This is your lab report this week. Please submit **the** **Rendered HTML file** to Canvas **by 9am Wednesday, Sep 17.**
+Once you are ready, render the Quarto document again. You will find **an ".html" file in your project folder**. This is your lab report this week.
+
+Please submit **the** **Rendered HTML file** to Canvas **by 9am, Wednesday, Sep 17.**

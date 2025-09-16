@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-09-15">
+<meta name="dcterms.date" content="2025-09-16">
 
 <title>Exploratory Data Analysis with  – Applied Data Science for Cities</title>
 <style>
@@ -156,7 +156,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#our-study-topic-today" id="toc-our-study-topic-today" class="nav-link" data-scroll-target="#our-study-topic-today">Our study topic today</a>
   <ul class="collapse">
-  <li><a href="#download-data-and-load-packages" id="toc-download-data-and-load-packages" class="nav-link" data-scroll-target="#download-data-and-load-packages">Download data and load packages</a></li>
+  <li><a href="#project-management-data-and-packages" id="toc-project-management-data-and-packages" class="nav-link" data-scroll-target="#project-management-data-and-packages">Project management, data and packages</a></li>
   </ul></li>
   <li><a href="#read-and-examine-our-data" id="toc-read-and-examine-our-data" class="nav-link" data-scroll-target="#read-and-examine-our-data">Read and examine our data</a>
   <ul class="collapse">
@@ -176,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#scatter-plot" id="toc-scatter-plot" class="nav-link" data-scroll-target="#scatter-plot">Scatter Plot</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise!</a>
   <ul class="collapse">
   <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1">Exercise 1</a></li>
   <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
@@ -203,7 +203,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 15, 2025</p>
+      <p class="date">September 16, 2025</p>
     </div>
   </div>
   
@@ -217,17 +217,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level1">
 <h1>Overview</h1>
-<p>This week’s Lab Exercise focuses on the <a href="https://dplyr.tidyverse.org/index.html">dplyr</a> package and the <a href="https://ggplot2.tidyverse.org">ggplot2</a> package. It also engages with data visualization best practices by demonstrating how to create and interpret a variety of graphics.</p>
-<p><strong>Exploratory data analysis (EDA)</strong> is a phase of a data science workflow that emphasizes getting to know the data before rushing to analyze it. EDA usually involves checking the quality of the data, then creating diagnostic plots to spot patterns, issues, or unusual values, so that we can better decide on the more detailed analyses to do next.</p>
+<p>This week’s Lab Exercise focuses on the <a href="https://dplyr.tidyverse.org/index.html">dplyr</a> package and the <a href="https://ggplot2.tidyverse.org">ggplot2</a> package. We will practice how to create and interpret a variety of graphics.</p>
+<p>Our practice connects directly to the broader idea of Exploratory Data Analysis (EDA), a stage in the data science workflow that emphasizes getting to know the data before rushing to analyze it. EDA usually involves checking the quality of the data, then creating diagnostic plots to spot patterns, issues, or unusual values, so that we can make better choices about the next steps in our analysis.</p>
 </section>
 <section id="our-study-topic-today" class="level1">
 <h1>Our study topic today</h1>
 <p>In the 2017 <a href="https://www.congress.gov/115/bills/hr1/BILLS-115hr1enr.pdf">Tax Cuts and Jobs Act</a>, a new federal incentive was introduced to encourage investment in low-income and undercapitalized communities. States were given the chance to select specific census tracts as Opportunity Zones, where investors could enjoy tax benefits for their eligible investments. Although, there’s been <a href="https://www.urban.org/policy-centers/metropolitan-housing-and-communities-policy-center/projects/opportunity-zones">a lot of curiosity</a> among practitioners and researchers regarding how effective the program is and whether the designations made by governors were successful.</p>
 <p>If you are interested in the locations of these Opportunity Zones, you can check out <a href="https://www.arcgis.com/apps/View/index.html?appid=77f3cad12b6c4bffb816332544f04542">this map</a>. The brown geometries reflected on the map are <a href="https://www.census.gov/programs-surveys/geography/about/glossary.html#par_textimage_13">census tracts</a>, which are statistical subdivisions of a county for collecting demographic and socioeconomic information about inhabitants. Find a place you are familiar with, and see which areas have been designated as Opportunity Zones.</p>
-<section id="download-data-and-load-packages" class="level2">
-<h2 class="anchored" data-anchor-id="download-data-and-load-packages">Download data and load packages</h2>
-<p>I recommend creating a separate folder for each assignment. For today, make a folder called “Lab 2” to contain your data and script. To do that, open RStudio and navigate to <strong>File &gt; New Project…</strong> When the dialog box will appear, choose <strong>Existing Directory</strong>. Proceed to create a new R project within your “Lab 2” folder.</p>
-<p>As you read through the tutorial, you can use an R script to type and run the code. You will be asked to start a Quarto Document when you begin your exercises at the end of this tutorial.</p>
+<section id="project-management-data-and-packages" class="level2">
+<h2 class="anchored" data-anchor-id="project-management-data-and-packages">Project management, data and packages</h2>
+<p>I recommend creating a separate folder for each assignment. For today, open RStudio and navigate to <strong>File &gt; New Project…</strong> When the dialog box appears, choose <strong>New Directory</strong>, then <strong>New Project</strong>. Proceed to create a “Lab 2” folder as your working directory.</p>
+<p>You do not need to start a Quarto Document for now. Instead, you can either:</p>
+<ul>
+<li>Read through the tutorial, paying attention to the code and its output, or</li>
+<li>Open a plain R script to type, test, and run the code yourself.</li>
+</ul>
+<p><strong>When you get to the exercises at the end of the tutorial, you’ll be asked to start a Quarto document</strong>.</p>
 <p>Now navigate to Urban Institute’s website about <a href="https://www.urban.org/policy-centers/metropolitan-housing-and-communities-policy-center/projects/opportunity-zones">Opportunity Zones</a>, find the link <strong>“Download tract-level data on all Opportunity Zones”</strong>, and <strong>download this dataset</strong> to a “data” folder in your Lab 2 project folder. Rename the file if you need.</p>
 <p>To stay organized, we should load packages at the beginning of our script. These are the three packages we are going to use today. <em>You may want to run <code>install.packages()</code> on <code>readxl</code> and <code>DataExplorer</code> if it’s the first time you use them.</em></p>
 <div class="cell">
@@ -241,10 +246,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Read and examine our data</h1>
 <p>The file we’ve downloaded is in the Microsoft Excel “.xlsx” format. But it’s not a problem at all. We can use <code>read_xlsx</code> from the <code>readxl</code> package to read these files.</p>
 <p><code>data &lt;- read_xlsx("data/urbaninstitute_tractlevelozanalysis_update01142021.xlsx")</code></p>
-<p>This data lists tracts nationwide that are eligible to be designated as Opportunity Zones. The ones that have been designated as Opportunity Zones are marked as “1” in the <code>DesignatedOZ</code> column. The table also contains essential Census economic and demographic data that describe these tracts. You can also see this dataset has 42,178 observations (rows) and 27 variables (columns).</p>
+<p>This data lists <strong>census tracts</strong> nationwide that are eligible to be designated as Opportunity Zones. The ones that have already been designated as Opportunity Zones are marked as “1” in the <code>DesignatedOZ</code> column. If it is the first time you heard of census tracts, they are subdivisions of a county used for census data collection.</p>
+<p>The table also contains many Census economic and demographic data that describe these tracts. You can see this dataset has 42,178 observations (rows) and 27 variables (columns).</p>
 <p>Here are the definitions for most of the columns:</p>
 <ul>
-<li><strong>geoid</strong>: combined state, county, tract FIPS (Federal Information Processing Standards) code this is a unique identification number for each census tract. If it is the first time you heard of census tracts, they are sub-areas of a county defined for the purpose of taking a census.</li>
+<li><strong>geoid</strong>: combined state, county, tract FIPS (Federal Information Processing Standards) code this is a unique identification number for each census tract.</li>
 <li><strong>DesignatedOZ</strong>: 1 when an eligible tract was designated as an opportunity zone, and NA where the tract was not designated.</li>
 <li><strong>Type</strong>: category for OZ designation</li>
 <li><strong>Population</strong>: total population of the tract</li>
@@ -261,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>pctunder18</strong>: population under 18 years old (%)</li>
 <li><strong>pctover64</strong>: population over 64 years old (%)</li>
 <li><strong>HSorlower</strong>: population whose highest education is a high school diploma or less (%)</li>
-<li><strong>BAorhigher</strong>: population with a bachelor’s degree or any higher level of education</li>
+<li><strong>BAorhigher</strong>: population with a bachelor’s degree or any higher level of education (%)</li>
 </ul>
 <hr>
 <p>While browsing this table, there might be something we are interested to know:</p>
@@ -297,7 +303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  ozs <span class="sc">|&gt;</span> </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(dec_score, SE_Flag, pctown, Metro, Micro, NoCBSAType))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>A reminder of when to use <code>&lt;-</code> (assign to).</p>
+<p>A quick reminder of when to use <code>&lt;-</code> (assign to).</p>
 <ul>
 <li>Use <code>&lt;-</code>: when you want to save our result. In the example above, we are keeping the original <code>data</code> intact, but created a new object called <code>ozs</code>.</li>
 <li>Do not to use <code>&lt;-</code>: If you only want to view results without modifying the object.</li>
@@ -337,7 +343,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="create-summary-tables" class="level2">
 <h2 class="anchored" data-anchor-id="create-summary-tables">Create summary tables</h2>
-<p>We can calculate the average median household income for designated and not-designated census tracts. That is to collapse the stat summary of median household income <code>summarise(mean(medhhincome))</code> into two groups <code>group_by(DesignatedOZ)</code> .</p>
+<p>We can calculate the average <strong>median household income</strong> for designated and not-designated census tracts. That is to collapse the stat summary of median household income <code>summarise(mean(medhhincome))</code> into two groups <code>group_by(DesignatedOZ)</code> .</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ozs <span class="sc">|&gt;</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DesignatedOZ) <span class="sc">|&gt;</span> </span>
@@ -377,28 +383,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>“American Samoa” might have caught our attention at this step, because we’ve got <code>NaN</code> (not a number), indicating that ALL values in this region are NA. This prompts us to return to the dataset and further clean our data.</p>
-<p>Are there any other states where all economic variable values are NA, possibly meaning that we have no records for tracts in those areas?</p>
+<p>Are there any other states where all economic variable values are NA, possibly meaning that we have no records for any of the tracts in those areas?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ozs <span class="sc">|&gt;</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">all_na =</span> <span class="fu">all</span>(<span class="fu">is.na</span>(Population))) <span class="sc">|&gt;</span> </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(all_na <span class="sc">==</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">no_record =</span> <span class="fu">all</span>(<span class="fu">is.na</span>(Population))) <span class="sc">|&gt;</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(no_record <span class="sc">==</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre data-code-line-numbers=""><code># A tibble: 5 × 2
-  state                    all_na
-  &lt;chr&gt;                    &lt;lgl&gt; 
-1 American Samoa           TRUE  
-2 Guam                     TRUE  
-3 Northern Mariana Islands TRUE  
-4 Virgin Islands           TRUE  
-5 &lt;NA&gt;                     TRUE  </code></pre>
+  state                    no_record
+  &lt;chr&gt;                    &lt;lgl&gt;    
+1 American Samoa           TRUE     
+2 Guam                     TRUE     
+3 Northern Mariana Islands TRUE     
+4 Virgin Islands           TRUE     
+5 &lt;NA&gt;                     TRUE     </code></pre>
 </div>
 </div>
-<p>The <code>all(is.na(Population))</code> function checks if all values in the <code>Population</code> column for that state are <code>NA</code>. If they are, <code>all_na</code> will be <code>TRUE</code>. If we aim to produce economic stats, and find these states uninformative, we can choose to remove them from our dataset:</p>
+<p>The <code>all(is.na(Population))</code> function checks if all values in the <code>Population</code> column for that state are <code>NA</code>. If they are, <code>no_record</code> will be <code>TRUE</code>. If we aim to produce economic stats, then find these states uninformative, we can choose to remove them from our dataset:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ozs <span class="ot">&lt;-</span> </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  ozs <span class="sc">|&gt;</span> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"American Samoa"</span>, <span class="st">"Guam"</span>, <span class="st">"Northern Mariana Islands"</span>, <span class="st">"Virgin Islands"</span>) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(state))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"American Samoa"</span>, <span class="st">"Guam"</span>, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Northern Mariana Islands"</span>, <span class="st">"Virgin Islands"</span>) </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>         <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(state))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then perform the summary again:</p>
 <div class="cell">
@@ -424,11 +432,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 93 more rows</code></pre>
 </div>
 </div>
-<p>It would be even more helpful to reshape our summary table, arranging it in a way that each state has <strong>a single row</strong> with separate columns for designated and not-designated income value.</p>
+<p>It would be even more helpful to reshape our summary table, arranging it in a way that <strong>each state has</strong> <strong>a single row</strong> with <strong>separate columns</strong> for designated and not-designated income value.</p>
 <p>Functions <code>pivot_wider()</code> and <code>pivot_longer()</code> are useful for reshaping data. <code>pivot_wider()</code> adds columns to a dataset by transitioning content from rows to columns. <code>pivot_longer()</code> does the opposite: making a dataset longer by transitioning columns to rows.</p>
 <p>In our case, let’s use <code>pivot_wider()</code> to transition our Designated and Not Designated rows into columns.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ozs <span class="sc">|&gt;</span> </span>
+<div class="cell" data-source-line-numbers="5">
+<div class="sourceCode cell-code" id="cb18" data-source-line-numbers="5" data-code-line-numbers="5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ozs <span class="sc">|&gt;</span> </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state, DesignatedOZ) <span class="sc">|&gt;</span> </span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Income =</span> <span class="fu">mean</span>(medhhincome, <span class="at">na.rm=</span><span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
@@ -451,9 +459,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 42 more rows</code></pre>
 </div>
 </div>
-<p>Add one more step, we can create a new column, to calculate and show the difference in income between designated and not designated tracts:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ozs <span class="sc">|&gt;</span> </span>
+<p>Add one more step, we can create another column, to calculate and show the <strong>difference in income</strong> between designated and not designated tracts:</p>
+<div class="cell" data-source-line-numbers="6">
+<div class="sourceCode cell-code" id="cb20" data-source-line-numbers="6" data-code-line-numbers="6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ozs <span class="sc">|&gt;</span> </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state, DesignatedOZ) <span class="sc">|&gt;</span> </span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Income =</span> <span class="fu">mean</span>(medhhincome, <span class="at">na.rm=</span><span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
@@ -486,12 +494,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="distribution-of-one-variable">Distribution of one variable</h2>
 <section id="boxplot" class="level3">
 <h3 class="anchored" data-anchor-id="boxplot">Boxplot</h3>
-<p>The code below creates a <strong>boxplot</strong> to contrast the distribution of poverty rates between designated opportunity zones and undesignated zones. We are using grammars of the <code>ggplot</code> function introduced in class, then adding more features with the <code>+</code> operator and other functions <a href="https://ggplot2.tidyverse.org/reference/index.html">listed in the package reference</a>.</p>
+<p>The code below creates a <strong>boxplot</strong> to contrast the distribution of <strong>poverty rates</strong> between designated opportunity zones and undesignated zones. We are using grammars of the <code>ggplot</code> function introduced in class, then adding more features with the <code>+</code> operator and other functions <a href="https://ggplot2.tidyverse.org/reference/index.html">listed in the package reference</a>.</p>
 <ul>
 <li><code>ozs |&gt; ggplot()</code>: This is the main plotting function. <code>ozs</code> is your dataset we use.</li>
 <li><code>geom_boxplot()</code>: Recall that geometric layers are called <strong>geoms_*</strong>. It tells R what kind of geometry you want to use visualize the data.</li>
 <li><code>aes(x = DesignatedOZ, y = PovertyRate)</code>: The <code>aes()</code> function is where you tell <code>ggplot</code> which variable goes on the x axis followed by which variable goes on the y axis.</li>
-<li>The third aesthetic element is <code>fill</code>, which indicates the filled color of the boxplot. Why we are not using <code>color</code>? <code>fill</code> controls the color of the inside of a shape, <code>color</code> controls the outline.</li>
+<li>The third aesthetic element is <code>fill</code>, which indicates the filled color of the boxplot. Wait, why we are not using <code>color</code>? <code>fill</code> controls the color of the <strong>inside</strong> of a shape, <code>color</code> controls the <strong>outline</strong>.</li>
 <li>We used a new function <code>scale_y_continuous</code> to specify y axis properties. Here we are making sure the poverty rate are labeled as <strong>percentages</strong>. If you remove this line, they will by default show as decimal numbers.</li>
 </ul>
 <div class="cell">
@@ -515,7 +523,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="density-plot" class="level3">
 <h3 class="anchored" data-anchor-id="density-plot">Density plot</h3>
 <p>By modifying the last code chunk, we can make a <strong>density plot</strong> (using <code>geom_density</code>) to describe the distribution of poverty rate.</p>
-<p>A density plot can be understood as a smoothed version of the histogram. It takes the count of data points at discrete poverty rate levels and smooths it out into a continuous curve.</p>
+<p>A density plot can be understood as a smoothed version of the histogram. It takes the count of data points at different poverty rate levels and smooths it out into a continuous curve.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ozs <span class="sc">|&gt;</span> </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> PovertyRate, <span class="at">fill =</span> DesignatedOZ)) <span class="sc">+</span></span>
@@ -530,16 +538,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>If you look at both the boxplot and the density plot, they’re both telling us that the poverty rate values in the non-designated zones are more spread out, and the median is higher.</p>
+<p>If you look at both the boxplot and the density plot, they’re both telling us that the poverty rate values in the non-designated zones are more spread out, and their median is higher.</p>
 </section>
 <section id="combinations-of-basic-graphs-to-create-composite-views" class="level3">
 <h3 class="anchored" data-anchor-id="combinations-of-basic-graphs-to-create-composite-views">Combinations of basic graphs to create composite views</h3>
-<p>One of the coolest thing about <code>ggplot</code> is that we can plot multiple <code>geom_</code> on top of each other. For instance, we can combine the two plots above, to show both the curves and the essential statistics in the boxplot. The following code uses two <code>geom_</code>(<a href="#0">Check out <code>geom_violin</code> for more</a>!), and introduces several new arguments for fine-tuning the cosmetics.</p>
+<p>One of the coolest thing about <code>ggplot</code> is that we can plot multiple <code>geom_</code> on top of each other. For instance, we can combine the two plots above, to show both the curves and the essential statistics in the boxplot. The following code uses two <code>geom_</code>(<a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">Check out <code>geom_violin</code> for more</a>), and introduces several new arguments for fine-tuning the cosmetics.</p>
 <ul>
 <li><code>trim = FALSE</code>: If TRUE (default), trim the tails of the violins to the range of the data. If FALSE, don’t trim the tails and show the complete distribution.</li>
 <li><code>alpha = 0.5</code>: the transparency of the plotting area.</li>
 <li><code>coord_flip()</code>: whether the y axis is displayed horizonally or vertically.</li>
-<li><code>legend.position = "none"</code>: the position of legend (“left”, “right”, “bottom”, “top”, or two-element numeric vector), or not showing the legend (“none”).</li>
+<li><code>legend.position = "none"</code>: where to put the legend (“left”, “right”, “bottom”, “top”), or not showing the legend (“none”).</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ozs <span class="sc">|&gt;</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -563,7 +571,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>A useful way to learn <code>ggplot</code> is to take some arguments out, run it again, and see how it changes the plot. What you see is what you get: every tweak you make shows up right away in the graph.</p>
+<p>A useful way to learn <code>ggplot</code> is to take some arguments out, run it again, and see how it changes the plot! What you see is what you get: every tweak you make shows up right away in your graph.</p>
 </section>
 </section>
 <section id="relationship-between-two-variables" class="level2">
@@ -620,8 +628,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 <section id="exercise" class="level1">
-<h1>Exercise</h1>
-<p>Now let’s start a new Quarto document and remove its template texts. You are going to work on your lab report here. In this blank document, you’ll write your own code to do the exercises below. You can look back at the tutorial code, but you don’t need everything there. Just pick out the parts that help you get your script working.</p>
+<h1>Exercise!</h1>
+<p>Now let’s start a new Quarto document and remove its template texts. You are going to work on your lab report here. In this blank document, you’ll write your own code to do the exercises below. You can look back at the tutorial code, but you won’t need everything there. Just pick out the parts that help you get your script working.</p>
 <p>In the YAML header of your Quarto document, remember to add <code>embed-resources: true</code> to ensure your HTML output is self-contained - so that you don’t lose any images when you submit it to us.</p>
 <p><img src="..\img/lab3-html.PNG" class="img-fluid"></p>
 <section id="exercise-1" class="level2">
@@ -639,7 +647,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li>Select one of the variables, create a graphical representation that contrasts its distribution in designated tracts and in undesignated tracts in Massachusetts.</li>
 <li>Select two variables, create a graphical representation that describes how they relate (or don’t relate) to each other, including the direction of this relationship.</li>
-<li>What can we say about the difference in demographic/economic conditions reflected by these graphs between designated and not designated tracts? Include in your document a few sentences of write-up. You can connect your findings with your summary tables above, and with some broader discussions about Opportunities Zones found <a href="https://www.urban.org/policy-centers/metropolitan-housing-and-communities-policy-center/projects/opportunity-zones">here</a>.</li>
+<li>What can we say about the difference in demographic/economic conditions reflected by these graphs between designated and not designated tracts? Include in your document a few sentences of write-up. You can connect your findings with your summary tables above, and with some broader discussions/debates about Opportunities Zones found <a href="https://www.urban.org/policy-centers/metropolitan-housing-and-communities-policy-center/projects/opportunity-zones">here</a>.</li>
 </ol>
 </section>
 <section id="exercise-3" class="level2">

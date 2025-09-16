@@ -59,7 +59,7 @@ Here are the definitions for most of the columns:
 -   **DesignatedOZ**: 1 when an eligible tract was designated as an opportunity zone, and NA where the tract was not designated.
 -   **Type**: category for OZ designation
 -   **Population**: total population of the tract
--   **medhhincome**: median household income
+-   **medhhincome**: median household income in a tract
 -   **PovertyRate**: poverty rate
 -   **unemprate:** unemployment rate
 -   **medvalue:** median house value
@@ -117,7 +117,7 @@ A reminder of when to use `<-` (assign to).
 -   Use `<-`: when you want to save our result. In the example above, we are keeping the original `data` intact, but created a new object called `ozs`.
 -   Do not to use `<-`: If you only want to view results without modifying the object.
 
-One of the characteristics tracked in the Urban Institute data is the median household income for each tract (`medhhincome`). We can take a look at whether there's a difference in the median household income for designated and not-designated census tracts.
+One of the characteristics tracked in the Urban Institute data is the median household income for each tract (`medhhincome`). Median household income is the income value that falls right in the middle when all households in the tract are lined up from lowest to highest. We can take a look at whether there's a difference in the median household income for designated and not-designated census tracts.
 
 However, if you scroll down to the bottom of the dataset in the data viewer, you will notice there are quite a few of NAs in the Census demographic columns.
 
@@ -357,7 +357,7 @@ Let's first create some summary tables to analyze opportunity zones in Massachus
 
 ## Exercise 2
 
-Focus on your Massachusetts data, now choose from our economic and demographic variables to answer the following questions. These include columns from `medhhincome` to `BAorhigher`.
+Focus on your Massachusetts data, now choose from the economic and demographic variables to answer the following questions. These include columns from `medhhincome` to `BAorhigher`.
 
 1.  Select one of the variables, create a graphical representation that contrasts its distribution in designated tracts and in undesignated tracts in Massachusetts.
 2.  Select two variables, create a graphical representation that describes how they relate (or don’t relate) to each other, including the direction of this relationship.
@@ -365,31 +365,19 @@ Focus on your Massachusetts data, now choose from our economic and demographic v
 
 ## Exercise 3
 
-In this part, we will make a Bar Chart. First, let's use our familiar `group_by` + `summarise` process to calculate the average median household income by county in Massachusetts.
+In this part, we will make a **bar chart**.
 
-```{r}
-#| label: "barplot"
-ozs_ma |> 
-  group_by(county, DesignatedOZ) |>  
-  summarise(
-    Income = mean(medhhincome, na.rm=TRUE)) 
-```
-
-Please pipe your summarized table to `ggplot()` for visualization.
-
-The `geom` function you should use here is `geom_col`.
-
-------------------------------------------------------------------------
-
-**Take a few minutes to compare the bar chart you created and the one below:**
-
-------------------------------------------------------------------------
+Let's first take a few minutes to observe the bar chart below:
 
 ![](../img/lab2-emp.png)
 
-There should be a few differences, which have enhanced the overall quality. How can you modify your code to replicate the bar chart in this image? In a new code chunk, please copy and paste your last bar chart code, and try your best to address the following questions.
+First, you would used our familiar `group_by` + `summarise` process to calculate the average of median household income by county in Massachusetts.
 
-1.  The bars are put side-by-side instead of stacking on top of one another. If you don't want a stacked bar chart, you can use the `position` argument in `geom_col`.
+Then pipe that summarized table to `ggplot()` for visualization. The `geom` function you should use here is `geom_col()`.
+
+Once you’ve got the basic bar plot, think about how to polish it up. How can you modify your code to replicate the bar chart in the image? Try adjusting your code to answer the following questions.
+
+1.  The bars in the image are put side-by-side instead of stacking on top of one another. If you don't want a stacked bar chart, you can adjust the `position` argument in `geom_col()`.
 
 2.  The x-axis labels are titled to 45 degrees. How can I achieve this? [Hint](https://ggplot2.tidyverse.org/reference/theme.html).
 
@@ -406,5 +394,3 @@ Feel free to consult the [R Graph Gallery](#0) and [Aesthetic specifications](h
 Please include the code you used, the tables you produced, and any explanatory text that you think would help clarify your results. After you render your Quarto document, you will find an ".html" file in your project folder. Please submit **the** **Rendered HTML file** that shows your work and responses for each of the three Exercises included in this lab.
 
 Please **upload your report to Canvas** **by 9am, Wednesday, Sep 24.**
-
-### 

@@ -182,10 +182,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
   <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
   </ul></li>
-  <li><a href="#work-products" id="toc-work-products" class="nav-link" data-scroll-target="#work-products">Work Products</a>
-  <ul class="collapse">
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
-  </ul></li>
+  <li><a href="#work-products" id="toc-work-products" class="nav-link" data-scroll-target="#work-products">Work Products</a></li>
   </ul>
 </nav>
     </div>
@@ -251,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>DesignatedOZ</strong>: 1 when an eligible tract was designated as an opportunity zone, and NA where the tract was not designated.</li>
 <li><strong>Type</strong>: category for OZ designation</li>
 <li><strong>Population</strong>: total population of the tract</li>
-<li><strong>medhhincome</strong>: median household income</li>
+<li><strong>medhhincome</strong>: median household income in a tract</li>
 <li><strong>PovertyRate</strong>: poverty rate</li>
 <li><strong>unemprate:</strong> unemployment rate</li>
 <li><strong>medvalue:</strong> median house value</li>
@@ -305,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Use <code>&lt;-</code>: when you want to save our result. In the example above, we are keeping the original <code>data</code> intact, but created a new object called <code>ozs</code>.</li>
 <li>Do not to use <code>&lt;-</code>: If you only want to view results without modifying the object.</li>
 </ul>
-<p>One of the characteristics tracked in the Urban Institute data is the median household income for each tract (<code>medhhincome</code>). We can take a look at whether there’s a difference in the median household income for designated and not-designated census tracts.</p>
+<p>One of the characteristics tracked in the Urban Institute data is the median household income for each tract (<code>medhhincome</code>). Median household income is the income value that falls right in the middle when all households in the tract are lined up from lowest to highest. We can take a look at whether there’s a difference in the median household income for designated and not-designated census tracts.</p>
 <p>However, if you scroll down to the bottom of the dataset in the data viewer, you will notice there are quite a few of NAs in the Census demographic columns.</p>
 <p>How many missing values are there, and how many would be a hurdle for my analysis? It will be great to have a sense of <strong>completeness</strong> in terms of what proportion of a field actually holds data. Below we use <code>is.na</code> to check if each element in <code>ozs</code> is <code>NA</code>, and use <code>colSums</code> to sum up all TRUE values by column.</p>
 <div class="cell">
@@ -638,7 +635,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="exercise-2" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
-<p>Focus on your Massachusetts data, now choose from our economic and demographic variables to answer the following questions. These include columns from <code>medhhincome</code> to <code>BAorhigher</code>.</p>
+<p>Focus on your Massachusetts data, now choose from the economic and demographic variables to answer the following questions. These include columns from <code>medhhincome</code> to <code>BAorhigher</code>.</p>
 <ol type="1">
 <li>Select one of the variables, create a graphical representation that contrasts its distribution in designated tracts and in undesignated tracts in Massachusetts.</li>
 <li>Select two variables, create a graphical representation that describes how they relate (or don’t relate) to each other, including the direction of this relationship.</li>
@@ -647,39 +644,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
-<p>In this part, we will make a Bar Chart. First, let’s use our familiar <code>group_by</code> + <code>summarise</code> process to calculate the average median household income by county in Massachusetts.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ozs_ma <span class="sc">|&gt;</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(county, DesignatedOZ) <span class="sc">|&gt;</span>  </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Income =</span> <span class="fu">mean</span>(medhhincome, <span class="at">na.rm=</span><span class="cn">TRUE</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre data-code-line-numbers=""><code># A tibble: 25 × 3
-# Groups:   county [13]
-   county            DesignatedOZ   Income
-   &lt;chr&gt;             &lt;chr&gt;           &lt;dbl&gt;
- 1 Barnstable County designated     46717.
- 2 Barnstable County not_designated 61663.
- 3 Berkshire County  designated     35199 
- 4 Berkshire County  not_designated 51122.
- 5 Bristol County    designated     34573.
- 6 Bristol County    not_designated 42035.
- 7 Dukes County      not_designated 46816 
- 8 Essex County      designated     41358.
- 9 Essex County      not_designated 49966.
-10 Franklin County   designated     41711.
-# ℹ 15 more rows</code></pre>
-</div>
-</div>
-<p>Please pipe your summarized table to <code>ggplot()</code> for visualization.</p>
-<p>The <code>geom</code> function you should use here is <code>geom_col</code>.</p>
-<hr>
-<p><strong>Take a few minutes to compare the bar chart you created and the one below:</strong></p>
-<hr>
+<p>In this part, we will make a <strong>bar chart</strong>.</p>
+<p>Let’s first take a few minutes to observe the bar chart below:</p>
 <p><img src="../img/lab2-emp.png" class="img-fluid"></p>
-<p>There should be a few differences, which have enhanced the overall quality. How can you modify your code to replicate the bar chart in this image? In a new code chunk, please copy and paste your last bar chart code, and try your best to address the following questions.</p>
+<p>First, you would used our familiar <code>group_by</code> + <code>summarise</code> process to calculate the average of median household income by county in Massachusetts.</p>
+<p>Then pipe that summarized table to <code>ggplot()</code> for visualization. The <code>geom</code> function you should use here is <code>geom_col()</code>.</p>
+<p>Once you’ve got the basic bar plot, think about how to polish it up. How can you modify your code to replicate the bar chart in the image? Try adjusting your code to answer the following questions.</p>
 <ol type="1">
-<li><p>The bars are put side-by-side instead of stacking on top of one another. If you don’t want a stacked bar chart, you can use the <code>position</code> argument in <code>geom_col</code>.</p></li>
+<li><p>The bars in the image are put side-by-side instead of stacking on top of one another. If you don’t want a stacked bar chart, you can adjust the <code>position</code> argument in <code>geom_col()</code>.</p></li>
 <li><p>The x-axis labels are titled to 45 degrees. How can I achieve this? <a href="https://ggplot2.tidyverse.org/reference/theme.html">Hint</a>.</p></li>
 <li><p>The labels on the y-axis are formatted in thousands with commas. This can be achieved by modifying the function <code>scale_y_continuous(labels = scales::percent)</code> we have seen above. <a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">Hint</a>.</p></li>
 <li><p>Lastly, the counties are not arranged alphabetically, but rather by the income values mapped to the y-axis, starting from large to small. How can I achieve this? <a href="https://www.rpubs.com/dvdunne/reorder_ggplot_barchart_axis">Hint</a>.</p></li>
@@ -692,11 +664,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Work Products</h1>
 <p>Please include the code you used, the tables you produced, and any explanatory text that you think would help clarify your results. After you render your Quarto document, you will find an “.html” file in your project folder. Please submit <strong>the</strong> <strong>Rendered HTML file</strong> that shows your work and responses for each of the three Exercises included in this lab.</p>
 <p>Please <strong>upload your report to Canvas</strong> <strong>by 9am, Wednesday, Sep 24.</strong></p>
-<section id="section" class="level3">
-<h3 class="anchored" data-anchor-id="section"></h3>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

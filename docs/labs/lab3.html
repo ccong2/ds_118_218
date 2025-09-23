@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2025-09-23">
 
-<title>lab3 – Applied Data Science for Cities</title>
+<title>Data Visualization with  – Applied Data Science for Cities</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -67,6 +102,24 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="../site_libs/plotly-binding-4.11.0/plotly.js"></script>
+
+<script src="../site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="../site_libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<link href="../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -112,17 +165,1379 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#study-topic" id="toc-study-topic" class="nav-link" data-scroll-target="#study-topic">Study Topic</a></li>
+  <li><a href="#understand-the-data" id="toc-understand-the-data" class="nav-link" data-scroll-target="#understand-the-data">Understand the data</a></li>
+  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data">Prepare the data</a>
+  <ul class="collapse">
+  <li><a href="#work-with-character-using-stringr" id="toc-work-with-character-using-stringr" class="nav-link" data-scroll-target="#work-with-character-using-stringr">Work with character using <code>stringr</code></a></li>
+  <li><a href="#working-with-dates-using-lubridate" id="toc-working-with-dates-using-lubridate" class="nav-link" data-scroll-target="#working-with-dates-using-lubridate">Working with dates using <code>lubridate</code></a></li>
+  </ul></li>
+  <li><a href="#create-nicer-tables-using-gt" id="toc-create-nicer-tables-using-gt" class="nav-link" data-scroll-target="#create-nicer-tables-using-gt">Create nicer tables using <code>gt</code></a>
+  <ul class="collapse">
+  <li><a href="#a-note-on-data-organization-combining-datasets" id="toc-a-note-on-data-organization-combining-datasets" class="nav-link" data-scroll-target="#a-note-on-data-organization-combining-datasets">A note on data organization: combining datasets</a></li>
+  </ul></li>
+  <li><a href="#find-resources-and-learn-more" id="toc-find-resources-and-learn-more" class="nav-link" data-scroll-target="#find-resources-and-learn-more">Find resources and learn more</a></li>
+  <li><a href="#lab-report" id="toc-lab-report" class="nav-link" data-scroll-target="#lab-report">Lab Report</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data Visualization with <img src="../img/Rlogo.png" class="img-fluid" width="60"></h1>
+<p class="subtitle lead"><span style="color:#2C3E50">11.118/11.218 Applied Data Science for Cities</span></p>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 23, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="overview" class="level1">
+<h1>Overview</h1>
+<p>This week, we’ll use real-world data to do an independent, mini visualization project. You’ll practice with data cleaning and visualization, and have more flexibility to use the tools you’ve learned so far to explore questions that you are interested in.</p>
+</section>
+<section id="study-topic" class="level1">
+<h1>Study Topic</h1>
+<p><a href="https://insideairbnb.com/">Inside Airbnb</a> is a publicly available dataset built through web scraping of Airbnb’s platform. The website was created by <a href="https://insideairbnb.com/about/">a group of housing activists</a> as a way to bring transparency to the impact of short-term rentals on cities around the world.</p>
+<p>The main motivation for compiling this resource is rooted in the tension between the growth of short-term rental platforms and the long-term housing market. Advocates point out that when homes are repurposed for short-term rentals, it pratically reduces the availability of affordable housing, while also driving up rental costs and adding displacement pressure on local communities.</p>
+<p>From the <a href="https://insideairbnb.com/get-the-data/">Get the Data</a> page on Inside Airbnb, you’ll find datasets covering many cities around the world. Let’s take a closer look at what the data provides and how it can help us better understand the activities and impacts of Airbnb short-term rentals.</p>
+</section>
+<section id="understand-the-data" class="level1">
+<h1>Understand the data</h1>
+<p>As with previous labs, start by creating a working folder for Lab 3 and set up a new R Project inside it. You can experiment with code in a regular R script first. Later, in the Exercise section, we’ll bring everything together by creating a Quarto document to compile your final report.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>From the “Get the Data” page, search for <strong>Boston</strong>. You’ll see <strong>a list of files with descriptions</strong> under “Boston, Massachusetts, United States”. The first file, <strong><code>listings.csv.gz</code></strong> is <strong>“Detailed Listings data”</strong>. It contains raw information scraped directly from Airbnb’s website. Download this file into your data folder of your project.</p>
+<p>The dataset is provided in <strong>.gz</strong> format (a compressed file), but fear not, <code>read_csv()</code> is powerful enough to read and decompress it automatically.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>airbnb &lt;- read_csv("listings.csv.gz")</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s look through the 79 variables included in the dataset along with the <a href="https://docs.google.com/spreadsheets/d/1iWCNJcSutYqpULSQHlNyGInUvHg2BoUGoNRIGa6Szc4/edit?usp=sharing">Data Dictionary</a>. Try to understand what each one means and what it tells you about a property.</p>
+<p><strong>While you are browsing, please write down 3-5 questions you are curious about.</strong> If you want to explore the activity and impact of short-term rentals in a city, what questions might you ask, and which variables in this dataset could help answer them?</p>
+<p>Here are a few ideas to get you started:</p>
+<ul>
+<li><p><em>Listing type:</em> Inside Airbnb notes that “the majority of Airbnb listings in most cities are <strong>entire homes</strong>, many of which are rented all year round, disrupting housing and communities”. How many properties in Boston are entire homes in this dataset?</p></li>
+<li><p><em>Activity and income:</em> Availability, price, and number of reviews can be used to estimate nights booked in the past 12 months. How many listings are rented frequently, and does Airbnb revenue encourage short-term rentals over long-term housing?</p></li>
+<li><p><em>Regulations:</em> Cities often have rules limiting short-term rentals. For example, in Boston, <a href="https://www.boston.gov/departments/inspectional-services/short-term-rentals">rentals under 28 days are regulated</a>. Can minimum night settings in Airbnb properties inform us any host reponses to local regulations?</p></li>
+<li><p><em>Multiple listings per host:</em> Some hosts manage multiple listings, but they are more likely to run a business, may not live in the property, and could be violating short-term rental rules meant to protect housing. <a href="https://www.urban.org/urban-wire/abundance-short-term-rentals-who-wins-and-who-loses">A report</a> shows on average, 64% of Airbnb hosts hold multiple local listings. How is the multiple listing situation in Boston?</p></li>
+</ul>
+<p>Use these examples as a guide to draft your own specific questions. In the rest of the tutorial, we’ll work with the Boston dataset to organize some variables and walk through a few visualization examples. But I won’t answer all of these questions. Later, you’ll explore a different city, figure out how to answer your own questions, and use visualizations to present your findings and insights.</p>
+</section>
+<section id="prepare-the-data" class="level1">
+<h1>Prepare the data</h1>
+<section id="work-with-character-using-stringr" class="level2">
+<h2 class="anchored" data-anchor-id="work-with-character-using-stringr">Work with character using <code>stringr</code></h2>
+<p>We have have a <code>price</code> variable in the data, but you will find (e.g., with <code>glimpse(airbnb)</code>) that the prices are stored as <strong>characters, not numbers</strong>.</p>
+<p>Converting functions like <code>as.numeric()</code> won’t work directly here because the prices include a dollar sign ($) and commas, like this: “$1,200,000”. We first need to modify the strings to remove the dollar signs and commas, before we can convert them to numeric prices and calculate them.</p>
+<p>The <code>stringr</code> package, which is part of the <code>tidyverse</code>, specializes in working with strings (i.e., text or character data). In general, we can use it to replace certain symbols with an empty string (““), effectively removing them from our data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace</span>(<span class="at">string =</span> <span class="st">"$1,200"</span>, <span class="at">pattern =</span> <span class="st">","</span>, <span class="at">replacement =</span> <span class="st">""</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "$1200"</code></pre>
+</div>
+</div>
+<p>Or if use <code>str_replace_all()</code>, it can detect and remove multiple symbols simultaneously, by wrapping them in brackets</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace_all</span>(<span class="at">string =</span> <span class="st">"$1,200.00"</span>, <span class="at">pattern =</span>  <span class="st">"[$,]"</span>, <span class="at">replacement =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "1200.00"</code></pre>
+</div>
+</div>
+<p>Here we <strong>make a small dataset</strong> focusing on property types and price, then clean up the price representations:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_price <span class="ot">&lt;-</span> airbnb <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, room_type, price) <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">price =</span> <span class="fu">str_replace_all</span>(<span class="at">string =</span> price, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">pattern =</span> <span class="st">"[$,]"</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">replacement =</span> <span class="st">""</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">price =</span> <span class="fu">as.numeric</span>(price))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There are four unique types of room types:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(df_price<span class="sc">$</span>room_type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Entire home/apt" "Private room"    "Shared room"     "Hotel room"     </code></pre>
+</div>
+</div>
+<p>Then we can create a bar chart that displays the median price for each type of property.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_price <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(price <span class="sc">&lt;</span> <span class="dv">10000</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(room_type) <span class="sc">|&gt;</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_price =</span> <span class="fu">median</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> room_type, <span class="at">y =</span> median_price), </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> <span class="st">"#62A0CA"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Room Type"</span>, <span class="at">y =</span> <span class="st">"Median Price"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab3_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note: Check what that <code>filter</code> line does. Why is it included? If you were conducting this analysis, would you use it?</p>
+<p>We have talked about <strong><code>plotly</code> and its <code>ggplot2</code> integration</strong> in class. We can easily turn a static graph into an interactive plot using <code>ggplotly()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> df_price <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(price <span class="sc">&lt;</span> <span class="dv">10000</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(room_type) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_price =</span> <span class="fu">median</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> room_type, <span class="at">y =</span> median_price), </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> <span class="st">"#62A0CA"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Room Type"</span>, <span class="at">y =</span> <span class="st">"Median Price"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>g <span class="sc">|&gt;</span> <span class="fu">ggplotly</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-08b78b67dacf4d8f6182" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-08b78b67dacf4d8f6182">{"x":{"data":[{"orientation":"v","width":[0.5,0.5,0.5,0.5],"base":[0,0,0,0],"x":[1,2,3,4],"y":[240,269,75,59.5],"text":["room_type: Entire home/apt<br />median_price: 240.0","room_type: Hotel room<br />median_price: 269.0","room_type: Private room<br />median_price:  75.0","room_type: Shared room<br />median_price:  59.5"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(98,160,202,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283104,"r":7.3059360730593621,"b":40.182648401826491,"l":43.105022831050235},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,4.5999999999999996],"tickmode":"array","ticktext":["Entire home/apt","Hotel room","Private room","Shared room"],"tickvals":[1,2,3,4],"categoryorder":"array","categoryarray":["Entire home/apt","Hotel room","Private room","Shared room"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Room Type","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-13.450000000000001,282.44999999999999],"tickmode":"array","ticktext":["0","100","200"],"tickvals":[0,100,200],"categoryorder":"array","categoryarray":["0","100","200"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Median Price","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176002,"linetype":"solid"},"yref":"paper","xref":"paper","layer":"below","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"13284cdb12e0":{"x":{},"y":{},"type":"bar"}},"cur_data":"13284cdb12e0","visdat":{"13284cdb12e0":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="working-with-dates-using-lubridate" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-dates-using-lubridate">Working with dates using <code>lubridate</code></h2>
+<p>The Airbnb dataset includes several date-related columns, such as <code>host_since</code>. From <code>glimpse(airbnb)</code>, we can see that these columns are already stored as date variables.</p>
+<p>The <code>lubridate</code> package is commonly used for 1) converting text data into date formats, and 2) extracting components from dates, such as year, month, or day.</p>
+<p>Let’s <strong>make another smaller dataset</strong> that includes the listing ID and when the host was first listed (<code>host_since</code>). We can extract the year from it for further analysis. So that you can see how many hostes started in each year.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df_since <span class="ot">&lt;-</span> airbnb <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, host_since) <span class="sc">|&gt;</span>  </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">host_since_year =</span> <span class="fu">year</span>(host_since)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>ggplotly()</code> is easy for us to use, and saves us from having to learn a new set of <code>plotly</code> grammar. However, for certain chart types, like pie charts or donut charts, <strong><code>plotly</code>’s native functions</strong> can be simpler to work with directly.</p>
+<p>Similarly to ggplot, you initiate a <code>plotly</code> graph by calling <code>plot_ly()</code> (notice the <code>_</code> is needed). Then, map the appropriate columns to the correct arguments, specifying which <strong>values</strong> to plot and which <strong>labels</strong> should be displayed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_since <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(host_since_year) <span class="sc">|&gt;</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_ly</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="sc">~</span>host_since_year,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="sc">~</span>n,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"pie"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">hole =</span> <span class="fl">0.5</span> <span class="co"># the size of the "hole", which practically turn a pie into a donut</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-a807d9c4029214242437" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-a807d9c4029214242437">{"x":{"visdat":{"132828aa3734":["function () ","plotlyVisDat"]},"cur_data":"132828aa3734","attrs":{"132828aa3734":{"labels":{},"values":{},"hole":0.5,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],"values":[1,32,95,116,155,237,548,459,759,359,310,298,360,171,101,348,155,56],"hole":0.5,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Although, a donut chart might not be the best choice for this particular question, since it can become visually cluttered when there are too many segments. Check out the “treemap” instead:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df_since <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(host_since_year) <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_ly</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="sc">~</span>host_since_year,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="sc">~</span>n,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"treemap"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">parents =</span> <span class="st">""</span>   <span class="co"># No hierarchy, just one level</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-8147dbb683873a4e5a01" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-8147dbb683873a4e5a01">{"x":{"visdat":{"13284f1682b":["function () ","plotlyVisDat"]},"cur_data":"13284f1682b","attrs":{"13284f1682b":{"labels":{},"values":{},"parents":"","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"treemap"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":[2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],"values":[1,32,95,116,155,237,548,459,759,359,310,298,360,171,101,348,155,56],"parents":["","","","","","","","","","","","","","","","","",""],"type":"treemap","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="create-nicer-tables-using-gt" class="level1">
+<h1>Create nicer tables using <code>gt</code></h1>
+<p>Not just for graphs, <a href="https://r-graph-gallery.com/table.html">many R packages</a> can help you create professional and stylish <strong>tables</strong>. <code>gt</code> is one such package, and it integrates very smoothly with <code>tidyverse</code> syntax.</p>
+<p>Suppose I’m planning a trip to Boston and want to stay in the “Allston” neighborhood. I decide to dig into the Airbnb dataset to find hosts who have both good ratings and are actively getting reviews.</p>
+<p>In the following code, I begin by identifying relevant variables and then pulled out another small dataset. Next, I calculate how many reviews each host has received in the last 30 days, along with their average ratings.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_review <span class="ot">&lt;-</span> airbnb <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, host_id, host_name, neighbourhood_cleansed,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>         number_of_reviews_l30d, review_scores_rating) </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>top_reviewed_hosts <span class="ot">&lt;-</span> df_review <span class="sc">|&gt;</span> </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(neighbourhood_cleansed <span class="sc">==</span> <span class="st">"Allston"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(host_id, host_name) <span class="sc">|&gt;</span> </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">num_review =</span> <span class="fu">sum</span>(number_of_reviews_l30d),</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_rating =</span> <span class="fu">mean</span>(review_scores_rating, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># arrange by number of reviews and show the top 10</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(num_review)) <span class="sc">|&gt;</span> </span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>top_reviewed_hosts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+     host_id host_name       num_review avg_rating
+       &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;      &lt;dbl&gt;
+ 1  15154687 Taskin                  31       4.73
+ 2  47584294 Jessy And Diego         16       4.86
+ 3 307979339 Aziz                    14       4.56
+ 4  18409308 Marlene                 10       4.99
+ 5  26956083 Todd                    10       4.81
+ 6 657106909 Wenjia                   8       4.25
+ 7  10250028 Mingzhou                 7       4.92
+ 8 147418936 Dana And Andrew          6       4.5 
+ 9 194167208 Reina                    6       4.92
+10    757253 Lee                      5       4.93</code></pre>
+</div>
+</div>
+<p>Just like <code>ggplotly()</code>, <code>gt</code> is also one line away to make a table more formatted:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>top_reviewed_hosts <span class="sc">|&gt;</span> <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="btqajckkzn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#btqajckkzn table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#btqajckkzn thead, #btqajckkzn tbody, #btqajckkzn tfoot, #btqajckkzn tr, #btqajckkzn td, #btqajckkzn th {
+  border-style: none;
+}
+
+#btqajckkzn p {
+  margin: 0;
+  padding: 0;
+}
+
+#btqajckkzn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#btqajckkzn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#btqajckkzn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#btqajckkzn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#btqajckkzn .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#btqajckkzn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#btqajckkzn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#btqajckkzn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#btqajckkzn .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#btqajckkzn .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#btqajckkzn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#btqajckkzn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#btqajckkzn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#btqajckkzn .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#btqajckkzn .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#btqajckkzn .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#btqajckkzn .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#btqajckkzn .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#btqajckkzn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#btqajckkzn .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#btqajckkzn .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#btqajckkzn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#btqajckkzn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#btqajckkzn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#btqajckkzn .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#btqajckkzn .gt_left {
+  text-align: left;
+}
+
+#btqajckkzn .gt_center {
+  text-align: center;
+}
+
+#btqajckkzn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#btqajckkzn .gt_font_normal {
+  font-weight: normal;
+}
+
+#btqajckkzn .gt_font_bold {
+  font-weight: bold;
+}
+
+#btqajckkzn .gt_font_italic {
+  font-style: italic;
+}
+
+#btqajckkzn .gt_super {
+  font-size: 65%;
+}
+
+#btqajckkzn .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#btqajckkzn .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#btqajckkzn .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#btqajckkzn .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#btqajckkzn .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#btqajckkzn .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#btqajckkzn .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#btqajckkzn .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#btqajckkzn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="host_id" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">host_id</th>
+<th id="host_name" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">host_name</th>
+<th id="num_review" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">num_review</th>
+<th id="avg_rating" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">avg_rating</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="host_id">15154687</td>
+<td class="gt_row gt_left" headers="host_name">Taskin</td>
+<td class="gt_row gt_right" headers="num_review">31</td>
+<td class="gt_row gt_right" headers="avg_rating">4.728571</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="host_id">47584294</td>
+<td class="gt_row gt_left" headers="host_name">Jessy And Diego</td>
+<td class="gt_row gt_right" headers="num_review">16</td>
+<td class="gt_row gt_right" headers="avg_rating">4.860000</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="host_id">307979339</td>
+<td class="gt_row gt_left" headers="host_name">Aziz</td>
+<td class="gt_row gt_right" headers="num_review">14</td>
+<td class="gt_row gt_right" headers="avg_rating">4.560000</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="host_id">18409308</td>
+<td class="gt_row gt_left" headers="host_name">Marlene</td>
+<td class="gt_row gt_right" headers="num_review">10</td>
+<td class="gt_row gt_right" headers="avg_rating">4.986667</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="host_id">26956083</td>
+<td class="gt_row gt_left" headers="host_name">Todd</td>
+<td class="gt_row gt_right" headers="num_review">10</td>
+<td class="gt_row gt_right" headers="avg_rating">4.810000</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="host_id">657106909</td>
+<td class="gt_row gt_left" headers="host_name">Wenjia</td>
+<td class="gt_row gt_right" headers="num_review">8</td>
+<td class="gt_row gt_right" headers="avg_rating">4.250000</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="host_id">10250028</td>
+<td class="gt_row gt_left" headers="host_name">Mingzhou</td>
+<td class="gt_row gt_right" headers="num_review">7</td>
+<td class="gt_row gt_right" headers="avg_rating">4.920000</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="host_id">147418936</td>
+<td class="gt_row gt_left" headers="host_name">Dana And Andrew</td>
+<td class="gt_row gt_right" headers="num_review">6</td>
+<td class="gt_row gt_right" headers="avg_rating">4.500000</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="host_id">194167208</td>
+<td class="gt_row gt_left" headers="host_name">Reina</td>
+<td class="gt_row gt_right" headers="num_review">6</td>
+<td class="gt_row gt_right" headers="avg_rating">4.915000</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="host_id">757253</td>
+<td class="gt_row gt_left" headers="host_name">Lee</td>
+<td class="gt_row gt_right" headers="num_review">5</td>
+<td class="gt_row gt_right" headers="avg_rating">4.932500</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>To make this table even clearer, I can use <code>gt</code> to add colorization based on column values. The following code may look long at first, but you can read it step by step: it first renames the columns for presentation (<code>rename</code>), then send it to <code>gt()</code>, sets up the table titles (<code>tab_header</code>), followed by applying the color range to the “average rating” column (<code>data_color</code>), and then applies the color range to the “number of reviews” column (<code>data_color</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>top_reviewed_hosts <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Host ID</span><span class="st">`</span> <span class="ot">=</span> host_id,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Host Name</span><span class="st">`</span> <span class="ot">=</span> host_name,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at"># Reviews</span><span class="st">`</span> <span class="ot">=</span> num_review,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Rating</span><span class="st">`</span> <span class="ot">=</span> avg_rating</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top Reviewed Airbnb Hosts in the last 30 Days"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Allston, Boston"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data_color</span>(</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> Rating,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fn =</span> scales<span class="sc">::</span><span class="fu">col_numeric</span>(</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>),</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">domain  =</span> <span class="fu">range</span>(top_reviewed_hosts<span class="sc">$</span>avg_rating)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">|&gt;</span> </span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data_color</span>(</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="st">`</span><span class="at"># Reviews</span><span class="st">`</span>,</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">fn =</span> scales<span class="sc">::</span><span class="fu">col_numeric</span>(</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>),</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">domain  =</span> <span class="fu">range</span>(top_reviewed_hosts<span class="sc">$</span>num_review)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="naivkvknjv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#naivkvknjv table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#naivkvknjv thead, #naivkvknjv tbody, #naivkvknjv tfoot, #naivkvknjv tr, #naivkvknjv td, #naivkvknjv th {
+  border-style: none;
+}
+
+#naivkvknjv p {
+  margin: 0;
+  padding: 0;
+}
+
+#naivkvknjv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#naivkvknjv .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#naivkvknjv .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#naivkvknjv .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#naivkvknjv .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#naivkvknjv .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#naivkvknjv .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#naivkvknjv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#naivkvknjv .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#naivkvknjv .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#naivkvknjv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#naivkvknjv .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#naivkvknjv .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#naivkvknjv .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#naivkvknjv .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#naivkvknjv .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#naivkvknjv .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#naivkvknjv .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#naivkvknjv .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#naivkvknjv .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#naivkvknjv .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#naivkvknjv .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#naivkvknjv .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#naivkvknjv .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#naivkvknjv .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#naivkvknjv .gt_left {
+  text-align: left;
+}
+
+#naivkvknjv .gt_center {
+  text-align: center;
+}
+
+#naivkvknjv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#naivkvknjv .gt_font_normal {
+  font-weight: normal;
+}
+
+#naivkvknjv .gt_font_bold {
+  font-weight: bold;
+}
+
+#naivkvknjv .gt_font_italic {
+  font-style: italic;
+}
+
+#naivkvknjv .gt_super {
+  font-size: 65%;
+}
+
+#naivkvknjv .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#naivkvknjv .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#naivkvknjv .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#naivkvknjv .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#naivkvknjv .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#naivkvknjv .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#naivkvknjv .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#naivkvknjv .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#naivkvknjv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<th colspan="4" class="gt_heading gt_title gt_font_normal">Top Reviewed Airbnb Hosts in the last 30 Days</th>
+</tr>
+<tr class="gt_heading even">
+<th colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Allston, Boston</th>
+</tr>
+<tr class="gt_col_headings header">
+<th id="Host-ID" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Host ID</th>
+<th id="Host-Name" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Host Name</th>
+<th id="a#-Reviews" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col"># Reviews</th>
+<th id="Rating" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Rating</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="Host ID">15154687</td>
+<td class="gt_row gt_left" headers="Host Name">Taskin</td>
+<td class="gt_row gt_right" headers="# Reviews" style="background-color: #FF0000; color: #FFFFFF">31</td>
+<td class="gt_row gt_right" headers="Rating" style="background-color: #FF7F5E; color: #000000">4.728571</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="Host ID">47584294</td>
+<td class="gt_row gt_left" headers="Host Name">Jessy And Diego</td>
+<td class="gt_row gt_right" headers="# Reviews" style="background-color: #FFAD94; color: #000000">16</td>
+<td class="gt_row gt_right" headers="Rating" style="background-color: #FF5434; color: #FFFFFF">4.860000</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="Host ID">307979339</td>
+<td class="gt_row gt_left" headers="Host Name">Aziz</td>
+<td class="gt_row gt_right" headers="# Reviews" style="background-color: #FFBDA7; color: #000000">14</td>
+<td class="gt_row gt_right" headers="Rating" style="background-color: #FFAE94; color: #000000">4.560000</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="Host ID">18409308</td>
+<td class="gt_row gt_left" headers="Host Name">Marlene</td>
+<td class="gt_row gt_right" headers="# Reviews" style="background-color: #FFDACD; color: #000000">10</td>
+<td class="gt_row gt_right" headers="Rating" style="background-color: #FF0000; color: #FFFFFF">4.986667</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="Host ID">26956083</td>
+<td class="gt_row gt_left" headers="Host Name">Todd</td>
+<td class="gt_row gt_right" headers="# Reviews" style="background-color: #FFDACD; color: #000000">10</td>
+<td class="gt_row gt_right" headers="Rating" style="background-color: #FF6544; color: #FFFFFF">4.810000</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="Host ID">657106909</td>
+<td class="gt_row gt_left" headers="Host Name">Wenjia</td>
+<td class="gt_row gt_right" headers="# Reviews" style="background-color: #FFE9E1; color: #000000">8</td>
+<td class="gt_row gt_right" headers="Rating" style="background-color: #FFFFFF; color: #000000">4.250000</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="Host ID">10250028</td>
+<td class="gt_row gt_left" headers="Host Name">Mingzhou</td>
+<td class="gt_row gt_right" headers="# Reviews" style="background-color: #FFF0EB; color: #000000">7</td>
+<td class="gt_row gt_right" headers="Rating" style="background-color: #FF3A1F; color: #FFFFFF">4.920000</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="Host ID">147418936</td>
+<td class="gt_row gt_left" headers="Host Name">Dana And Andrew</td>
+<td class="gt_row gt_right" headers="# Reviews" style="background-color: #FFF8F5; color: #000000">6</td>
+<td class="gt_row gt_right" headers="Rating" style="background-color: #FFBEA8; color: #000000">4.500000</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="Host ID">194167208</td>
+<td class="gt_row gt_left" headers="Host Name">Reina</td>
+<td class="gt_row gt_right" headers="# Reviews" style="background-color: #FFF8F5; color: #000000">6</td>
+<td class="gt_row gt_right" headers="Rating" style="background-color: #FF3D21; color: #FFFFFF">4.915000</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="Host ID">757253</td>
+<td class="gt_row gt_left" headers="Host Name">Lee</td>
+<td class="gt_row gt_right" headers="# Reviews" style="background-color: #FFFFFF; color: #000000">5</td>
+<td class="gt_row gt_right" headers="Rating" style="background-color: #FF341A; color: #FFFFFF">4.932500</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Once I identify the 10 hosts who received the most reviews in the last 30 days, along with their average ratings, I get a better sense of who are most likely to offer the best guest experience.</p>
+<section id="a-note-on-data-organization-combining-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="a-note-on-data-organization-combining-datasets">A note on data organization: combining datasets</h2>
+<p>When exploring a dataset, we often work with a few variable combinations and may create several smaller datasets for convenience. At some point, we might want to bring two pieces back together.</p>
+<p>To make this possible, we’ve intentionally kept an identifiable variable (<code>id</code>, in our case) in all these small datasets. This allows us to combine them using <code>left_join()</code>. The <code>left_join()</code> function merges two datasets by a shared key column, keeping all rows from the left and adding any matching rows from the right.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">left_join</span>(df_price, df_since, <span class="at">by =</span> <span class="st">"id"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="find-resources-and-learn-more" class="level1">
+<h1>Find resources and learn more</h1>
+<p>So far, we’ve introduced you to many different functions, arguments, and ways to accomplish visualization tasks in R. You might be wondering: how will I remember all of this? Is there a pool of resources I can rely on?</p>
+<p>A general guide on where to find help and inspiration:</p>
+<ul>
+<li><p><em>Your own experience.</em> Everything you’ve done so far counts as a resource. The code you’ve written, the research you’ve done, and the exploration you’ve carried out to make your code work all build into your personal knowledge and intuition.</p></li>
+<li><p><em>R help functions and documentation.</em> Don’t forget that R has built-in help. Use <code>?</code>function_name to get details on any function. <a href="https://posit.co/resources/cheatsheets/">R cheat sheets</a> are also extremely handy for quick reference.</p></li>
+<li><p><em>Graphing libraries and galleries</em>. Packages like <a href="https://r-graph-gallery.com/">ggplot2</a> and <a href="https://plotly.com/ggplot2/">plotly</a> come with galleries of examples, complete with code. By now, you should be able to read and modify much of this code to fit your own needs.</p></li>
+<li><p><em>Community examples and published code snippets.</em> If you come across someone else’s work that serves as a good example, take time to study the code, understand how it works, and consider how you might adapt it for your own project.</p></li>
+</ul>
+</section>
+<section id="lab-report" class="level1">
+<h1>Lab Report</h1>
+<p>This week you’ll do a <strong>preliminary Airbnb data study</strong> on a city of your choice. We will work in a <strong>Quarto document</strong>, so your narrative, code, and outputs are all organized in one place. You’ll start by revisiting the questions you drafted earlier, then use visualizations to explore and answer them.</p>
+<p><strong>What to do:</strong></p>
+<ol type="1">
+<li><p>Choose a city. Please avoid Boston this time. Pick another city from the list. This could be your hometown or a tourist destination you’re interested in.</p></li>
+<li><p>Finalize 3 questions to guide your study. You may find yourself revisiting or adjusting your draft questions, that’s perfectly fine. Refine them as you go.</p></li>
+<li><p>Create at least one visualization (graph or table) to answer each question.</p></li>
+</ol>
+<blockquote class="blockquote">
+<p>You will probably work through this in two phases:</p>
+<p>Phase 1: Explore the dataset. See what variables are useful for you, how they are distributed, and whether there are any data quality issues or surprising relationships. Do some quick checks for completeness and consistency.</p>
+<p>Phase 2: Investigate each of your three questions. Start with an initial visualization, then refine it (e.g., add colors, adjust scales, filter or subset data). Use this process to deepen your insights. As you work, new questions may come up. Feel free to follow them with additional visualizations until you feel satisfied with your understanding.</p>
+</blockquote>
+<ol start="4" type="1">
+<li><p>Write explanatory text to describe your intentions, methods, and findings for each of the three questions.</p></li>
+<li><p>Submit a report that reflects your thoughtful coding and clear storytelling.</p></li>
+</ol>
+<p>We are not looking for the “right answer,” and there may not be answer keys for your specific questions. The goal is for you to apply what we’ve practiced: using visualizations, adapting code to new problems, and demonstrating your critical thinking on a certain topic. We will use “Lab 3 Rubric” posted on Canvas for grading this report, and your work will be carefully read for thoughtful analysis and clear communication.</p>
+<p><strong>Submission</strong></p>
+<p>Please complete your Quarto document and upload your rendered HTML file to Canvas by <strong>9am, Wednesday, Oct 1.</strong></p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

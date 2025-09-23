@@ -28,8 +28,8 @@ I recommend creating a separate folder for each assignment. For today, open RStu
 
 You do not need to start a Quarto Document for now. Instead, you can either:
 
--    Read through the tutorial, paying attention to the code and its output, or
--    Open a plain R script to type, test, and run the code yourself.
+-   Read through the tutorial, paying attention to the code and its output, or
+-   Open a plain R script to type, test, and run the code yourself.
 
 **When you get to the exercises at the end of the tutorial, you’ll be asked to start a Quarto document**.
 
@@ -348,7 +348,7 @@ ozs_ma |>
   theme_bw()
 ```
 
-# Exercise!
+# Exercise
 
 Now let's start a new Quarto document and remove its template texts. You are going to work on your lab report here. In this blank document, you’ll write your own code to do the exercises below. You can look back at the tutorial code, but you won't need everything there. Just pick out the parts that help you get your script working.
 
@@ -400,7 +400,7 @@ Once you’ve got the basic bar plot, think about how to polish it up. How can y
 
 Feel free to consult the [R Graph Gallery](#0) and [Aesthetic specifications](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html) for additional resources. If there is anything else you want to experiment, like changing the color scheme or the theme template, go for it.
 
-# Work Products
+# Lab Report
 
 Please include the code you used, the tables you produced, and any explanatory text that you think would help clarify your results. After you render your Quarto document, you will find an ".html" file in your project folder. Please submit **the** **Rendered HTML file** that shows your work and responses for each of the three Exercises included in this lab.
 

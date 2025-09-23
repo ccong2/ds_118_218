@@ -6,5 +6,5 @@ We’ll explore the foundations of descriptive data science, learning how to sum
 
 -   [Intro to R](https://docs.google.com/presentation/d/1pJIfWIFwcFcTb6OdBYU1V4mahEq4MYD-/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
 -   [Urban Science History and Data Prep](https://docs.google.com/presentation/d/1w7PK6U2TMpW1jFae7XHMQSiMRqddzQhK/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
--   Data Manipulation and Visualization I
--   Data Manipulation and Visualization II
+-   [Data Manipulation and Visualization I](https://docs.google.com/presentation/d/1F409yKO6ebRiAp-FxFlwsJeNJCFPhgK1/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
+-   [Data Manipulation and Visualization II](https://docs.google.com/presentation/d/160zZeAsJ82vwgLt4Nm2Vv4LsTK_2aAa-/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)

@@ -14,6 +14,34 @@
     "text": "We’ll explore the foundations of descriptive data science, learning how to summarize, visualize, and interpret datasets to uncover meaningful patterns.\n\nIntro to R\nUrban Science History and Data Prep\nData Manipulation and Visualization I\nData Manipulation and Visualization II"
   },
   {
+    "objectID": "labs/lab3.html",
+    "href": "labs/lab3.html",
+    "title": "Data Visualization with ",
+    "section": "",
+    "text": "This week, we’ll use real-world data to do an independent, mini visualization project. You’ll practice with data cleaning and visualization, and have more flexibility to use the tools you’ve learned so far to explore questions that you are interested in."
+  },
+  {
+    "objectID": "labs/lab3.html#work-with-character-using-stringr",
+    "href": "labs/lab3.html#work-with-character-using-stringr",
+    "title": "Data Visualization with ",
+    "section": "Work with character using stringr",
+    "text": "Work with character using stringr\nWe have have a price variable in the data, but you will find (e.g., with glimpse(airbnb)) that the prices are stored as characters, not numbers.\nConverting functions like as.numeric() won’t work directly here because the prices include a dollar sign ($) and commas, like this: “$1,200,000”. We first need to modify the strings to remove the dollar signs and commas, before we can convert them to numeric prices and calculate them.\nThe stringr package, which is part of the tidyverse, specializes in working with strings (i.e., text or character data). In general, we can use it to replace certain symbols with an empty string (““), effectively removing them from our data.\n\nstr_replace(string = \"$1,200\", pattern = \",\", replacement = \"\") \n\n[1] \"$1200\"\n\n\nOr if use str_replace_all(), it can detect and remove multiple symbols simultaneously, by wrapping them in brackets\n\nstr_replace_all(string = \"$1,200.00\", pattern =  \"[$,]\", replacement = \"\")\n\n[1] \"1200.00\"\n\n\nHere we make a small dataset focusing on property types and price, then clean up the price representations:\n\ndf_price &lt;- airbnb |&gt; \n  select(id, room_type, price) |&gt; \n  mutate(price = str_replace_all(string = price, \n                                 pattern = \"[$,]\", \n                                 replacement = \"\")) |&gt; \n  mutate(price = as.numeric(price))\n\nThere are four unique types of room types:\n\nunique(df_price$room_type)\n\n[1] \"Entire home/apt\" \"Private room\"    \"Shared room\"     \"Hotel room\"     \n\n\nThen we can create a bar chart that displays the median price for each type of property.\n\ndf_price |&gt; \n  filter(price &lt; 10000) |&gt;  \n  group_by(room_type) |&gt; \n  summarise(median_price = median(price, na.rm = TRUE)) |&gt; \n  ggplot() + \n    geom_col(aes(x = room_type, y = median_price), \n             fill = \"#62A0CA\", width = 0.5) + \n  theme_bw()+\n  labs(x = \"Room Type\", y = \"Median Price\")\n\n\n\n\n\n\n\n\nNote: Check what that filter line does. Why is it included? If you were conducting this analysis, would you use it?\nWe have talked about plotly and its ggplot2 integration in class. We can easily turn a static graph into an interactive plot using ggplotly().\n\ng &lt;- df_price |&gt; \n  filter(price &lt; 10000) |&gt;  \n  group_by(room_type) |&gt; \n  summarise(median_price = median(price, na.rm = TRUE)) |&gt; \n  ggplot() + \n    geom_col(aes(x = room_type, y = median_price), \n             fill = \"#62A0CA\", width = 0.5) + \n  theme_bw()+\n  labs(x = \"Room Type\", y = \"Median Price\")\n\ng |&gt; ggplotly()"
+  },
+  {
+    "objectID": "labs/lab3.html#working-with-dates-using-lubridate",
+    "href": "labs/lab3.html#working-with-dates-using-lubridate",
+    "title": "Data Visualization with ",
+    "section": "Working with dates using lubridate",
+    "text": "Working with dates using lubridate\nThe Airbnb dataset includes several date-related columns, such as host_since. From glimpse(airbnb), we can see that these columns are already stored as date variables.\nThe lubridate package is commonly used for 1) converting text data into date formats, and 2) extracting components from dates, such as year, month, or day.\nLet’s make another smaller dataset that includes the listing ID and when the host was first listed (host_since). We can extract the year from it for further analysis. So that you can see how many hostes started in each year.\n\ndf_since &lt;- airbnb |&gt; \n  select(id, host_since) |&gt;  \n  mutate(host_since_year = year(host_since)) \n\nggplotly() is easy for us to use, and saves us from having to learn a new set of plotly grammar. However, for certain chart types, like pie charts or donut charts, plotly’s native functions can be simpler to work with directly.\nSimilarly to ggplot, you initiate a plotly graph by calling plot_ly() (notice the _ is needed). Then, map the appropriate columns to the correct arguments, specifying which values to plot and which labels should be displayed.\n\ndf_since |&gt; \n  count(host_since_year) |&gt; \n  plot_ly(\n    labels = ~host_since_year,\n    values = ~n,\n    type = \"pie\",\n    hole = 0.5 # the size of the \"hole\", which practically turn a pie into a donut\n  )\n\n\n\n\n\nAlthough, a donut chart might not be the best choice for this particular question, since it can become visually cluttered when there are too many segments. Check out the “treemap” instead:\n\ndf_since |&gt; \n  count(host_since_year) |&gt; \n  plot_ly(\n    labels = ~host_since_year,\n    values = ~n,\n    type = \"treemap\",\n    parents = \"\"   # No hierarchy, just one level\n  )"
+  },
+  {
+    "objectID": "labs/lab3.html#a-note-on-data-organization-combining-datasets",
+    "href": "labs/lab3.html#a-note-on-data-organization-combining-datasets",
+    "title": "Data Visualization with ",
+    "section": "A note on data organization: combining datasets",
+    "text": "A note on data organization: combining datasets\nWhen exploring a dataset, we often work with a few variable combinations and may create several smaller datasets for convenience. At some point, we might want to bring two pieces back together.\nTo make this possible, we’ve intentionally kept an identifiable variable (id, in our case) in all these small datasets. This allows us to combine them using left_join(). The left_join() function merges two datasets by a shared key column, keeping all rows from the left and adding any matching rows from the right.\n\ndf &lt;- left_join(df_price, df_since, by = \"id\")"
+  },
+  {
     "objectID": "labs/index.html",
     "href": "labs/index.html",
     "title": "Lab Overview",

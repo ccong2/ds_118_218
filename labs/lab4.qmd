@@ -353,7 +353,7 @@ scores |>
 
 ------------------------------------------------------------------------
 
-As our result is a spatial object, we can also create maps to show the scores in neighborhoods:
+As our result is a spatial object, we can also create maps to show the scores in neighborhoods. This type of map, that shades areas in different colors based on data values, is known as choropleth map.
 
 ```{r}
 scores |> 

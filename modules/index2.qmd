@@ -4,5 +4,5 @@ title: "Module 2 Geospatial Data Science"
 
 We’ll learn how to import, manipulate, and visualize geospatial datasets, from simple maps to more complex spatial analyses.
 
--   Spatial analysis
+-   [Spatial analysis](https://docs.google.com/presentation/d/1cNDTIE_4DGNCSrd2LCr5SDX9gAqy0ySh/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
 -   Mapping census data

@@ -355,7 +355,7 @@ ggplot(summary_data,
 
 # Exercise
 
-We've gone through the process of pulling and compiling ACS variables we're interested in. Your task is to **add two new variables** to this study. There are many other social and demographic variables availables, and you can follow a similar process: pull the relevant table, create a brief summary table, and join it to your `acs_data`. After that, **perform a similar comparison analysis for these new variables.** Include a short write-up summarizing what you observe from the results of your analysis, along with any critiques or thoughts you might have.
+We've gone through the process of pulling and compiling several ACS variables we're interested in. Your task is to **add two new Census variables** to this study. You are welcome to explore any other social and demographic variables available, and you can follow a similar process: pull the relevant variables, create a brief table, and join it to your `acs_data`. After that, **perform a similar comparison analysis for these new variables.** Include a short write-up summarizing what you observe from the results of your analysis, along with any critiques or thoughts you might have.
 
 I'd recommend the following ACS variables for practice purposes:
 

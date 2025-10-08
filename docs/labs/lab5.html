@@ -434,11 +434,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Starting from our compiled <code>acs_data</code>, we will now process it further to calculate percentages. One important note: different ACS variables often have different universes (total counts), so be careful not to divide by the wrong totals.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>acs_pct <span class="ot">&lt;-</span> acs_data <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">renter_pct =</span> renter_units<span class="sc">/</span>tot_units,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">over65_pct =</span> over65_pop<span class="sc">/</span>tot_pop,</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">pov_pct =</span> pov_pop<span class="sc">/</span>tot_pop_determined) <span class="sc">|&gt;</span> </span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, renter_pct<span class="sc">:</span>pov_pct, in_floodplain) <span class="sc">|&gt;</span> </span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">renter_pct =</span> renter_units<span class="sc">/</span>tot_units,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">over65_pct =</span> over65_pop<span class="sc">/</span>tot_pop,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">pov_pct =</span> pov_pop<span class="sc">/</span>tot_pop_determined) <span class="sc">|&gt;</span> </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, renter_pct<span class="sc">:</span>pov_pct, in_floodplain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>NYC is unique in that it contains five counties, each corresponding to a borough.</p>
 <table class="caption-top table">

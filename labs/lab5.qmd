@@ -299,11 +299,11 @@ Starting from our compiled `acs_data`, we will now process it further to calcula
 
 ```{r}
 acs_pct <- acs_data |> 
+  st_drop_geometry() |> 
   mutate(renter_pct = renter_units/tot_units,
          over65_pct = over65_pop/tot_pop,
          pov_pct = pov_pop/tot_pop_determined) |> 
-  select(GEOID, renter_pct:pov_pct, in_floodplain) |> 
-  st_drop_geometry()
+  select(GEOID, renter_pct:pov_pct, in_floodplain)
 ```
 
 NYC is unique in that it contains five counties, each corresponding to a borough.

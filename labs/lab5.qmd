@@ -12,9 +12,9 @@ execute:
 
 # Overview
 
-In this lab, we will work with U.S. Census data to collect, integrate, and analyze information to answer a place-based question: **who lives in areas at high risk of flooding in New York City**? We will use `tidycensus` to pull tract-level American Community Survey (ACS) data, then intersect those tracts with FEMA floodplain data to identify tracts that partly or fully fall inside the 100-year floodplain in NYC.
+In this lab, we will work with U.S. Census data to collect, integrate, and analyze information to answer a place-based question: **who lives in areas at high risk of sea level rise in New York City**? We will use `tidycensus` to pull tract-level American Community Survey (ACS) data, then intersect those tracts with floodplain data to identify tracts that partly or fully fall inside the projected 100-year floodplain.
 
-The 100-year floodplain is the area with a 1% chance of flooding each year (not flooding happens only once every 100 years but rather, every year there's a 1 in 100 chance of flood occurring). Floodplain maps show where flooding is most likely to happen during major storms and thus can guide insurance, building, and planning decisions. NYC has looked ahead to a “[2050s floodplain](https://data.cityofnewyork.us/Environment/Future-Floodplain-2050s/27ya-gqtm/about_data)”, based on climate projections from the New York City Panel on Climate Change, which accounts for rising sea levels and stronger storms.
+A 100-year floodplain is the area with a 1% chance of flooding each year (not flooding happens only once every 100 years but rather, every year there's a 1 in 100 chance of flood occurring). Floodplain maps show where flooding is most likely to happen during major storms and thus can guide insurance, building, and planning decisions. NYC has looked ahead to a “[2050s floodplain](https://data.cityofnewyork.us/Environment/Future-Floodplain-2050s/27ya-gqtm/about_data)”, based on climate projections from the New York City Panel on Climate Change, which accounts for rising sea levels and stronger storms.
 
 ```{r}
 #| message: false
@@ -287,6 +287,14 @@ ggplot() +
 
 If you look at `acs_data` again, it looks quite similar to the opportunity zone dataset now, with a column indicating yes or no for being in the floodplain. Similarly, we can use this dataset to compare demographics between tracts affected and not affected by the 2050s floodplain.
 
+For example, a quick ratio (or percentage) of the population living in projected high-risk flood areas.
+
+```{r}
+acs_data |> 
+  st_drop_geometry() |> 
+  summarise(pop_ratio = sum(tot_pop[in_floodplain]) / sum(tot_pop))
+```
+
 Starting from our compiled `acs_data`, we will now process it further to calculate percentages. One important note: different ACS variables often have different universes (total counts), so be careful not to divide by the wrong totals.
 
 ```{r}
@@ -347,7 +355,7 @@ ggplot(summary_data,
     x = "Borough",
     y = "Average Renter-Occupied Housing Unit Share",
     fill = "Within (fully or partially)\n 2050s Floodplain",
-    title = "Renter-Occupied Housing Share by Borough and Floodplain Status",
+    title = "Renter-Occupied Housing Share by Borough and Projected Floodplain Status",
     subtitle = "By Census Tract, New York City",
     caption = "Source: American Community Survey 5-year Estimates (2019-2023)") +
   theme_minimal()

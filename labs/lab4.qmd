@@ -166,7 +166,12 @@ I've dropped the geometry so we have a plain table, which will make it easier to
 
 We have open space property data maintained by the Boston Parks and Recreation Department. It provides shapes, names, ownership, and type of each property. You can check the [open space data download page](https://data.boston.gov/dataset/open-space) and metadata on the linked page.
 
-Let's download and read this file. Open spaces are polygon data. As usual, check what each column means and the CRS. This data also uses EPSG: 4326. To calculate areas, we need to use `st_transform()` to convert it to the same projection as the sidewalks, EPSG: 2249.
+Let's download and read this file as `parks`. Open spaces are polygon data. As usual, check what each column means and the CRS. This data also uses EPSG: 4326. To calculate areas, we need to use `st_transform()` to convert it to the same projection as the sidewalks, EPSG: 2249.
+
+```{verbatim}
+parks <- st_read("data/open_space.json") |> 
+  st_transform(2249)
+```
 
 ```{r}
 #| echo: false

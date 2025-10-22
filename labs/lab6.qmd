@@ -262,7 +262,7 @@ Add these layer control lines to your code - be careful to match all parentheses
 
 ```{r}
 #| class-source: "numberLines"
-#| source-line-numbers: "3-7,15,20,26-31"
+#| source-line-numbers: "3-8,15,20,26-31"
 leaflet() |>
   # More basemaps to choose from
   addProviderTiles(providers$CartoDB.Positron,

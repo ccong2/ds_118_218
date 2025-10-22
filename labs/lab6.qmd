@@ -322,7 +322,7 @@ Above "Chart A", and just below the YAML header, there is aonther code chuck nam
 
 Save the **flexdashboard.Rmd** and **Knit** it again, see if it works and correctly show the map.
 
-Now for the other two areas "Chart B" and "Chart C", it’s your turn to add more graphs! You may want to go back to your Lab 3 work and pick some graphs you like best to display here. After this, you will have your own story board for the Airbnb data.
+Now for the other two areas "Chart B" and "Chart C", it’s your turn to add more graphs! For this week’s exercise, you will first change the current map to a city other than Boston - specifically, the city you used in Lab 3. Then, choose a few of your favorite graphs from Lab 3 and add them to the dashboard. Once you’ve done this, you’ll have created your own storyboard for the Airbnb data in your city.
 
 When working on your previous code, pay attention identifying different steps and place them in the correct spots: **any data processing goes in the setup chunk, and the plotting code goes in the respective chart chunk.** Feel free to tweak or improve your Lab 3 graphs, this is a great chance to make your visualizations even better!
 
@@ -332,7 +332,7 @@ In the meantime, there are plenty of ways to move beyond the default three-panel
 
 ## Make your own dashboard
 
-For this week’s assignment, continue working on the city you’ve chosen and create a flexdashboard that includes **one Leaflet map** and **at least two graphs** to showcase its Airbnb listings.
+For this week’s assignment, continue working on the city you’ve chosen in Lab 3 and create a flexdashboard that includes **one Leaflet map** and **at least two graphs** to showcase its Airbnb listings.
 
 Feel free to get creative: experiment with more Leaflet functions, explore new ways to plot your data, or adjust panel layouts. The goal is to make the dashboard both informative and engaging, so have fun exploring flexdashboard and making it your own!
 

@@ -277,8 +277,8 @@ Observe the example you will notice:
 3.  **Add a radio button input to the UI.** This is like a hotel-booking-website-style selection that shows of different rating levels. The unique thing is the `choices` is not from any data source but are directly defined by us:
 
     ```{verbatim}
-    choices = c("Wonderful: 5", "Very Good: 4.5+", 
-                "Good: 4+", "All")
+    choices = c("Wonderful: 5", "Very Good: 4.8+", 
+                "Good: 4.5+", "All")
     ```
 
 <!-- -->
@@ -304,8 +304,8 @@ Observe the example you will notice:
       # Define a value based on the string description
       min_score <- case_when(
         input$rating == "Wonderful: 5" ~ 5,
-        input$rating == "Very Good: 4.5+"   ~ 4.5,
-        input$rating == "Good: 4+"        ~ 4,
+        input$rating == "Very Good: 4.8+"   ~ 4.8,
+        input$rating == "Good: 4.5+"        ~ 4.5,
         TRUE                              ~ 0
       )
         

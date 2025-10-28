@@ -412,8 +412,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Read in the neighborhood boundary geojson file.</strong> Remember to load the <code>sf</code> package and place the <code>st_read()</code> function in the correct place.</p></li>
 <li><p><strong>Add a select box input function to the UI.</strong> Define its appearance and behavior using suitable arguments (e.g., id, label, choices)</p></li>
 <li><p><strong>Add a radio button input to the UI.</strong> This is like a hotel-booking-website-style selection that shows of different rating levels. The unique thing is the <code>choices</code> is not from any data source but are directly defined by us:</p>
-<div class="sourceCode" id="cb11" data-code-line-numbers=""><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>choices = c("Wonderful: 5", "Very Good: 4.5+", </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>            "Good: 4+", "All")</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb11" data-code-line-numbers=""><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>choices = c("Wonderful: 5", "Very Good: 4.8+", </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>            "Good: 4.5+", "All")</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ol>
 <!-- -->
 <ol start="5" type="1">
@@ -431,8 +431,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Define a value based on the string description</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  min_score <span class="ot">&lt;-</span> <span class="fu">case_when</span>(</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    input<span class="sc">$</span>rating <span class="sc">==</span> <span class="st">"Wonderful: 5"</span> <span class="sc">~</span> <span class="dv">5</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    input<span class="sc">$</span>rating <span class="sc">==</span> <span class="st">"Very Good: 4.5+"</span>   <span class="sc">~</span> <span class="fl">4.5</span>,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    input<span class="sc">$</span>rating <span class="sc">==</span> <span class="st">"Good: 4+"</span>        <span class="sc">~</span> <span class="dv">4</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    input<span class="sc">$</span>rating <span class="sc">==</span> <span class="st">"Very Good: 4.8+"</span>   <span class="sc">~</span> <span class="fl">4.8</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    input<span class="sc">$</span>rating <span class="sc">==</span> <span class="st">"Good: 4.5+"</span>        <span class="sc">~</span> <span class="fl">4.5</span>,</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span>                              <span class="sc">~</span> <span class="dv">0</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>

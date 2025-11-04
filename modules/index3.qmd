@@ -4,5 +4,5 @@ title: "Module 3 Communicate Data Science"
 
 Transform static analyses into interactive tools that invite users to explore and discover insights on their own.
 
--   Interactive Map and Dashboard
--   Web-app storytelling
+-   [Interactive Map and Dashboard](https://docs.google.com/presentation/d/1-IN2XWQsX7-8hEcYuYkBSi0TA3bNBnMy/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
+-   [Web-app storytelling](https://docs.google.com/presentation/d/16yFWw_t6CJKx1TQB6033XsENP4GUZc5j/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)

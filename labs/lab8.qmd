@@ -172,7 +172,7 @@ We've made several notes above about issues like collinearity, flipping coeffici
 -   VIF (Variance Inflation Factor) to detect and remove variables with high collinearity, or
 -   ANOVA tests to decide whether including a variable improves model fit.
 
-**But we’ll part our ways here.** These issues become less critical in many machine learning models, which are designed to handle complex, overlapping, and nonlinear relationships among variables more naturally.
+But we'll leave it here and move on. These issues become less critical in many machine learning models, which are designed to handle complex, overlapping, and nonlinear relationships among variables more naturally.
 
 # Moving to Machine Learning
 

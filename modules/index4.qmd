@@ -6,6 +6,6 @@ Introduces modern machine learning methods. We'll work on the skills to move fro
 
 -   [Machine Learning: Concepts & Workflow](https://docs.google.com/presentation/d/1yPlvASBXn7IK3t8pp3m1gYKDTXcpxgpc/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
 
--   ML Models and Hyperparameter Tuning
+-   [Tree-based Models and Hyperparameter Tuning](https://docs.google.com/presentation/d/1_GhKCv4gu7QcgkVxoyb3479l31JOYDAy/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
 
 -   Classification, Fairness-aware ML

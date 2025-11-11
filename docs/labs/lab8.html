@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-11-04">
+<meta name="dcterms.date" content="2025-11-11">
 
 <title>ML Model Selection with  – Applied Data Science for Cities</title>
 <style>
@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 4, 2025</p>
+      <p class="date">November 11, 2025</p>
     </div>
   </div>
   
@@ -214,7 +214,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Introduction</h1>
 <p>From this week on, we’ll start dipping our toes into machine learning. The goal is to explore it as a way to <strong>make predictions</strong>: using what a computer has learned from existing data to make guesses about new data.</p>
 <p>Today, as a big-picture look at the machine learning process, we’ll build and compare a few different models to see how each one makes different predictions based on the different rules it has learned.</p>
-<p>Our exercise today is built on the example in <a href="https://urbanspatial.github.io/PublicPolicyAnalytics/intro-to-geospatial-machine-learning-part-1.html">Chapter 3</a> from Ken Steif’s book <a href="https://urbanspatial.github.io/PublicPolicyAnalytics/">Policy Policy Analytics</a>, which uses the Boston housing dataset to predict housing prices. The book is a great resource for connecting machine learning with urban studies. If you have time, it’s well worth reading other chapters.</p>
+<p>Our exercise today is built on the example in <a href="https://urbanspatial.github.io/PublicPolicyAnalytics/intro-to-geospatial-machine-learning-part-1.html">Chapter 3</a> from Ken Steif’s book <a href="https://urbanspatial.github.io/PublicPolicyAnalytics/">Public Policy Analytics</a>, which uses the Boston housing dataset to predict housing prices. The book is a great resource for connecting machine learning with urban studies. If you have time, it’s well worth reading other chapters.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
@@ -226,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="read-in-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="read-in-the-data">Read in the data</h2>
 <p>We’ll be working with the CSV dataset containing sale prices and housing characteristics for homes sold in Boston between August 2015 and August 2016.</p>
-<p>Here is the <a href="https://canvas.mit.edu/courses/33012/files/5804712/download?download_frd=1">data download link</a>.</p>
+<p>Here is the <a href="https://drive.google.com/file/d/1jLKb2Dn_6cGaratDRg0Jp6BJ98L2o7gU/view?usp=sharing">data download link</a>.</p>
 <p>The data used in this tutorial is a subset of the original larger dataset of <a href="https://data.boston.gov/dataset/property-assessment">Boston property assessment</a>. You can explore the full <a href="https://data.boston.gov/dataset/property-assessment/resource/dbdc1bd8-60af-4913-a788-5f91cb68541b">data dictionary here</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>boston &lt;- read_csv("data/boston_house_price.csv")</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A few notes:</p>
@@ -594,7 +594,6 @@ F-statistic: 72.28 on 29 and 1450 DF,  p-value: &lt; 2.2e-16</code></pre>
 </tr>
 </tbody>
 </table>
-<p>As you’ve likely noticed, when we used different models, details like <code>trainControl</code>, <code>preprocess</code> changed. The <code>caret</code> package supports over 230 machine learning algorithms. Each model comes with its own set of hyperparameters that need to be tuned. We’ll explore those in more detail in next s</p>
 </section>
 <section id="lab-report" class="level1">
 <h1>Lab Report</h1>

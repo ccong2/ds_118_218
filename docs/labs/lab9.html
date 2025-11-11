@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2025-11-11">
 
-<title>lab9 – Applied Data Science for Cities</title>
+<title>Tree-Based Models and Hyperparameter Tuning with  – Applied Data Science for Cities</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -112,17 +147,359 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#fit-a-decision-tree-model" id="toc-fit-a-decision-tree-model" class="nav-link" data-scroll-target="#fit-a-decision-tree-model">Fit a Decision Tree Model</a>
+  <ul class="collapse">
+  <li><a href="#decision-tree-structure" id="toc-decision-tree-structure" class="nav-link" data-scroll-target="#decision-tree-structure">Decision Tree structure</a></li>
+  <li><a href="#how-big-the-tree-should-grow-hyperparameter-cp" id="toc-how-big-the-tree-should-grow-hyperparameter-cp" class="nav-link" data-scroll-target="#how-big-the-tree-should-grow-hyperparameter-cp">How big the tree should grow: Hyperparameter <code>cp</code></a></li>
+  <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation">Cross validation</a></li>
+  <li><a href="#evaluate-the-best-tree-model-on-test-data" id="toc-evaluate-the-best-tree-model-on-test-data" class="nav-link" data-scroll-target="#evaluate-the-best-tree-model-on-test-data">Evaluate the best tree model on test data</a></li>
+  </ul></li>
+  <li><a href="#fit-a-random-forest-model" id="toc-fit-a-random-forest-model" class="nav-link" data-scroll-target="#fit-a-random-forest-model">Fit a Random Forest Model</a>
+  <ul class="collapse">
+  <li><a href="#how-was-the-forest-formed" id="toc-how-was-the-forest-formed" class="nav-link" data-scroll-target="#how-was-the-forest-formed">How was the forest formed</a></li>
+  <li><a href="#how-many-trees-are-used-in-a-forest" id="toc-how-many-trees-are-used-in-a-forest" class="nav-link" data-scroll-target="#how-many-trees-are-used-in-a-forest"><strong>How many trees are used in a forest</strong></a></li>
+  <li><a href="#how-many-features-each-tree-used-hyperparameter-mtry" id="toc-how-many-features-each-tree-used-hyperparameter-mtry" class="nav-link" data-scroll-target="#how-many-features-each-tree-used-hyperparameter-mtry">How many features each tree used: Hyperparameter <code>mtry</code></a></li>
+  </ul></li>
+  <li><a href="#model-summary" id="toc-model-summary" class="nav-link" data-scroll-target="#model-summary">Model Summary</a></li>
+  <li><a href="#lab-report" id="toc-lab-report" class="nav-link" data-scroll-target="#lab-report">Lab Report</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Tree-Based Models and Hyperparameter Tuning with <img src="../img/Rlogo.png" class="img-fluid" width="60"></h1>
+<p class="subtitle lead"><span style="color:#2C3E50">11.118/11.218 Applied Data Science for Cities</span></p>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 11, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Last week, we explored how different machine learning models follow different learning rules and, as a result, achieve varying levels of predictive accuracy.</p>
+<p>This week, we’ll see that even when using the same type of model, we can continue refining it through techniques such as hyperparameter tuning to enhance performance while striking a balance between accuracy and generalizability. Tree-based models are great examples of this process.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rattle) <span class="co"># this is for generating plots of tree structures</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The example we’ll work on this week builds on <a href="https://urbanspatial.github.io/PublicPolicyAnalytics/intro-to-geospatial-machine-learning-part-2.html">Chapter 4</a> from <a href="https://urbanspatial.github.io/PublicPolicyAnalytics/">Public Policy Analytics</a>. The author first made a point that housing prices depend not only on property characteristics but also on spatial factors (i.e., where they are). Therefore <strong>the dataset for today’s tutorial includes an additional feature: the neighborhood name</strong> (as suggested in the book chapter), allowing us to account for location effects in our model.</p>
+<p><a href="https://drive.google.com/file/d/1ZEVvE1yEuLrFr8Y6qO-MxGT0pD8ntSRg/view?usp=sharing">Data download link</a></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>boston &lt;- read_csv("data/boston_house_price_neighborhood.csv")</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="fit-a-decision-tree-model" class="level1">
+<h1>Fit a Decision Tree Model</h1>
+<p>Here we repeat the modeling workflow from last time. After the same process of cleaning the data, we split it into training and test sets to prepare for modeling.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>modeldata <span class="ot">&lt;-</span> boston <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Parcel_No, PricePerSq, GROSS_AREA, R_TOTAL_RM, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            R_BLDG_STY, OWN_OCC)) <span class="sc">|&gt;</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Style <span class="sc">!=</span> <span class="st">"Unknown"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">24</span>)  </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> modeldata<span class="sc">$</span>SalePrice,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> .<span class="dv">7</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">list =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> modeldata[ train_index,]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> modeldata[<span class="sc">-</span>train_index,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In <code>caret</code>&nbsp;package, we fit different models by changing the&nbsp;<code>method</code>&nbsp;argument in&nbsp;<code>train()</code>. Here, we fit a basic <strong>decision tree model</strong> by setting&nbsp;<code>method = "rpart"</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tree_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  SalePrice <span class="sc">~</span> .,        </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"rpart"</span>,        </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneLength =</span> <span class="dv">10</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="decision-tree-structure" class="level2">
+<h2 class="anchored" data-anchor-id="decision-tree-structure">Decision Tree structure</h2>
+<p>A simple decision tree model is considered a “white-box” model, because we can easily see the if-then-else rules it uses to make predictions. At each split, the tree decides which variable to use and what value is appropriate for the split. Each path leads to a smaller group that is more homogeneous in terms of housing price.</p>
+<p>In the following plot, each node shows three numbers: the predicted value of this group, % of total data, and number of observations. For instance, at #2 node:</p>
+<ul>
+<li>595,143 is the average of the housing price variable in this group,</li>
+<li>n=1018 is the number of observations that fall in this group, and</li>
+<li>98.3% means this number of observations takes up 98.3% of the entire dataset.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fancyRpartPlot</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  tree_model<span class="sc">$</span>finalModel,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Simple Decision Tree Model"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sub =</span> <span class="st">"Boston Housing Sales"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="sc">-</span><span class="dv">3</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab9_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Note: Tree-based models implicitly perform variable selection. They identify and use the most important variables for splitting the data at each step. Variable importance is measured by how much a variable reduces error when used to create splits.</p>
+<p>Note: You can see that several splits occur by neighborhood name, which suggests that location, particularly areas like South End and Beacon Hill, contributes the most to explaining differences in housing prices.</p>
+</blockquote>
+</section>
+<section id="how-big-the-tree-should-grow-hyperparameter-cp" class="level2">
+<h2 class="anchored" data-anchor-id="how-big-the-tree-should-grow-hyperparameter-cp">How big the tree should grow: Hyperparameter <code>cp</code></h2>
+<p>A decision tree can technically keep growing until each leaf is pure (i.e., contains only one data point). However, as the tree grows deeper, its splitting rules become increasingly specific. Initially, the splits capture meaningful patterns in the data, but later ones often reflect only noise. This leads to overfitting. To prevent this, we need to decide when to stop growing the tree.</p>
+<p>The tree model includes an internal complexity parameter (<code>cp</code>), which serves as a comprehensive measure capturing the influence of tree depth, number of splits, and the overall size of the tree. In essence, <code>cp</code> determines <strong>how strongly the model is penalized for adding additional branches</strong>, helping to prevent overfitting.</p>
+<ul>
+<li>A higher cp means more restriction (fewer splits, simpler tree).</li>
+<li>A lower cp allows more splits (risking overfitting).</li>
+</ul>
+<p>You can specify a fixed <code>cp</code> value directly in the <code>train()</code> function, although this is not typically done, because we usually don’t know the optimal value in advance.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model &lt;- train(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  tuneGrid = data.frame(cp = 0.01)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Instead, we <strong>tune</strong> <code>cp</code>, that is, trying out multiple values to find the one that provides the best balance between model accuracy and generalizability.</p>
+</section>
+<section id="cross-validation" class="level2">
+<h2 class="anchored" data-anchor-id="cross-validation">Cross validation</h2>
+<p>When we were building our <code>tree_model</code> in previous code, we have used these two lines to say:</p>
+<ul>
+<li>Use 5-fold cross-validation to estimate the performance</li>
+<li>Try 10 different <code>cp</code> values for each fold</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model &lt;- train(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  trControl = trainControl("cv", number = 5),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  tuneLength = 10 </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then if we print out the trained model below, we’ll see that these settings are reflected in the output. It reports that the model performed 5 folds of cross-validation, tested 10 cp values in each, and displays the average performance (e.g., RMSE) for each cp value across the folds.</p>
+<p>A 5-fold (or in general, k-fold) cross validation means we take a portion of the training data for “testing”, so that we can see which hyperparameters generate better “test” performance without touching the actual test data. Then repeat this for k times to stabilize the results.</p>
+<p>After this 5-fold validation process, it reports: “The final value used for the model was cp = xxx”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tree_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CART 
+
+1036 samples
+  12 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 829, 830, 827, 829, 829 
+Resampling results across tuning parameters:
+
+  cp           RMSE      Rsquared   MAE     
+  0.005487841  238894.0  0.7505724  140452.8
+  0.005696664  240504.4  0.7456855  141086.3
+  0.008640778  245515.5  0.7349133  146244.4
+  0.013165261  251031.5  0.7234123  150601.4
+  0.021061126  255112.4  0.7150999  155189.5
+  0.027799549  263279.0  0.6943999  162524.5
+  0.029198558  276896.1  0.6638722  174046.4
+  0.033041133  281381.4  0.6492810  178333.7
+  0.257364641  336394.9  0.4886443  195804.9
+  0.388418956  433537.0  0.3191060  232220.2
+
+RMSE was used to select the optimal model using the smallest value.
+The final value used for the model was cp = 0.005487841.</code></pre>
+</div>
+</div>
+<p>The&nbsp;<code>plot(tree_model)</code>&nbsp;displays the model performance for each value of&nbsp;<code>cp</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tree_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab9_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluate-the-best-tree-model-on-test-data" class="level2">
+<h2 class="anchored" data-anchor-id="evaluate-the-best-tree-model-on-test-data">Evaluate the best tree model on test data</h2>
+<p>Validations helps us choose the best hyperparameter values. Then we can move on to apply the trained model to the <strong>test data</strong> and calculate the <strong>test RMSE</strong>. This value represents the performance of the best tree model we were able to build, based on our training and tuning process.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(tree_model, <span class="at">newdata =</span> test_data) </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>tree_result <span class="ot">=</span> <span class="fu">RMSE</span>(pred, test_data<span class="sc">$</span>SalePrice)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>tree_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 245891.9</code></pre>
+</div>
+</div>
+<p>Recall that this week we added a neighborhood name variable to the dataset, which wasn’t included in last week’s version. With this addition, even a simple decision tree achieved better predictions than last week’s random forest model ($276.192), simply by accounting for some spatial information.</p>
+</section>
+</section>
+<section id="fit-a-random-forest-model" class="level1">
+<h1>Fit a Random Forest Model</h1>
+<p>A random forest is <strong>an ensemble model</strong> (i.e., using many small models) that combines the predictions of many individual, slightly different decision trees. Each tree makes its own prediction, and the final result is based on averaging their results.</p>
+<p>Why doing this? A single decision tree makes hard, deterministic splits, but if many trees split at slightly different places, the combined decisions become smoother and more robust. For example, instead of a sudden jump in predicted price from $2M to $3M for a small difference in living area, the ensemble produces a gradual and more realistic transition.</p>
+<p>Train a random forest model by using <code>method = "rf"</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>rf_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  SalePrice <span class="sc">~</span> .,        </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"rf"</span>,        </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneLength =</span> <span class="dv">3</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, <span class="at">newdata =</span> test_data) </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>rf_result <span class="ot">&lt;-</span> <span class="fu">RMSE</span>(pred, test_data<span class="sc">$</span>SalePrice)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>rf_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 194364.5</code></pre>
+</div>
+</div>
+<p>We can see that the random forest produces a better-performing model than a single decision tree. With the inclusion of the spatial variable, its performance also improves compared with last week’s results.</p>
+<section id="how-was-the-forest-formed" class="level2">
+<h2 class="anchored" data-anchor-id="how-was-the-forest-formed">How was the forest formed</h2>
+<p>Random forest mimics “the wisdom of crowds”: each tree is trained on a slightly different version of the training data. It intentionally creates some randomness and diversity so that the model generalizes better.</p>
+<ul>
+<li>Each tree is trained on a <strong>bootstrapped sample</strong> of the original data
+<ul>
+<li>Bootstrap means <strong>sampling with replacement</strong>, which allows the same observation to be selected multiple times in a sample. The term comes from the phrase “to pull oneself up by one’s bootstraps,” meaning that we can create many new datasets from the original data itself by repeatedly resampling, without collecting any new data.</li>
+</ul></li>
+<li>In additional to using different observations, each tree also considers only a <strong>random subset of predictors</strong> instead of all available ones.
+<ul>
+<li>This is controlled by its hyperparameter <code>mtry</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="how-many-trees-are-used-in-a-forest" class="level2">
+<h2 class="anchored" data-anchor-id="how-many-trees-are-used-in-a-forest"><strong>How many trees are used in a forest</strong></h2>
+<p><code>ntree</code> controls the number of trees in a random forest model. It is not tuned, because adding trees mainly increases run time, not accuracy. The default value is 500. If you want the model to run faster, you can just change it to a smaller value.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>train(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  ntree = 500</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="how-many-features-each-tree-used-hyperparameter-mtry" class="level2">
+<h2 class="anchored" data-anchor-id="how-many-features-each-tree-used-hyperparameter-mtry">How many features each tree used: Hyperparameter <code>mtry</code></h2>
+<p><code>mtry</code> controls the number of <strong>predictors</strong> randomly selected and used in a tree.</p>
+<ul>
+<li>Smaller <code>mtry</code> → Each tree sees fewer variables (increases diversity among trees, reduces overfitting)</li>
+<li>Larger <code>mtry</code> → Each tree sees similar variables (increase accuracy, but trees becomes more similar, increases overfitting)</li>
+</ul>
+<p>When we were building our <code>rf_model</code> in previous code, we have specified <code>trControl = trainControl("cv", number = 5)</code>, and <code>tuneLength = 3</code>.</p>
+<p>So if we print out the trained model, we’ll see that these settings are reflected in the output. It reports that the model performed 5 cross-validations, tested 3 cp values in each, and displays the average performance (e.g., RMSE) for each <code>mtry</code> value across the folds.</p>
+<p>After this 5-fold validation process, it reports: “The final value used for the model was mtry = xxx”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>rf_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Random Forest 
+
+1036 samples
+  12 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 829, 828, 830, 830, 827 
+Resampling results across tuning parameters:
+
+  mtry  RMSE      Rsquared   MAE     
+   2    279536.2  0.7916184  158033.6
+  23    193727.8  0.8413059  108460.5
+  45    190911.5  0.8395604  108220.2
+
+RMSE was used to select the optimal model using the smallest value.
+The final value used for the model was mtry = 45.</code></pre>
+</div>
+</div>
+<p>Similarly, you can plot the model performance for each value of <code>mtry</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rf_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab9_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="model-summary" class="level1">
+<h1>Model Summary</h1>
+<p>We made two key changes on our model this week. First, we added a neighborhood name variable to capture spatial differences in housing prices. This led to a big improvement in model performance. Second, we applied 5-fold cross-validation and experimented with hyperparameter tuning. This usually only bring a modest gain in predictive accuracy, but its main value was in stabilizing the model and, more importantly, helping us better understand how these models work.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model Type</th>
+<th>RMSE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Random Forest (last week, without location variable)</td>
+<td>276,192.4</td>
+</tr>
+<tr class="even">
+<td>Decision Tree (with location variable)</td>
+<td>245,891.9</td>
+</tr>
+<tr class="odd">
+<td>Random Forest (with location variable)</td>
+<td>194,364.5</td>
+</tr>
+</tbody>
+</table>
+<p>The&nbsp;<code>caret</code>&nbsp;package supports over 230 machine learning algorithms. Each model comes with its own set of hyperparameters that need to be tuned. <a href="https://topepo.github.io/caret/available-models.html">This table</a>&nbsp;shows all the models available in <code>train()</code>, along with their tunable hyperparameters.&nbsp;</p>
+</section>
+<section id="lab-report" class="level1">
+<h1>Lab Report</h1>
+<p>For this homework, please continue working with the <a href="https://www.kaggle.com/datasets/shashanknecrothapa/ames-housing-dataset">Ames Housing dataset</a> and improve the best model you built previously by adding spatial contexts and applying tree-based models.</p>
+<ol type="1">
+<li><p>Reuse the cleaned dataset that you used for modeling last time, but if you haven’t already, include the “Neighborhood” variable from the original dataset.</p></li>
+<li><p>You’ll build <strong>two models</strong>: a Decision Tree and a Random Forest.<br>
+<strong>For each model, try two approaches:</strong></p>
+<ul>
+<li>Use the model’s default settings (no <code>trControl</code> and <code>tuneLength</code> arguments).
+<ul>
+<li>Note: the model will still perform automatic tuning using its default method and a smaller range of tuning values. If you print the model results (e.g., type: model_name), you can see the resampling process it used and the parameter values it selected by default.</li>
+</ul></li>
+<li>Set up cross-validation (e.g., 5-fold CV) and specify a <code>tuneLength</code> value for hyperparameter tuning. You can try different values of <code>tuneLength</code>, but note that random forests tend to run slowly if you give it a big number.</li>
+</ul></li>
+</ol>
+<p>In total, you’ll have <strong>four models</strong> (two per method). Next, summarize the hyperparameters used and their corresponding test RMSE values as your results. Include any additional notes that document your process, key decisions and findings.</p>
+<p>Please prepare your report in a <strong>Quarto document</strong> and submit your <strong>Rendered HTML</strong> file to Canvas by <strong>9am, Wednesday, Nov 19</strong>.</p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

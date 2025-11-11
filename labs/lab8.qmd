@@ -14,7 +14,7 @@ From this week on, we'll start dipping our toes into machine learning. The goal 
 
 Today, as a big-picture look at the machine learning process, we'll build and compare a few different models to see how each one makes different predictions based on the different rules it has learned.
 
-Our exercise today is built on the example in [Chapter 3](https://urbanspatial.github.io/PublicPolicyAnalytics/intro-to-geospatial-machine-learning-part-1.html) from Ken Steif’s book [Policy Policy Analytics](https://urbanspatial.github.io/PublicPolicyAnalytics/), which uses the Boston housing dataset to predict housing prices. The book is a great resource for connecting machine learning with urban studies. If you have time, it’s well worth reading other chapters.
+Our exercise today is built on the example in [Chapter 3](https://urbanspatial.github.io/PublicPolicyAnalytics/intro-to-geospatial-machine-learning-part-1.html) from Ken Steif’s book [Public Policy Analytics](https://urbanspatial.github.io/PublicPolicyAnalytics/), which uses the Boston housing dataset to predict housing prices. The book is a great resource for connecting machine learning with urban studies. If you have time, it’s well worth reading other chapters.
 
 ```{r}
 #| message: false
@@ -30,7 +30,7 @@ library(caret)
 
 We'll be working with the CSV dataset containing sale prices and housing characteristics for homes sold in Boston between August 2015 and August 2016.
 
-Here is the [data download link](https://canvas.mit.edu/courses/33012/files/5804712/download?download_frd=1).
+Here is the [data download link](https://drive.google.com/file/d/1jLKb2Dn_6cGaratDRg0Jp6BJ98L2o7gU/view?usp=sharing).
 
 The data used in this tutorial is a subset of the original larger dataset of [Boston property assessment](https://data.boston.gov/dataset/property-assessment). You can explore the full [data dictionary here](https://data.boston.gov/dataset/property-assessment/resource/dbdc1bd8-60af-4913-a788-5f91cb68541b).
 
@@ -354,8 +354,6 @@ In machine learning, we usually test multiple models to find the one with the be
 | Multiple linear regression | `r format(lm_result, big.mark = ",", scientific = FALSE)` |
 | Regularized linear regression | `r format(glmnet_result, big.mark = ",", scientific = FALSE)` |
 | Random Forest | `r format(rf_result, big.mark = ",", scientific = FALSE)` |
-
-As you’ve likely noticed, when we used different models, details like `trainControl`, `preprocess` changed. The `caret` package supports over 230 machine learning algorithms. Each model comes with its own set of hyperparameters that need to be tuned. We’ll explore those in more detail in next s
 
 # Lab Report
 

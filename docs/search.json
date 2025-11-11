@@ -14,6 +14,62 @@
     "text": "We’ll explore the foundations of descriptive data science, learning how to summarize, visualize, and interpret datasets to uncover meaningful patterns.\n\nIntro to R\nUrban Science History and Data Prep\nData Manipulation and Visualization I\nData Manipulation and Visualization II"
   },
   {
+    "objectID": "labs/lab9.html",
+    "href": "labs/lab9.html",
+    "title": "Tree-Based Models and Hyperparameter Tuning with ",
+    "section": "",
+    "text": "Last week, we explored how different machine learning models follow different learning rules and, as a result, achieve varying levels of predictive accuracy.\nThis week, we’ll see that even when using the same type of model, we can continue refining it through techniques such as hyperparameter tuning to enhance performance while striking a balance between accuracy and generalizability. Tree-based models are great examples of this process.\n\nlibrary(tidyverse)\nlibrary(sf)\nlibrary(caret)\nlibrary(rattle) # this is for generating plots of tree structures\n\nThe example we’ll work on this week builds on Chapter 4 from Public Policy Analytics. The author first made a point that housing prices depend not only on property characteristics but also on spatial factors (i.e., where they are). Therefore the dataset for today’s tutorial includes an additional feature: the neighborhood name (as suggested in the book chapter), allowing us to account for location effects in our model.\nData download link\nboston &lt;- read_csv(\"data/boston_house_price_neighborhood.csv\")"
+  },
+  {
+    "objectID": "labs/lab9.html#decision-tree-structure",
+    "href": "labs/lab9.html#decision-tree-structure",
+    "title": "Tree-Based Models and Hyperparameter Tuning with ",
+    "section": "Decision Tree structure",
+    "text": "Decision Tree structure\nA simple decision tree model is considered a “white-box” model, because we can easily see the if-then-else rules it uses to make predictions. At each split, the tree decides which variable to use and what value is appropriate for the split. Each path leads to a smaller group that is more homogeneous in terms of housing price.\nIn the following plot, each node shows three numbers: the predicted value of this group, % of total data, and number of observations. For instance, at #2 node:\n\n595,143 is the average of the housing price variable in this group,\nn=1018 is the number of observations that fall in this group, and\n98.3% means this number of observations takes up 98.3% of the entire dataset.\n\n\nfancyRpartPlot(\n  tree_model$finalModel,\n  main = \"Simple Decision Tree Model\",\n  sub = \"Boston Housing Sales\",\n  digits = -3\n)\n\n\n\n\n\n\n\n\n\nNote: Tree-based models implicitly perform variable selection. They identify and use the most important variables for splitting the data at each step. Variable importance is measured by how much a variable reduces error when used to create splits.\nNote: You can see that several splits occur by neighborhood name, which suggests that location, particularly areas like South End and Beacon Hill, contributes the most to explaining differences in housing prices."
+  },
+  {
+    "objectID": "labs/lab9.html#how-big-the-tree-should-grow-hyperparameter-cp",
+    "href": "labs/lab9.html#how-big-the-tree-should-grow-hyperparameter-cp",
+    "title": "Tree-Based Models and Hyperparameter Tuning with ",
+    "section": "How big the tree should grow: Hyperparameter cp",
+    "text": "How big the tree should grow: Hyperparameter cp\nA decision tree can technically keep growing until each leaf is pure (i.e., contains only one data point). However, as the tree grows deeper, its splitting rules become increasingly specific. Initially, the splits capture meaningful patterns in the data, but later ones often reflect only noise. This leads to overfitting. To prevent this, we need to decide when to stop growing the tree.\nThe tree model includes an internal complexity parameter (cp), which serves as a comprehensive measure capturing the influence of tree depth, number of splits, and the overall size of the tree. In essence, cp determines how strongly the model is penalized for adding additional branches, helping to prevent overfitting.\n\nA higher cp means more restriction (fewer splits, simpler tree).\nA lower cp allows more splits (risking overfitting).\n\nYou can specify a fixed cp value directly in the train() function, although this is not typically done, because we usually don’t know the optimal value in advance.\nmodel &lt;- train(\n  ...\n  tuneGrid = data.frame(cp = 0.01)\n)\nInstead, we tune cp, that is, trying out multiple values to find the one that provides the best balance between model accuracy and generalizability."
+  },
+  {
+    "objectID": "labs/lab9.html#cross-validation",
+    "href": "labs/lab9.html#cross-validation",
+    "title": "Tree-Based Models and Hyperparameter Tuning with ",
+    "section": "Cross validation",
+    "text": "Cross validation\nWhen we were building our tree_model in previous code, we have used these two lines to say:\n\nUse 5-fold cross-validation to estimate the performance\nTry 10 different cp values for each fold\n\nmodel &lt;- train(\n  ...\n  trControl = trainControl(\"cv\", number = 5),\n  tuneLength = 10 \n)\nThen if we print out the trained model below, we’ll see that these settings are reflected in the output. It reports that the model performed 5 folds of cross-validation, tested 10 cp values in each, and displays the average performance (e.g., RMSE) for each cp value across the folds.\nA 5-fold (or in general, k-fold) cross validation means we take a portion of the training data for “testing”, so that we can see which hyperparameters generate better “test” performance without touching the actual test data. Then repeat this for k times to stabilize the results.\nAfter this 5-fold validation process, it reports: “The final value used for the model was cp = xxx”.\n\ntree_model\n\nCART \n\n1036 samples\n  12 predictor\n\nNo pre-processing\nResampling: Cross-Validated (5 fold) \nSummary of sample sizes: 829, 830, 827, 829, 829 \nResampling results across tuning parameters:\n\n  cp           RMSE      Rsquared   MAE     \n  0.005487841  238894.0  0.7505724  140452.8\n  0.005696664  240504.4  0.7456855  141086.3\n  0.008640778  245515.5  0.7349133  146244.4\n  0.013165261  251031.5  0.7234123  150601.4\n  0.021061126  255112.4  0.7150999  155189.5\n  0.027799549  263279.0  0.6943999  162524.5\n  0.029198558  276896.1  0.6638722  174046.4\n  0.033041133  281381.4  0.6492810  178333.7\n  0.257364641  336394.9  0.4886443  195804.9\n  0.388418956  433537.0  0.3191060  232220.2\n\nRMSE was used to select the optimal model using the smallest value.\nThe final value used for the model was cp = 0.005487841.\n\n\nThe plot(tree_model) displays the model performance for each value of cp.\n\nplot(tree_model)"
+  },
+  {
+    "objectID": "labs/lab9.html#evaluate-the-best-tree-model-on-test-data",
+    "href": "labs/lab9.html#evaluate-the-best-tree-model-on-test-data",
+    "title": "Tree-Based Models and Hyperparameter Tuning with ",
+    "section": "Evaluate the best tree model on test data",
+    "text": "Evaluate the best tree model on test data\nValidations helps us choose the best hyperparameter values. Then we can move on to apply the trained model to the test data and calculate the test RMSE. This value represents the performance of the best tree model we were able to build, based on our training and tuning process.\n\npred &lt;- predict(tree_model, newdata = test_data) \ntree_result = RMSE(pred, test_data$SalePrice)\ntree_result\n\n[1] 245891.9\n\n\nRecall that this week we added a neighborhood name variable to the dataset, which wasn’t included in last week’s version. With this addition, even a simple decision tree achieved better predictions than last week’s random forest model ($276.192), simply by accounting for some spatial information."
+  },
+  {
+    "objectID": "labs/lab9.html#how-was-the-forest-formed",
+    "href": "labs/lab9.html#how-was-the-forest-formed",
+    "title": "Tree-Based Models and Hyperparameter Tuning with ",
+    "section": "How was the forest formed",
+    "text": "How was the forest formed\nRandom forest mimics “the wisdom of crowds”: each tree is trained on a slightly different version of the training data. It intentionally creates some randomness and diversity so that the model generalizes better.\n\nEach tree is trained on a bootstrapped sample of the original data\n\nBootstrap means sampling with replacement, which allows the same observation to be selected multiple times in a sample. The term comes from the phrase “to pull oneself up by one’s bootstraps,” meaning that we can create many new datasets from the original data itself by repeatedly resampling, without collecting any new data.\n\nIn additional to using different observations, each tree also considers only a random subset of predictors instead of all available ones.\n\nThis is controlled by its hyperparameter mtry"
+  },
+  {
+    "objectID": "labs/lab9.html#how-many-trees-are-used-in-a-forest",
+    "href": "labs/lab9.html#how-many-trees-are-used-in-a-forest",
+    "title": "Tree-Based Models and Hyperparameter Tuning with ",
+    "section": "How many trees are used in a forest",
+    "text": "How many trees are used in a forest\nntree controls the number of trees in a random forest model. It is not tuned, because adding trees mainly increases run time, not accuracy. The default value is 500. If you want the model to run faster, you can just change it to a smaller value.\ntrain(\n  ...\n  ntree = 500\n)"
+  },
+  {
+    "objectID": "labs/lab9.html#how-many-features-each-tree-used-hyperparameter-mtry",
+    "href": "labs/lab9.html#how-many-features-each-tree-used-hyperparameter-mtry",
+    "title": "Tree-Based Models and Hyperparameter Tuning with ",
+    "section": "How many features each tree used: Hyperparameter mtry",
+    "text": "How many features each tree used: Hyperparameter mtry\nmtry controls the number of predictors randomly selected and used in a tree.\n\nSmaller mtry → Each tree sees fewer variables (increases diversity among trees, reduces overfitting)\nLarger mtry → Each tree sees similar variables (increase accuracy, but trees becomes more similar, increases overfitting)\n\nWhen we were building our rf_model in previous code, we have specified trControl = trainControl(\"cv\", number = 5), and tuneLength = 3.\nSo if we print out the trained model, we’ll see that these settings are reflected in the output. It reports that the model performed 5 cross-validations, tested 3 cp values in each, and displays the average performance (e.g., RMSE) for each mtry value across the folds.\nAfter this 5-fold validation process, it reports: “The final value used for the model was mtry = xxx”.\n\nrf_model\n\nRandom Forest \n\n1036 samples\n  12 predictor\n\nNo pre-processing\nResampling: Cross-Validated (5 fold) \nSummary of sample sizes: 829, 828, 830, 830, 827 \nResampling results across tuning parameters:\n\n  mtry  RMSE      Rsquared   MAE     \n   2    279536.2  0.7916184  158033.6\n  23    193727.8  0.8413059  108460.5\n  45    190911.5  0.8395604  108220.2\n\nRMSE was used to select the optimal model using the smallest value.\nThe final value used for the model was mtry = 45.\n\n\nSimilarly, you can plot the model performance for each value of mtry.\n\nplot(rf_model)"
+  },
+  {
     "objectID": "labs/lab7.html",
     "href": "labs/lab7.html",
     "title": "Build Shiny Apps with ",
@@ -109,7 +165,7 @@
     "href": "labs/index.html",
     "title": "Lab Overview",
     "section": "",
-    "text": "Here you’ll find links and resources for each lab session:\n\nLab 1: Data Wrangling: Cambridge Building Energy\nLab 2: Making Exploratory Graphs: Opportunity Zones\nLab 3: Enhancing Visualizations: Airbnb Data\nLab 4: Spatial Analysis: Neighborhood Built Environment\nLab 5: Census Data: Describe Population\nLab 6: Online Map and Dashboard\nLab 7: Shiny Apps\nLab 8: Build Machine Learning Models: Predict Housing Prices\nLab 9: Tree-Based Models and Parameter Tuning\nLab 10: Fairness-Aware ML Models: Predict Recidivism"
+    "text": "Here you’ll find links and resources for each lab session:\n\nLab 1: Data Wrangling: Cambridge Building Energy\nLab 2: Making Exploratory Graphs: Opportunity Zones\nLab 3: Enhancing Visualizations: Airbnb Data\nLab 4: Spatial Analysis: Neighborhood Built Environment\nLab 5: Census Data: Describe Population\nLab 6: Online Map and Dashboard\nLab 7: Shiny Apps\nLab 8: Build Machine Learning Models: Predict Housing Prices\nLab 9: Tree-Based Models and Hyperparameter Tuning\nLab 10: Fairness-Aware ML Models: Predict Recidivism"
   },
   {
     "objectID": "about.html",
@@ -305,7 +361,7 @@
     "href": "labs/lab8.html",
     "title": "ML Model Selection with ",
     "section": "",
-    "text": "From this week on, we’ll start dipping our toes into machine learning. The goal is to explore it as a way to make predictions: using what a computer has learned from existing data to make guesses about new data.\nToday, as a big-picture look at the machine learning process, we’ll build and compare a few different models to see how each one makes different predictions based on the different rules it has learned.\nOur exercise today is built on the example in Chapter 3 from Ken Steif’s book Policy Policy Analytics, which uses the Boston housing dataset to predict housing prices. The book is a great resource for connecting machine learning with urban studies. If you have time, it’s well worth reading other chapters.\n\nlibrary(tidyverse)\nlibrary(sf)\nlibrary(caret)"
+    "text": "From this week on, we’ll start dipping our toes into machine learning. The goal is to explore it as a way to make predictions: using what a computer has learned from existing data to make guesses about new data.\nToday, as a big-picture look at the machine learning process, we’ll build and compare a few different models to see how each one makes different predictions based on the different rules it has learned.\nOur exercise today is built on the example in Chapter 3 from Ken Steif’s book Public Policy Analytics, which uses the Boston housing dataset to predict housing prices. The book is a great resource for connecting machine learning with urban studies. If you have time, it’s well worth reading other chapters.\n\nlibrary(tidyverse)\nlibrary(sf)\nlibrary(caret)"
   },
   {
     "objectID": "labs/lab8.html#read-in-the-data",
@@ -368,6 +424,6 @@
     "href": "modules/index4.html",
     "title": "Module 4 Predictive Data Science",
     "section": "",
-    "text": "Introduces modern machine learning methods. We’ll work on the skills to move from describing what has happened to predicting what is likely to happen next.\n\nMachine Learning: Concepts & Workflow\nML Models and Hyperparameter Tuning\nClassification, Fairness-aware ML"
+    "text": "Introduces modern machine learning methods. We’ll work on the skills to move from describing what has happened to predicting what is likely to happen next.\n\nMachine Learning: Concepts & Workflow\nTree-based Models and Hyperparameter Tuning\nClassification, Fairness-aware ML"
   }
 ]

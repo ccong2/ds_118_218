@@ -365,7 +365,7 @@ The final value used for the model was cp = 0.005487841.</code></pre>
 <p>Why doing this? A single decision tree makes hard, deterministic splits, but if many trees split at slightly different places, the combined decisions become smoother and more robust. For example, instead of a sudden jump in predicted price from $2M to $3M for a small difference in living area, the ensemble produces a gradual and more realistic transition.</p>
 <p>Train a random forest model by using <code>method = "rf"</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">24</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>rf_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  SalePrice <span class="sc">~</span> .,        </span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
@@ -378,7 +378,7 @@ The final value used for the model was cp = 0.005487841.</code></pre>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>rf_result <span class="ot">&lt;-</span> <span class="fu">RMSE</span>(pred, test_data<span class="sc">$</span>SalePrice)</span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>rf_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 194364.5</code></pre>
+<pre><code>[1] 193295.8</code></pre>
 </div>
 </div>
 <p>We can see that the random forest produces a better-performing model than a single decision tree. With the inclusion of the spatial variable, its performance also improves compared with last week’s results.</p>
@@ -424,13 +424,13 @@ The final value used for the model was cp = 0.005487841.</code></pre>
 
 No pre-processing
 Resampling: Cross-Validated (5 fold) 
-Summary of sample sizes: 829, 828, 830, 830, 827 
+Summary of sample sizes: 828, 829, 829, 829, 829 
 Resampling results across tuning parameters:
 
   mtry  RMSE      Rsquared   MAE     
-   2    279536.2  0.7916184  158033.6
-  23    193727.8  0.8413059  108460.5
-  45    190911.5  0.8395604  108220.2
+   2    285021.8  0.7119633  160692.6
+  23    198637.6  0.8009637  108438.2
+  45    193861.0  0.8032423  108650.4
 
 RMSE was used to select the optimal model using the smallest value.
 The final value used for the model was mtry = 45.</code></pre>
@@ -474,7 +474,7 @@ The final value used for the model was mtry = 45.</code></pre>
 </tr>
 <tr class="odd">
 <td>Random Forest (with location variable)</td>
-<td>194,364.5</td>
+<td>193,295.8</td>
 </tr>
 </tbody>
 </table>

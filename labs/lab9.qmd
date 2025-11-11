@@ -169,7 +169,7 @@ Why doing this? A single decision tree makes hard, deterministic splits, but if 
 Train a random forest model by using `method = "rf"`.
 
 ```{r}
-set.seed(42)
+set.seed(24)
 rf_model <- train(
   SalePrice ~ .,        
   data = train_data,

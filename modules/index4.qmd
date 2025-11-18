@@ -8,4 +8,4 @@ Introduces modern machine learning methods. We'll work on the skills to move fro
 
 -   [Tree-based Models and Hyperparameter Tuning](https://docs.google.com/presentation/d/1_GhKCv4gu7QcgkVxoyb3479l31JOYDAy/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
 
--   Classification, Fairness-aware ML
+-   [Classification, Fairness-aware ML](https://docs.google.com/presentation/d/1bVvNjPPoi9JbbwJTfUR77y_7bnH6kdwM/edit?usp=sharing&ouid=118072209449977055980&rtpof=true&sd=true)
